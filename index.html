@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سيرفر ماينكرافت - 4AIKRO_S4</title>
+    <title>4AIKRO - Home</title>
     
-    <!-- Google Analytics - تم الإضافة هنا -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6NG69R3LKS"></script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1P984G5247"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-6NG69R3LKS');
+      gtag('config', 'G-1P984G5247');
     </script>
 
     <!-- خط عربي متطور -->
@@ -40,6 +40,103 @@
             overflow-x: hidden;
         }
 
+        /* === صفحة الاختيار (الرئيسية) === */
+        #landing-page {
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .landing-title {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+
+        .landing-subtitle {
+            font-size: 1.2em;
+            color: #aaa;
+            margin-bottom: 50px;
+        }
+
+        .choices-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            perspective: 1000px;
+        }
+
+        .choice-card {
+            width: 300px;
+            height: 400px;
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.4s;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .choice-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .choice-card img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+        }
+
+        .choice-card h2 {
+            font-size: 2em;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .choice-card p {
+            color: #bbb;
+            margin-top: 10px;
+            padding: 0 15px;
+            line-height: 1.4;
+        }
+
+        /* ألوان البطاقات */
+        .card-minecraft {
+            border-color: rgba(76, 175, 50, 0.3);
+        }
+        .card-minecraft:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 25px rgba(76, 175, 50, 0.3);
+        }
+
+        .card-roblox {
+            border-color: rgba(229, 57, 53, 0.3);
+        }
+        .card-roblox:hover {
+            border-color: #E53935;
+            box-shadow: 0 0 25px rgba(229, 57, 53, 0.3);
+        }
+
+        /* === صفحات المحتوى (المخفية) === */
+        #minecraft-page, #roblox-page {
+            display: none; 
+        }
+
         .container {
             width: 95%;
             max-width: 1400px;
@@ -52,6 +149,25 @@
             position: relative;
             backdrop-filter: blur(5px);
         }
+
+        /* زر العودة */
+        .back-btn {
+            position: absolute;
+            top: 25px;
+            left: 20px; 
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: 0.3s;
+            z-index: 20;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .back-btn:hover { background: var(--primary-color); border-color: var(--primary-color); }
 
         /* اللوقو */
         .site-logo {
@@ -235,15 +351,15 @@
             font-size: 1.1em;
         }
 
-        /* صور الآيتمات - تم التحديث */
+        /* صور الآيتمات */
         .item-image {
             width: 100%;
-            height: 220px;              /* كبرنا الارتفاع */
-            object-fit: contain;        /* يمنع القص */
+            height: 220px;
+            object-fit: contain;
             background: rgba(0,0,0,0.4);
             border-radius: 8px;
             margin-bottom: 15px;
-            padding: 15px;              /* يعطي مساحة داخلية */
+            padding: 15px;
         }
 
         .rules-list { background: rgba(30,30,30,0.8); padding: 20px; border-radius: 12px; border: 1px solid #333; }
@@ -259,151 +375,222 @@
         .btn-gift:not(:disabled) {
             animation: pulse 2s infinite;
         }
-
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .landing-title { font-size: 2em; }
+            .choice-card { width: 100%; max-width: 300px; height: 300px; }
+            .back-btn { top: auto; bottom: 10px; left: 50%; transform: translateX(-50%); }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- اللوقو -->
-    <img src="logo-site.jpg" alt="Logo" class="site-logo">
-
-    <header>
-        <img src="standard_1.gif" alt="Minecraft Animation" class="animated-gif">
-        <h1>⚔️ SERVEUR 4AIKRO_S4 ⚔️</h1>
-        <p>UPDATE: 1</p>
-    </header>
-
-    <!-- حالة السيرفر -->
-    <div class="server-status">
-        <h3>حالة السيرفر: <span id="status-text">جاري التحميل...</span> <span class="status-dot" id="status-dot"></span></h3>
-        <div class="ip-box" onclick="copyIP()">
-            <strong>آيبي السيرفر:</strong> <span id="server-ip">cities-declare.gl.joinmc.link</span> 📋
+<!-- === 1. الصفحة الرئيسية (الاختيار) === -->
+<div id="landing-page">
+    <h1 class="landing-title">مرحباً بك في 4AIKRO</h1>
+    <p class="landing-subtitle">اختر لعبتك المفضلة للبدء</p>
+    
+    <div class="choices-container">
+        <!-- خيار روبلوكس -->
+        <div class="choice-card card-roblox" onclick="showPage('roblox')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Roblox_logo_2019.svg/1200px-Roblox_logo_2019.svg.png" alt="Roblox">
+            <h2>ROBLOX</h2>
+            <p>عالم الألعاب اللامتناهي</p>
         </div>
-        <p id="copy-msg">تم نسخ الآيبي!</p>
-        <p style="margin-top: 10px; margin-bottom: 0;">عدد اللاعبين الحالي: <span id="player-count">0</span> / <span id="max-players">0</span></p>
-    </div>
 
-    <!-- روابط هامة -->
-    <div style="text-align: center; margin-bottom: 25px;">
-        <a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="btn btn-discord">discord_4AIKRO</a>
-        <a href="https://www.mediafire.com/file/8cvfd3ql5sa2l0w/MODS+AIKRO+S4.rar/file" class="btn" target="_blank" rel="noopener noreferrer">تحميل مودات السيرفر</a>
+        <!-- خيار ماينكرافت - تم تحديث النص -->
+        <div class="choice-card card-minecraft" onclick="showPage('minecraft')">
+            <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/4c/Grass_Block_JE7_BE3.png" alt="Minecraft">
+            <h2>MINECRAFT</h2>
+            <p>سرفراتنا الرسمية لمينكرافت جافا المجنية و المدفوعة</p>
+        </div>
     </div>
+</div>
 
-    <!-- الرتب والهدايا -->
-    <div class="section">
-        <h2>💎 الرتب والهدايا</h2>
-        <div class="card-grid">
-            
-            <!-- رتبة FUN -->
-            <div class="card">
-                <div>
-                    <img src="4452.png" alt="FUN Rank" class="rank-image">
-                    <h3>رتبة FUN</h3>
-                    <p>انسخ الكود وافتح تكت في الدسكورد راح تحصل هديتك.</p>
-                </div>
-                <div>
-                    <div class="price">هدية مجانية</div>
-                    
-                    <!-- منطقة عرض الكود والتوقيت -->
-                    <div id="gift-display-area" class="gift-display-area" style="display:none;">
-                        <p style="font-size:0.9em; color:#aaa; margin:0;">كودك هو:</p>
-                        <div class="code-display" id="gift-code-text"></div>
-                        
-                        <div id="countdown-container" class="countdown-timer">
-                            ⏳ صلاحية الكود تنتهي خلال: <br>
-                            <span id="timer-display">00:00:00</span>
-                        </div>
+<!-- === 2. صفحة روبلوكس (مخفية) === -->
+<div id="roblox-page">
+    <div class="container">
+        <button class="back-btn" onclick="goHome()">⬅ العودة للرئيسية</button>
+        <header>
+            <h1>ROBLOX SECTION</h1>
+            <p>قريباً...</p>
+        </header>
+        <div style="text-align:center; padding: 100px 0;">
+            <h2>🚧 هذا القسم تحت التطوير</h2>
+            <p>نحن نعمل على تجهز محتوى روبلوكس، ترقبونا!</p>
+        </div>
+    </div>
+</div>
+
+<!-- === 3. صفحة ماينكرافت (مخفية - المحتوى السابق) === -->
+<div id="minecraft-page">
+    <div class="container">
+        <button class="back-btn" onclick="goHome()">⬅ العودة للرئيسية</button>
+        
+        <!-- اللوقو -->
+        <img src="logo-site.jpg" alt="Logo" class="site-logo">
+
+        <header>
+            <img src="standard_1.gif" alt="Minecraft Animation" class="animated-gif">
+            <h1>⚔️ SERVEUR 4AIKRO_S4 ⚔️</h1>
+            <p>UPDATE: 1</p>
+        </header>
+
+        <!-- حالة السيرفر -->
+        <div class="server-status">
+            <h3>حالة السيرفر: <span id="status-text">جاري التحميل...</span> <span class="status-dot" id="status-dot"></span></h3>
+            <div class="ip-box" onclick="copyIP()">
+                <strong>آيبي السيرفر:</strong> <span id="server-ip">cities-declare.gl.joinmc.link</span> 📋
+            </div>
+            <p id="copy-msg">تم نسخ الآيبي!</p>
+            <p style="margin-top: 10px; margin-bottom: 0;">عدد اللاعبين الحالي: <span id="player-count">0</span> / <span id="max-players">0</span></p>
+        </div>
+
+        <!-- روابط هامة -->
+        <div style="text-align: center; margin-bottom: 25px;">
+            <a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="btn btn-discord">discord_4AIKRO</a>
+            <a href="https://www.mediafire.com/file/8cvfd3ql5sa2l0w/MODS+AIKRO+S4.rar/file" class="btn" target="_blank" rel="noopener noreferrer">تحميل مودات السيرفر</a>
+        </div>
+
+        <!-- الرتب والهدايا -->
+        <div class="section">
+            <h2>💎 الرتب والهدايا</h2>
+            <div class="card-grid">
+                
+                <!-- رتبة FUN -->
+                <div class="card">
+                    <div>
+                        <img src="4452.png" alt="FUN Rank" class="rank-image">
+                        <h3>رتبة FUN</h3>
+                        <p>انسخ الكود وافتح تكت في الدسكورد راح تحصل هديتك.</p>
                     </div>
+                    <div>
+                        <div class="price">هدية مجانية</div>
+                        
+                        <div id="gift-display-area" class="gift-display-area" style="display:none;">
+                            <p style="font-size:0.9em; color:#aaa; margin:0;">كودك هو:</p>
+                            <div class="code-display" id="gift-code-text"></div>
+                            
+                            <div id="countdown-container" class="countdown-timer">
+                                ⏳ صلاحية الكود تنتهي خلال: <br>
+                                <span id="timer-display">00:00:00</span>
+                            </div>
+                        </div>
 
-                    <!-- زر الحصول على الهدية -->
-                    <button id="claim-btn" class="btn btn-gift" onclick="claimGift()">احصل على هديتك</button>
+                        <button id="claim-btn" class="btn btn-gift" onclick="claimGift()">احصل على هديتك</button>
+                    </div>
+                </div>
+
+                <!-- رتبة VIP -->
+                <div class="card">
+                    <div>
+                        <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/4c/Gold_Armor.png" alt="VIP Rank" class="rank-image">
+                        <h3>رتبة VIP</h3>
+                        <p>مزايا إضافية ودخول أولوية.</p>
+                    </div>
+                    <div>
+                        <div class="price">$2.00</div>
+                        <p><small>اشتراك شهري</small></p>
+                        <a href="#" class="btn">شراء الآن</a>
+                    </div>
+                </div>
+
+                <!-- رتبة MVP -->
+                <div class="card">
+                    <div>
+                        <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/5/5d/Diamond_Armor.png" alt="MVP Rank" class="rank-image">
+                        <h3>رتبة MVP</h3>
+                        <p>صلاحيات كاملة ومميزات حصرية.</p>
+                    </div>
+                    <div>
+                        <div class="price">$5.00</div>
+                        <p><small>اشتراك شهري</small></p>
+                        <a href="#" class="btn">شراء الآن</a>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- رتبة VIP -->
-            <div class="card">
-                <div>
-                    <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/4c/Gold_Armor.png" alt="VIP Rank" class="rank-image">
-                    <h3>رتبة VIP</h3>
-                    <p>مزايا إضافية ودخول أولوية.</p>
+        <!-- متجر الآيتمات -->
+        <div class="section">
+            <h2>🛒 متجر الآيتمات</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <img src="100coin.png" alt="Item" class="item-image">
+                    <h3>100 COIN</h3>
+                    <p>عملة السيرفر تمكنك من التجارة في السيرفر</p>
+                    <div class="price">$1.00</div>
+                    <a href="#" class="btn">شراء</a>
                 </div>
-                <div>
-                    <div class="price">$2.00</div>
-                    <p><small>اشتراك شهري</small></p>
-                    <a href="#" class="btn">شراء الآن</a>
+                <div class="card">
+                    <img src="رابط_صورة_الآيتم_2" alt="Item" class="item-image">
+                    <h3>500 COIN</h3>
+                    <p>عملة السيرفر تمكنك من التجارة في السيرفر</p>
+                    <div class="price">$3.00</div>
+                    <a href="#" class="btn">شراء</a>
                 </div>
-            </div>
-
-            <!-- رتبة MVP -->
-            <div class="card">
-                <div>
-                    <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/5/5d/Diamond_Armor.png" alt="MVP Rank" class="rank-image">
-                    <h3>رتبة MVP</h3>
-                    <p>صلاحيات كاملة ومميزات حصرية.</p>
-                </div>
-                <div>
+                <div class="card">
+                    <img src="رابط_صورة_الآيتم_3" alt="Item" class="item-image">
+                    <h3>1000 COIN</h3>
+                    <p>عملة السيرفر تمكنك من التجارة في السيرفر</p>
                     <div class="price">$5.00</div>
-                    <p><small>اشتراك شهري</small></p>
-                    <a href="#" class="btn">شراء الآن</a>
+                    <a href="#" class="btn">شراء</a>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- متجر الآيتمات -->
-    <div class="section">
-        <h2>🛒 متجر الآيتمات</h2>
-        <div class="card-grid">
+        <!-- الأخبار -->
+        <div class="section">
+            <h2>📰 أخبار وفعاليات</h2>
             <div class="card">
-                <img src="100coin.png" alt="Item" class="item-image">
-                <h3>100 COIN</h3>
-                <p>عملة السيرفر تمكنك من التجارة في السيرفر</p>
-                <div class="price">$1.00</div>
-                <a href="#" class="btn">شراء</a>
-            </div>
-            <div class="card">
-                <img src="رابط_صورة_الآيتم_2" alt="Item" class="item-image">
-                <h3>500 COIN</h3>
-                <p>عملة السيرفر تمكنك من التجارة في السيرفر</p>
-                <div class="price">$3.00</div>
-                <a href="#" class="btn">شراء</a>
-            </div>
-            <div class="card">
-                <img src="رابط_صورة_الآيتم_3" alt="Item" class="item-image">
-                <h3>1000 COIN</h3>
-                <p>عملة السيرفر تمكنك من التجارة في السيرفر</p>
-                <div class="price">$5.00</div>
-                <a href="#" class="btn">شراء</a>
+                <h3>🎉 حدث نهاية الأسبوع!</h3>
+                <p>خصم 50% على جميع الرتب، فعالية أكبر عدد من القتل في البدوارد!</p>
+                <small style="color:#888">بتاريخ: 2023/10/25</small>
             </div>
         </div>
-    </div>
 
-    <!-- الأخبار -->
-    <div class="section">
-        <h2>📰 أخبار وفعاليات</h2>
-        <div class="card">
-            <h3>🎉 حدث نهاية الأسبوع!</h3>
-            <p>خصم 50% على جميع الرتب، فعالية أكبر عدد من القتل في البدوارد!</p>
-            <small style="color:#888">بتاريخ: 2023/10/25</small>
+        <!-- القوانين -->
+        <div class="section">
+            <h2>⚖️ قوانين السيرفر</h2>
+            <ul class="rules-list">
+                <li>🚫 ممنوع استخدام الهاكات أو الغش.</li>
+                <li>🚫 ممنوع السب والقذف واحترام الآخرين.</li>
+                <li>🚫 ممنوع التطفل على أراضي اللاعبين.</li>
+                <li>✅ يجب الالتزام بقوانين الديسكورد أيضاً.</li>
+            </ul>
         </div>
-    </div>
-
-    <!-- القوانين -->
-    <div class="section">
-        <h2>⚖️ قوانين السيرفر</h2>
-        <ul class="rules-list">
-            <li>🚫 ممنوع استخدام الهاكات أو الغش.</li>
-            <li>🚫 ممنوع السب والقذف واحترام الآخرين.</li>
-            <li>🚫 ممنوع التطفل على أراضي اللاعبين.</li>
-            <li>✅ يجب الالتزام بقوانين الديسكورد أيضاً.</li>
-        </ul>
     </div>
 </div>
 
 <script>
     /* 
-       قائمة الأكواد التي ستظهر عشوائياً للاعبين.
+       1. نظام التنقل بين الصفحات
+    */
+    function showPage(pageName) {
+        // إخفاء كل الصفحات
+        document.getElementById('landing-page').style.display = 'none';
+        document.getElementById('minecraft-page').style.display = 'none';
+        document.getElementById('roblox-page').style.display = 'none';
+
+        // إظهار الصفحة المطلوبة
+        if (pageName === 'minecraft') {
+            document.getElementById('minecraft-page').style.display = 'block';
+            checkServerStatus();
+            initMinecraftLogic();
+        } else if (pageName === 'roblox') {
+            document.getElementById('roblox-page').style.display = 'block';
+        }
+    }
+
+    function goHome() {
+        document.getElementById('landing-page').style.display = 'flex';
+        document.getElementById('minecraft-page').style.display = 'none';
+        document.getElementById('roblox-page').style.display = 'none';
+    }
+
+    /* 
+       2. نظام الهدايا
     */
     const giftCodes = [
         "GIFT-ABC-123",
@@ -414,11 +601,9 @@
         "DIAMOND-444"
     ];
 
-    // متغيرات الوقت
-    const COOLDOWN_TIME = 48 * 60 * 60 * 1000; // 48 ساعة بالمللي ثانية
+    const COOLDOWN_TIME = 48 * 60 * 60 * 1000; // 48 ساعة
     let timerInterval;
 
-    // دالة لبدء العداد التنازلي
     function startCountdown(endTime) {
         clearInterval(timerInterval);
         
@@ -475,7 +660,7 @@
         startCountdown(endTime);
     }
 
-    window.onload = function() {
+    function initMinecraftLogic() {
         const savedTime = localStorage.getItem('giftClaimTime');
         const savedCode = localStorage.getItem('giftCodeValue');
 
@@ -491,9 +676,7 @@
                 localStorage.removeItem('giftCodeValue');
             }
         }
-        
-        checkServerStatus();
-    };
+    }
 
     function copyIP() {
         const ip = document.getElementById("server-ip").innerText;
@@ -527,11 +710,12 @@
             })
             .catch(error => {
                 console.error("Error:", error);
-                document.getElementById("status-text").innerText = "خطأ";
+                if(document.getElementById("status-text")) {
+                   document.getElementById("status-text").innerText = "خطأ";
+                }
             });
     }
 </script>
 
 </body>
 </html>
-
