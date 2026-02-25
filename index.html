@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4AIKRO - Home</title>
+    <title>4AIKRO - Portal</title>
     
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1P984G5247"></script>
@@ -14,421 +14,201 @@
       gtag('config', 'G-1P984G5247');
     </script>
 
-    <!-- خط عربي متطور -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- خطوط عصرية -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@500;900&display=swap" rel="stylesheet">
     
     <style>
-        /* تصميم الموقع */
         :root {
-            --primary-color: #4CAF50;
-            --accent-color: #00e676;
-            --bg-dark: #121212;
-            --card-bg: rgba(30, 30, 30, 0.9);
+            --primary-color: #00e676; /* أخضر نيون */
+            --secondary-color: #4CAF50;
+            --accent-color: #fff;
+            --bg-dark: #0a0a0a;
+            --bronze-color: #cd7f32;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         body {
             font-family: 'Cairo', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: white;
-            background-image: url('https://wallpapers.com/images/hd/minecraft-shaders-background-k3688177q5204430.jpg'); 
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
+            margin: 0; padding: 0;
+            background-color: var(--bg-dark); color: white;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* === صفحة الاختيار (الرئيسية) === */
+        /* === خلفية متحركة للواجهة === */
+        .bg-animation {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, #0a0a0a, #1a1a1a, #0f3d1f, #0a0a0a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -1;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* === شريط المستخدم العلوي === */
+        .global-user-bar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; border-bottom: 1px solid var(--glass-border);
+        }
+        .brand-logo { font-family: 'Tajawal', sans-serif; font-size: 1.5em; font-weight: 900; background: linear-gradient(to right, #fff, #00e676); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .user-btn {
+            background: var(--glass); color: white; border: 1px solid var(--glass-border);
+            padding: 10px 20px; border-radius: 12px; cursor: pointer; font-family: 'Cairo', sans-serif;
+            transition: 0.3s; font-size: 0.95em; display: flex; align-items: center; gap: 10px;
+        }
+        .user-btn:hover { background: var(--secondary-color); border-color: var(--secondary-color); transform: translateY(-2px); }
+        .key-badge {
+            background: var(--bronze-color); color: white; padding: 2px 8px; border-radius: 20px;
+            font-size: 0.9em; font-weight: bold; box-shadow: 0 0 10px rgba(205, 127, 50, 0.5);
+        }
+
+        /* === صفحة الاختيار (Landing) === */
         #landing-page {
-            display: flex; 
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-            padding: 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100vh; text-align: center; padding: 20px; padding-top: 80px;
         }
-
         .landing-title {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(255,255,255,0.3);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 4em; margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffffff, #00e676);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-transform: uppercase; letter-spacing: 2px;
+            animation: fadeInDown 1s;
         }
-
-        .landing-subtitle {
-            font-size: 1.2em;
-            color: #aaa;
-            margin-bottom: 50px;
-        }
-
-        .choices-container {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-            perspective: 1000px;
-        }
-
+        .landing-subtitle { font-size: 1.2em; color: #aaa; margin-bottom: 60px; animation: fadeIn 1.5s; }
+        
+        .choices-container { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
+        
         .choice-card {
-            width: 300px;
-            height: 400px;
-            background: rgba(20, 20, 20, 0.9);
-            border-radius: 20px;
-            cursor: pointer;
-            transition: 0.4s;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 320px; height: 420px;
+            background: var(--glass); backdrop-filter: blur(15px);
+            border-radius: 25px; cursor: pointer; transition: 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+            border: 2px solid var(--glass-border); position: relative; overflow: hidden;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-
         .choice-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
-
-        .choice-card img {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
-        }
-
-        .choice-card h2 {
-            font-size: 2em;
-            margin: 0;
-            letter-spacing: 1px;
-        }
-
-        .choice-card p {
-            color: #bbb;
-            margin-top: 10px;
-            padding: 0 15px;
-            line-height: 1.4;
-        }
-
-        /* ألوان البطاقات */
-        .card-minecraft {
-            border-color: rgba(76, 175, 50, 0.3);
-        }
-        .card-minecraft:hover {
+            transform: translateY(-20px) scale(1.03);
             border-color: var(--primary-color);
-            box-shadow: 0 0 25px rgba(76, 175, 50, 0.3);
+            box-shadow: 0 0 30px rgba(0, 230, 118, 0.2);
         }
+        .choice-card img { width: 140px; height: 140px; margin-bottom: 25px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); transition: transform 0.5s; }
+        .choice-card:hover img { transform: scale(1.1) rotate(5deg); }
+        .choice-card h2 { font-size: 2.2em; margin: 0; letter-spacing: 1px; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        .choice-card p { color: #ccc; margin-top: 15px; padding: 0 20px; line-height: 1.6; }
 
-        .card-roblox {
-            border-color: rgba(229, 57, 53, 0.3);
-        }
-        .card-roblox:hover {
-            border-color: #E53935;
-            box-shadow: 0 0 25px rgba(229, 57, 53, 0.3);
-        }
+        /* تأثيرات الألوان الخاصة */
+        .card-minecraft:hover { border-color: #4CAF50; box-shadow: 0 0 40px rgba(76, 175, 50, 0.3); }
+        .card-roblox:hover { border-color: #E53935; box-shadow: 0 0 40px rgba(229, 57, 53, 0.3); }
 
-        /* === صفحات المحتوى (المخفية) === */
-        #minecraft-page, #roblox-page {
-            display: none; 
-        }
-
+        /* === صفحات المحتوى === */
+        #minecraft-page, #roblox-page { display: none; }
         .container {
-            width: 95%;
-            max-width: 1400px;
-            margin: 30px auto;
-            background: rgba(20, 20, 20, 0.92); 
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8), 0 0 15px rgba(76, 175, 50, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
-            backdrop-filter: blur(5px);
+            width: 95%; max-width: 1400px; margin: 100px auto 30px auto;
+            background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(10px);
+            padding: 25px; border-radius: 20px;
+            border: 1px solid var(--glass-border);
         }
+        .back-btn { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); }
 
-        /* زر العودة */
-        .back-btn {
-            position: absolute;
-            top: 25px;
-            left: 20px; 
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 15px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Cairo', sans-serif;
-            transition: 0.3s;
-            z-index: 20;
-            text-decoration: none;
-            font-size: 0.9em;
-        }
-        .back-btn:hover { background: var(--primary-color); border-color: var(--primary-color); }
+        /* === باقي التنسيقات (المودال والبطاقات) === */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); backdrop-filter: blur(8px); }
+        .modal-content { background: #1e1e1e; margin: 8% auto; padding: 40px; border-radius: 20px; width: 90%; max-width: 450px; border: 1px solid #333; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+        .modal-content h2 { margin-top: 0; color: var(--primary-color); }
+        .modal-content input { width: 85%; padding: 15px; margin: 15px 0; border-radius: 10px; border: none; background: #2a2a2a; color: white; font-family: 'Cairo', sans-serif; text-align: center; font-size: 1em; }
+        .modal-content input:focus { outline: 2px solid var(--primary-color); }
+        .close-btn { position: absolute; top: 15px; left: 20px; font-size: 30px; cursor: pointer; color: #555; transition: 0.3s; }
+        .close-btn:hover { color: #fff; }
 
-        /* اللوقو */
-        .site-logo {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 90px;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            z-index: 10;
-            transition: transform 0.3s;
-        }
-        .site-logo:hover { transform: scale(1.1); }
+        .site-logo { position: absolute; top: 20px; right: 20px; width: 80px; border-radius: 10px; z-index: 10; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        header { text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 25px; margin-bottom: 25px; padding-top: 40px; }
+        header h1 { color: #fff; margin: 10px 0 0 0; font-size: 2.5em; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px var(--primary-color); }
+        .animated-gif { width: 250px; border-radius: 10px; box-shadow: 0 0 20px rgba(76, 175, 50, 0.4); margin-bottom: 15px; border: 2px solid rgba(255,255,255,0.1); }
 
-        header {
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 25px;
-            margin-bottom: 25px;
-            padding-top: 40px;
-        }
+        .server-status { background: #1e1e1e; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 25px; border: 1px solid #333; }
+        .ip-box { background: #2a2a2a; padding: 12px 25px; border-radius: 50px; display: inline-block; cursor: pointer; transition: 0.3s; border: 1px solid #444; font-weight: bold; }
+        .ip-box:hover { background: var(--secondary-color); box-shadow: 0 0 15px var(--secondary-color); border-color: var(--secondary-color); }
+
+        .btn { display: inline-block; background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; padding: 12px 30px; text-decoration: none; border-radius: 50px; margin: 5px; transition: 0.3s; border: none; cursor: pointer; font-size: 1em; font-family: 'Cairo', sans-serif; font-weight: bold; box-shadow: 0 5px 15px rgba(76, 175, 50, 0.3); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(76, 175, 50, 0.5); }
+        .btn-discord { background: linear-gradient(135deg, #5865F2, #4752c4); }
+        .btn-bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); box-shadow: 0 5px 15px rgba(205, 127, 50, 0.4); }
         
-        header h1 { 
-            color: #fff; 
-            margin: 10px 0 0 0; 
-            font-size: 2.5em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--primary-color);
+        /* عرض رصيد المفاتيح داخل البطاقة */
+        .balance-display {
+            background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; margin-bottom: 15px;
+            border: 1px solid rgba(205, 127, 50, 0.3); display: flex; justify-content: center; align-items: center; gap: 10px;
         }
-        header p { color: #aaa; font-size: 1.1em; }
+        .balance-count { font-size: 1.8em; font-weight: 900; color: var(--bronze-color); text-shadow: 0 0 10px rgba(205, 127, 50, 0.5); }
 
-        .animated-gif {
-            width: 280px;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(76, 175, 50, 0.4);
-            margin-bottom: 15px;
-            border: 2px solid rgba(255,255,255,0.1);
-        }
-
-        /* حالة السيرفر */
-        .server-status {
-            background: linear-gradient(145deg, #2c2c2c, #222);
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 25px;
-            border: 1px solid #333;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
-        .ip-box {
-            background: #333;
-            padding: 12px 25px;
-            border-radius: 50px;
-            display: inline-block;
-            cursor: pointer;
-            transition: 0.3s;
-            border: 1px solid #444;
-            font-weight: bold;
-        }
-        .ip-box:hover { 
-            background: var(--primary-color); 
-            box-shadow: 0 0 15px var(--primary-color);
-            border-color: var(--primary-color);
-        }
-        .status-dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-left: 5px; box-shadow: 0 0 5px currentColor; }
-
-        /* الأزرار */
-        .btn {
-            display: inline-block;
-            background: linear-gradient(145deg, #4CAF50, #388E3C);
-            color: white;
-            padding: 12px 25px;
-            text-decoration: none;
-            border-radius: 50px;
-            margin: 5px;
-            transition: 0.3s;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-            font-family: 'Cairo', sans-serif;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(76, 175, 50, 0.3);
-        }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(76, 175, 50, 0.5); }
-        .btn-discord { background: linear-gradient(145deg, #5865F2, #4752c4); box-shadow: 0 4px 10px rgba(88, 101, 242, 0.3); }
-        .btn-discord:hover { box-shadow: 0 6px 15px rgba(88, 101, 242, 0.5); }
-        
-        .btn-gift { background: linear-gradient(145deg, #e91e63, #c2185b); box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3); }
-        .btn-gift:hover { box-shadow: 0 6px 15px rgba(233, 30, 99, 0.5); }
-        
-        .btn:disabled { 
-            background: #555; 
-            cursor: not-allowed; 
-            transform: none; 
-            box-shadow: none; 
-        }
-
-        /* الأقسام */
         .section { margin-bottom: 40px; }
-        .section h2 { 
-            border-bottom: 2px solid var(--primary-color); 
-            padding-bottom: 10px; 
-            color: #fff; 
-            font-size: 1.8em;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-        
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: linear-gradient(145deg, rgba(40, 40, 40, 0.9), rgba(30, 30, 30, 0.9));
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.4s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden;
-        }
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border-color: rgba(76, 175, 50, 0.3);
-        }
+        .section h2 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: #fff; font-size: 1.8em; display: inline-block; margin-bottom: 20px; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: #1e1e1e; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #333; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary-color); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .card h3 { margin-top: 0; color: #fff; font-size: 1.4em; }
-        .price { color: var(--accent-color); font-weight: bold; font-size: 1.3em; margin: 10px 0; text-shadow: 0 0 5px rgba(0,230,118,0.3); }
+        .price { color: var(--primary-color); font-weight: bold; font-size: 1.3em; margin: 10px 0; }
+        .rank-image { width: 100%; height: 150px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5)); }
+        .countdown-timer { margin-top: 10px; font-size: 0.9em; color: #bbb; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 5px; }
+        .countdown-timer span { color: #ff9800; font-weight: bold; }
+        .item-image { width: 100%; height: 200px; object-fit: contain; background: #252525; border-radius: 8px; margin-bottom: 15px; padding: 10px; }
+        .rules-list { background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; }
+        .rules-list li { margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 10px; }
 
-        /* صور الرتب */
-        .rank-image {
-            width: 100%;
-            height: 150px;
-            object-fit: contain;
-            background-color: rgba(0,0,0,0.3);
-            border-radius: 8px;
-            margin-bottom: 15px;
-            padding: 10px;
-            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
-        }
-
-        /* مكان ظهور الكود والتوقيت */
-        .gift-display-area {
-            margin-top: 15px;
-            text-align: center;
-        }
-        
-        .code-display {
-            background: #111;
-            color: var(--accent-color);
-            padding: 10px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            font-size: 1.1em;
-            word-break: break-all;
-            border: 1px dashed var(--accent-color);
-            box-shadow: 0 0 10px rgba(0,230,118,0.1);
-        }
-
-        .countdown-timer {
-            margin-top: 10px;
-            font-size: 0.9em;
-            color: #bbb;
-            background: rgba(0,0,0,0.3);
-            padding: 8px;
-            border-radius: 5px;
-        }
-
-        .countdown-timer span {
-            color: #ff9800;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        /* صور الآيتمات */
-        .item-image {
-            width: 100%;
-            height: 220px;
-            object-fit: contain;
-            background: rgba(0,0,0,0.4);
-            border-radius: 8px;
-            margin-bottom: 15px;
-            padding: 15px;
-        }
-
-        .rules-list { background: rgba(30,30,30,0.8); padding: 20px; border-radius: 12px; border: 1px solid #333; }
-        .rules-list li { margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 10px; font-size: 1.1em; }
-        #copy-msg { display: none; color: var(--accent-color); font-size: 1em; margin-top: 10px; font-weight: bold; }
-
-        /* تأثير النبض للزر */
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(233, 30, 99, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(233, 30, 99, 0); }
-        }
-        .btn-gift:not(:disabled) {
-            animation: pulse 2s infinite;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .landing-title { font-size: 2em; }
-            .choice-card { width: 100%; max-width: 300px; height: 300px; }
-            .back-btn { top: auto; bottom: 10px; left: 50%; transform: translateX(-50%); }
-        }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-<!-- === 1. الصفحة الرئيسية (الاختيار) === -->
+<!-- خلفية متحركة -->
+<div class="bg-animation"></div>
+
+<!-- === شريط المستخدم العلوي === -->
+<div class="global-user-bar">
+    <div class="brand-logo">4AIKRO</div>
+    <div id="auth-btn-container">
+        <!-- يتم ملؤه بواسطة JS -->
+    </div>
+</div>
+
+<!-- === 1. الواجهة الرئيسية === -->
 <div id="landing-page">
-    <h1 class="landing-title">مرحباً بك في 4AIKRO</h1>
-    <p class="landing-subtitle">اختر لعبتك المفضلة للبدء</p>
+    <h1 class="landing-title">Choose Your Game</h1>
+    <p class="landing-subtitle">اختر لعبتك المفضلة للبدء في رحلتك</p>
     
     <div class="choices-container">
-        <!-- خيار روبلوكس -->
         <div class="choice-card card-roblox" onclick="showPage('roblox')">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Roblox_logo_2019.svg/1200px-Roblox_logo_2019.svg.png" alt="Roblox">
             <h2>ROBLOX</h2>
-            <p>عالم الألعاب اللامتناهي</p>
+            <p>عالم الألعاب اللامتناهي والإبداع بلا حدود</p>
         </div>
-
-        <!-- خيار ماينكرافت - تم تحديث النص -->
         <div class="choice-card card-minecraft" onclick="showPage('minecraft')">
             <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/4c/Grass_Block_JE7_BE3.png" alt="Minecraft">
             <h2>MINECRAFT</h2>
-            <p>سرفراتنا الرسمية لمينكرافت جافا المجنية و المدفوعة</p>
+            <p>سيرفراتنا الرسمية لماينكرافت جافا المجانية والمدفوعة</p>
         </div>
     </div>
 </div>
 
-<!-- === 2. صفحة روبلوكس (مخفية) === -->
+<!-- === 2. صفحة روبلوكس === -->
 <div id="roblox-page">
     <div class="container">
-        <button class="back-btn" onclick="goHome()">⬅ العودة للرئيسية</button>
-        <header>
-            <h1>ROBLOX SECTION</h1>
-            <p>قريباً...</p>
-        </header>
-        <div style="text-align:center; padding: 100px 0;">
-            <h2>🚧 هذا القسم تحت التطوير</h2>
-            <p>نحن نعمل على تجهز محتوى روبلوكس، ترقبونا!</p>
-        </div>
+        <button class="user-btn back-btn" onclick="goHome()">⬅ العودة</button>
+        <header> <h1>ROBLOX SECTION</h1> <p>قريباً...</p> </header>
+        <div style="text-align:center; padding: 100px 0;"> <h2>🚧 هذا القسم تحت التطوير</h2> </div>
     </div>
 </div>
 
-<!-- === 3. صفحة ماينكرافت (مخفية - المحتوى السابق) === -->
+<!-- === 3. صفحة ماينكرافت === -->
 <div id="minecraft-page">
     <div class="container">
-        <button class="back-btn" onclick="goHome()">⬅ العودة للرئيسية</button>
-        
-        <!-- اللوقو -->
+        <button class="user-btn back-btn" onclick="goHome()">⬅ الرئيسية</button>
         <img src="logo-site.jpg" alt="Logo" class="site-logo">
 
         <header>
@@ -437,52 +217,49 @@
             <p>UPDATE: 1</p>
         </header>
 
-        <!-- حالة السيرفر -->
         <div class="server-status">
             <h3>حالة السيرفر: <span id="status-text">جاري التحميل...</span> <span class="status-dot" id="status-dot"></span></h3>
             <div class="ip-box" onclick="copyIP()">
                 <strong>آيبي السيرفر:</strong> <span id="server-ip">cities-declare.gl.joinmc.link</span> 📋
             </div>
-            <p id="copy-msg">تم نسخ الآيبي!</p>
-            <p style="margin-top: 10px; margin-bottom: 0;">عدد اللاعبين الحالي: <span id="player-count">0</span> / <span id="max-players">0</span></p>
+            <p id="copy-msg" style="display:none;">تم النسخ!</p>
+            <p style="margin-top: 10px; margin-bottom: 0;">اللاعبين: <span id="player-count">0</span> / <span id="max-players">0</span></p>
         </div>
 
-        <!-- روابط هامة -->
         <div style="text-align: center; margin-bottom: 25px;">
             <a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="btn btn-discord">discord_4AIKRO</a>
-            <a href="https://www.mediafire.com/file/8cvfd3ql5sa2l0w/MODS+AIKRO+S4.rar/file" class="btn" target="_blank" rel="noopener noreferrer">تحميل مودات السيرفر</a>
+            <a href="https://www.mediafire.com/file/8cvfd3ql5sa2l0w/MODS+AIKRO+S4.rar/file" class="btn" target="_blank">تحميل المودات</a>
         </div>
 
-        <!-- الرتب والهدايا -->
         <div class="section">
             <h2>💎 الرتب والهدايا</h2>
             <div class="card-grid">
                 
-                <!-- رتبة FUN -->
+                <!-- بطاقة FUN مع عداد المفاتيح -->
                 <div class="card">
                     <div>
                         <img src="4452.png" alt="FUN Rank" class="rank-image">
                         <h3>رتبة FUN</h3>
-                        <p>انسخ الكود وافتح تكت في الدسكورد راح تحصل هديتك.</p>
+                        <p>احصل على مفتاح برونزي مجاني كل 48 ساعة.</p>
+                        
+                        <!-- عداد المفاتيح الواضح -->
+                        <div class="balance-display" id="key-balance-box">
+                            <span>رصيدك:</span>
+                            <span class="balance-count" id="key-balance-num">0</span>
+                            <span>BRONZE KEY</span>
+                        </div>
                     </div>
                     <div>
-                        <div class="price">هدية مجانية</div>
-                        
-                        <div id="gift-display-area" class="gift-display-area" style="display:none;">
-                            <p style="font-size:0.9em; color:#aaa; margin:0;">كودك هو:</p>
-                            <div class="code-display" id="gift-code-text"></div>
-                            
-                            <div id="countdown-container" class="countdown-timer">
-                                ⏳ صلاحية الكود تنتهي خلال: <br>
+                        <div id="key-display-area" style="display:none; margin-bottom:10px;">
+                            <div class="countdown-timer">
+                                ⏳ الانتظار للمفتاح التالي: <br>
                                 <span id="timer-display">00:00:00</span>
                             </div>
                         </div>
-
-                        <button id="claim-btn" class="btn btn-gift" onclick="claimGift()">احصل على هديتك</button>
+                        <button id="claim-key-btn" class="btn btn-bronze" onclick="claimBronzeKey()">🔑 احصل على مفتاحك</button>
                     </div>
                 </div>
 
-                <!-- رتبة VIP -->
                 <div class="card">
                     <div>
                         <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/4c/Gold_Armor.png" alt="VIP Rank" class="rank-image">
@@ -491,12 +268,10 @@
                     </div>
                     <div>
                         <div class="price">$2.00</div>
-                        <p><small>اشتراك شهري</small></p>
                         <a href="#" class="btn">شراء الآن</a>
                     </div>
                 </div>
 
-                <!-- رتبة MVP -->
                 <div class="card">
                     <div>
                         <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/5/5d/Diamond_Armor.png" alt="MVP Rank" class="rank-image">
@@ -505,84 +280,157 @@
                     </div>
                     <div>
                         <div class="price">$5.00</div>
-                        <p><small>اشتراك شهري</small></p>
                         <a href="#" class="btn">شراء الآن</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- متجر الآيتمات -->
         <div class="section">
             <h2>🛒 متجر الآيتمات</h2>
             <div class="card-grid">
                 <div class="card">
                     <img src="100coin.png" alt="Item" class="item-image">
                     <h3>100 COIN</h3>
-                    <p>عملة السيرفر تمكنك من التجارة في السيرفر</p>
                     <div class="price">$1.00</div>
                     <a href="#" class="btn">شراء</a>
                 </div>
                 <div class="card">
                     <img src="رابط_صورة_الآيتم_2" alt="Item" class="item-image">
                     <h3>500 COIN</h3>
-                    <p>عملة السيرفر تمكنك من التجارة في السيرفر</p>
                     <div class="price">$3.00</div>
                     <a href="#" class="btn">شراء</a>
                 </div>
                 <div class="card">
                     <img src="رابط_صورة_الآيتم_3" alt="Item" class="item-image">
                     <h3>1000 COIN</h3>
-                    <p>عملة السيرفر تمكنك من التجارة في السيرفر</p>
                     <div class="price">$5.00</div>
                     <a href="#" class="btn">شراء</a>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- الأخبار -->
-        <div class="section">
-            <h2>📰 أخبار وفعاليات</h2>
-            <div class="card">
-                <h3>🎉 حدث نهاية الأسبوع!</h3>
-                <p>خصم 50% على جميع الرتب، فعالية أكبر عدد من القتل في البدوارد!</p>
-                <small style="color:#888">بتاريخ: 2023/10/25</small>
-            </div>
-        </div>
+<!-- === نافذة التسجيل === -->
+<div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeAuthModal()">&times;</span>
+        <h2>تسجيل الدخول</h2>
+        <input type="email" id="auth-email" placeholder="البريد الإلكتروني (Gmail)">
+        <br>
+        <button class="btn" onclick="handleAuth()">دخول / تسجيل</button>
+    </div>
+</div>
 
-        <!-- القوانين -->
-        <div class="section">
-            <h2>⚖️ قوانين السيرفر</h2>
-            <ul class="rules-list">
-                <li>🚫 ممنوع استخدام الهاكات أو الغش.</li>
-                <li>🚫 ممنوع السب والقذف واحترام الآخرين.</li>
-                <li>🚫 ممنوع التطفل على أراضي اللاعبين.</li>
-                <li>✅ يجب الالتزام بقوانين الديسكورد أيضاً.</li>
-            </ul>
+<!-- === نافذة المخزون === -->
+<div id="inventory-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeInventoryModal()">&times;</span>
+        <h2>📦 مخزون مفاتيحك (Minecraft)</h2>
+        <div id="keys-list" style="max-height: 300px; overflow-y: auto; margin-top: 20px; text-align: left;">
+            <!-- مفاتيح هنا -->
         </div>
+        <br>
+        <button class="btn" style="background:#444" onclick="logout()">تسجيل الخروج</button>
     </div>
 </div>
 
 <script>
     /* 
-       1. نظام التنقل بين الصفحات
+       1. التهيئة عند التحميل
+    */
+    document.body.onload = function() {
+        updateAuthUI();
+    };
+
+    /* 
+       2. نظام الحسابات وواجهة المستخدم
+    */
+    function updateAuthUI() {
+        const container = document.getElementById('auth-btn-container');
+        const user = localStorage.getItem('4aikro_user');
+        
+        if (user) {
+            // جلب عدد المفاتيح الخاصة بماينكرافت فقط
+            const mcKeys = JSON.parse(localStorage.getItem(`mc_keys_${user}`)) || [];
+            const keyCount = mcKeys.length;
+
+            // عرض الزر مع العداد
+            container.innerHTML = `
+                <div class="user-btn" onclick="openInventoryModal()">
+                    👤 ${user}
+                    <span class="key-badge">🗝️ ${keyCount}</span>
+                </div>
+            `;
+
+            // تحديث العداد داخل صفحة ماينكرافت إذا كانت مفتوحة
+            const balanceNum = document.getElementById('key-balance-num');
+            if(balanceNum) balanceNum.innerText = keyCount;
+
+        } else {
+            container.innerHTML = `<button class="user-btn" onclick="openAuthModal()">🔐 تسجيل الدخول</button>`;
+            const balanceNum = document.getElementById('key-balance-num');
+            if(balanceNum) balanceNum.innerText = "0";
+        }
+    }
+
+    function openAuthModal() { document.getElementById('auth-modal').style.display = 'block'; }
+    function closeAuthModal() { document.getElementById('auth-modal').style.display = 'none'; }
+
+    function handleAuth() {
+        const email = document.getElementById('auth-email').value;
+        if (!email.includes('@')) { alert("بريد غير صحيح"); return; }
+        localStorage.setItem('4aikro_user', email);
+        closeAuthModal();
+        updateAuthUI();
+        initKeyLogic();
+    }
+
+    function logout() {
+        localStorage.removeItem('4aikro_user');
+        closeInventoryModal();
+        updateAuthUI();
+        initKeyLogic();
+    }
+
+    function openInventoryModal() {
+        const user = localStorage.getItem('4aikro_user');
+        // نعرض مفاتيح ماينكرافت فقط
+        const keys = JSON.parse(localStorage.getItem(`mc_keys_${user}`)) || [];
+        const listContainer = document.getElementById('keys-list');
+
+        if (keys.length === 0) {
+            listContainer.innerHTML = '<p style="text-align:center; color:#555; padding: 20px;">لا تملك مفاتيح حالياً</p>';
+        } else {
+            listContainer.innerHTML = keys.map(k => `
+                <div style="background:#222; padding:10px; margin:5px 0; border-radius:5px; border:1px solid #333; display:flex; justify-content:space-between;">
+                    <span style="color:#cd7f32; font-family:monospace; font-weight:bold;">${k.code}</span>
+                    <small style="color:#666;">${k.date}</small>
+                </div>
+            `).join('');
+        }
+        document.getElementById('inventory-modal').style.display = 'block';
+    }
+    function closeInventoryModal() { document.getElementById('inventory-modal').style.display = 'none'; }
+
+    /* 
+       3. التنقل
     */
     function showPage(pageName) {
-        // إخفاء كل الصفحات
         document.getElementById('landing-page').style.display = 'none';
         document.getElementById('minecraft-page').style.display = 'none';
         document.getElementById('roblox-page').style.display = 'none';
 
-        // إظهار الصفحة المطلوبة
         if (pageName === 'minecraft') {
             document.getElementById('minecraft-page').style.display = 'block';
             checkServerStatus();
-            initMinecraftLogic();
+            initKeyLogic();
+            updateAuthUI(); // لتحديث العداد داخل البطاقة
         } else if (pageName === 'roblox') {
             document.getElementById('roblox-page').style.display = 'block';
         }
     }
-
     function goHome() {
         document.getElementById('landing-page').style.display = 'flex';
         document.getElementById('minecraft-page').style.display = 'none';
@@ -590,29 +438,86 @@
     }
 
     /* 
-       2. نظام الهدايا
+       4. نظام مفاتيح ماينكرافت
     */
-    const giftCodes = [
-        "GIFT-ABC-123",
-        "GIFT-XYZ-999",
-        "GIFT-MC-2023",
-        "GIFT-FREE-RANK",
-        "CODE-5555",
-        "DIAMOND-444"
-    ];
-
-    const COOLDOWN_TIME = 48 * 60 * 60 * 1000; // 48 ساعة
+    const COOLDOWN_TIME = 48 * 60 * 60 * 1000; 
     let timerInterval;
+
+    function initKeyLogic() {
+        const user = localStorage.getItem('4aikro_user');
+        const claimBtn = document.getElementById('claim-key-btn');
+        const displayArea = document.getElementById('key-display-area');
+        const balanceBox = document.getElementById('key-balance-box');
+        
+        if(!claimBtn) return;
+
+        if (!user) {
+            claimBtn.disabled = false;
+            claimBtn.innerText = "🔑 سجل دخولك";
+            claimBtn.onclick = openAuthModal;
+            displayArea.style.display = 'none';
+            if(balanceBox) balanceBox.style.display = 'none'; // إخفاء الرصيد إذا غير مسجل
+            return;
+        }
+        
+        if(balanceBox) balanceBox.style.display = 'flex'; // إظهار الرصيد
+
+        const lastClaim = localStorage.getItem(`mc_keyTime_${user}`);
+        
+        if (lastClaim) {
+            const nextClaimTime = parseInt(lastClaim) + COOLDOWN_TIME;
+            const now = new Date().getTime();
+            
+            if (now < nextClaimTime) {
+                claimBtn.disabled = true;
+                claimBtn.innerText = "⏳ قيد الانتظار";
+                displayArea.style.display = 'block';
+                startCountdown(nextClaimTime);
+            } else {
+                setupClaimable();
+            }
+        } else {
+            setupClaimable();
+        }
+    }
+
+    function setupClaimable() {
+        const claimBtn = document.getElementById('claim-key-btn');
+        if(!claimBtn) return;
+        claimBtn.disabled = false;
+        claimBtn.innerText = "🔑 احصل على BRONZE KEY";
+        claimBtn.onclick = claimBronzeKey;
+        document.getElementById('key-display-area').style.display = 'none';
+    }
+
+    function claimBronzeKey() {
+        const user = localStorage.getItem('4aikro_user');
+        if(!user) return;
+
+        // اسم المفتاح الجديد
+        const randomKey = "BRONZE-KEY-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+        
+        // تخزين خاص بماينكرافت
+        let mcKeys = JSON.parse(localStorage.getItem(`mc_keys_${user}`)) || [];
+        mcKeys.push({
+            code: randomKey,
+            date: new Date().toLocaleDateString('en-GB') // تاريخ انجليزي للمظهر
+        });
+        localStorage.setItem(`mc_keys_${user}`, JSON.stringify(mcKeys));
+
+        const now = new Date().getTime();
+        localStorage.setItem(`mc_keyTime_${user}`, now);
+
+        alert(`🎉 مبروك! حصلت على: ${randomKey}`);
+        
+        // تحديث الواجهة
+        updateAuthUI(); // تحديث العداد في الشريط والبطاقة
+        initKeyLogic(); // إعادة تشغيل العداد
+    }
 
     function startCountdown(endTime) {
         clearInterval(timerInterval);
-        
         const timerDisplay = document.getElementById('timer-display');
-        const claimBtn = document.getElementById('claim-btn');
-        const displayArea = document.getElementById('gift-display-area');
-        
-        claimBtn.style.display = 'none';
-        displayArea.style.display = 'block';
 
         function updateTimer() {
             const now = new Date().getTime();
@@ -620,64 +525,21 @@
 
             if (distance < 0) {
                 clearInterval(timerInterval);
-                localStorage.removeItem('giftClaimTime');
-                localStorage.removeItem('giftCodeValue');
-                
-                displayArea.style.display = 'none';
-                claimBtn.style.display = 'inline-block';
-                claimBtn.disabled = false;
-                claimBtn.innerText = "احصل على هدية جديدة";
-                timerDisplay.innerHTML = "EXPIRED";
+                setupClaimable();
             } else {
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                let timeString = "";
-                if (days > 0) timeString += days + " يوم ";
-                timeString += hours + "س " + minutes + "د " + seconds + "ث";
                 
-                timerDisplay.innerHTML = timeString;
+                if(timerDisplay) timerDisplay.innerHTML = `${days} يوم ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
             }
         }
-
         updateTimer();
         timerInterval = setInterval(updateTimer, 1000);
     }
 
-    function claimGift() {
-        const claimBtn = document.getElementById('claim-btn');
-        const randomCode = giftCodes[Math.floor(Math.random() * giftCodes.length)];
-        
-        const claimTime = new Date().getTime();
-        localStorage.setItem('giftClaimTime', claimTime);
-        localStorage.setItem('giftCodeValue', randomCode);
-
-        document.getElementById('gift-code-text').innerText = randomCode;
-        
-        const endTime = claimTime + COOLDOWN_TIME;
-        startCountdown(endTime);
-    }
-
-    function initMinecraftLogic() {
-        const savedTime = localStorage.getItem('giftClaimTime');
-        const savedCode = localStorage.getItem('giftCodeValue');
-
-        if (savedTime && savedCode) {
-            const expiryTime = parseInt(savedTime) + COOLDOWN_TIME;
-            const now = new Date().getTime();
-
-            if (now < expiryTime) {
-                document.getElementById('gift-code-text').innerText = savedCode;
-                startCountdown(expiryTime);
-            } else {
-                localStorage.removeItem('giftClaimTime');
-                localStorage.removeItem('giftCodeValue');
-            }
-        }
-    }
-
+    /* أدوات مساعدة */
     function copyIP() {
         const ip = document.getElementById("server-ip").innerText;
         navigator.clipboard.writeText(ip);
@@ -698,8 +560,8 @@
 
                 if (data.online) {
                     statusText.innerText = "أونلاين";
-                    statusText.style.color = "#4CAF50";
-                    statusDot.style.backgroundColor = "#4CAF50";
+                    statusText.style.color = "#00e676";
+                    statusDot.style.backgroundColor = "#00e676";
                     playerCount.innerText = data.players.online;
                     maxPlayers.innerText = data.players.max;
                 } else {
@@ -708,12 +570,7 @@
                     statusDot.style.backgroundColor = "#ff4444";
                 }
             })
-            .catch(error => {
-                console.error("Error:", error);
-                if(document.getElementById("status-text")) {
-                   document.getElementById("status-text").innerText = "خطأ";
-                }
-            });
+            .catch(error => console.error("Error:", error));
     }
 </script>
 
