@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سيرفر ماينكرافت - 4AIKRO_S4</title>
+    <!-- خط عربي متطور -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* تصميم الموقع */
+        :root {
+            --primary-color: #4CAF50;
+            --accent-color: #00e676;
+            --bg-dark: #121212;
+            --card-bg: rgba(30, 30, 30, 0.9);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: white;
+            background-image: url('https://wallpapers.com/images/hd/minecraft-shaders-background-k3688177q5204430.jpg'); 
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 30px auto;
+            background: rgba(20, 20, 20, 0.92); 
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8), 0 0 15px rgba(76, 175, 50, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        /* اللوقو */
+        .site-logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 90px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            z-index: 10;
+            transition: transform 0.3s;
+        }
+        .site-logo:hover { transform: scale(1.1); }
+
+        header {
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+            padding-top: 40px;
+        }
+        
+        header h1 { 
+            color: #fff; 
+            margin: 10px 0 0 0; 
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+        header p { color: #aaa; font-size: 1.1em; }
+
+        .animated-gif {
+            width: 280px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(76, 175, 50, 0.4);
+            margin-bottom: 15px;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        /* حالة السيرفر */
+        .server-status {
+            background: linear-gradient(145deg, #2c2c2c, #222);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+            border: 1px solid #333;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        .ip-box {
+            background: #333;
+            padding: 12px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid #444;
+            font-weight: bold;
+        }
+        .ip-box:hover { 
+            background: var(--primary-color); 
+            box-shadow: 0 0 15px var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        .status-dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-left: 5px; box-shadow: 0 0 5px currentColor; }
+
+        /* الأزرار */
+        .btn {
+            display: inline-block;
+            background: linear-gradient(145deg, #4CAF50, #388E3C);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 50px;
+            margin: 5px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: 'Cairo', sans-serif;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(76, 175, 50, 0.3);
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(76, 175, 50, 0.5); }
+        .btn-discord { background: linear-gradient(145deg, #5865F2, #4752c4); box-shadow: 0 4px 10px rgba(88, 101, 242, 0.3); }
+        .btn-discord:hover { box-shadow: 0 6px 15px rgba(88, 101, 242, 0.5); }
+        
+        .btn-gift { background: linear-gradient(145deg, #e91e63, #c2185b); box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3); }
+        .btn-gift:hover { box-shadow: 0 6px 15px rgba(233, 30, 99, 0.5); }
+        
+        .btn:disabled { 
+            background: #555; 
+            cursor: not-allowed; 
+            transform: none; 
+            box-shadow: none; 
+        }
+
+        /* الأقسام */
+        .section { margin-bottom: 40px; }
+        .section h2 { 
+            border-bottom: 2px solid var(--primary-color); 
+            padding-bottom: 10px; 
+            color: #fff; 
+            font-size: 1.8em;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: linear-gradient(145deg, rgba(40, 40, 40, 0.9), rgba(30, 30, 30, 0.9));
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.4s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-color: rgba(76, 175, 50, 0.3);
+        }
+        .card h3 { margin-top: 0; color: #fff; font-size: 1.4em; }
+        .price { color: var(--accent-color); font-weight: bold; font-size: 1.3em; margin: 10px 0; text-shadow: 0 0 5px rgba(0,230,118,0.3); }
+
+        /* صور الرتب */
+        .rank-image {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background-color: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 10px;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+        }
+
+        /* مكان ظهور الكود والتوقيت */
+        .gift-display-area {
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .code-display {
+            background: #111;
+            color: var(--accent-color);
+            padding: 10px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 1.1em;
+            word-break: break-all;
+            border: 1px dashed var(--accent-color);
+            box-shadow: 0 0 10px rgba(0,230,118,0.1);
+        }
+
+        .countdown-timer {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #bbb;
+            background: rgba(0,0,0,0.3);
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .countdown-timer span {
+            color: #ff9800;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        /* صور الآيتمات - تم التحديث */
+        .item-image {
+            width: 100%;
+            height: 220px;              /* كبرنا الارتفاع */
+            object-fit: contain;        /* يمنع القص */
+            background: rgba(0,0,0,0.4);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 15px;              /* يعطي مساحة داخلية */
+        }
+
+        .rules-list { background: rgba(30,30,30,0.8); padding: 20px; border-radius: 12px; border: 1px solid #333; }
+        .rules-list li { margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 10px; font-size: 1.1em; }
+        #copy-msg { display: none; color: var(--accent-color); font-size: 1em; margin-top: 10px; font-weight: bold; }
+
+        /* تأثير النبض للزر */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(233, 30, 99, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(233, 30, 99, 0); }
+        }
+        .btn-gift:not(:disabled) {
+            animation: pulse 2s infinite;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- اللوقو -->
+    <img src="رابط_لوقو_موقعك.png" alt="Logo" class="site-logo">
+
+    <header>
+        <img src="standard_1.gif" alt="Minecraft Animation" class="animated-gif">
+        <h1>⚔️ SERVEUR 4AIKRO_S4 ⚔️</h1>
+        <p>UPDATE: 1</p>
+    </header>
+
+    <!-- حالة السيرفر -->
+    <div class="server-status">
+        <h3>حالة السيرفر: <span id="status-text">جاري التحميل...</span> <span class="status-dot" id="status-dot"></span></h3>
+        <div class="ip-box" onclick="copyIP()">
+            <strong>آيبي السيرفر:</strong> <span id="server-ip">cities-declare.gl.joinmc.link</span> 📋
+        </div>
+        <p id="copy-msg">تم نسخ الآيبي!</p>
+        <p style="margin-top: 10px; margin-bottom: 0;">عدد اللاعبين الحالي: <span id="player-count">0</span> / <span id="max-players">0</span></p>
+    </div>
+
+    <!-- روابط هامة -->
+    <div style="text-align: center; margin-bottom: 25px;">
+        <a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="btn btn-discord">discord_4AIKRO</a>
+        <a href="https://www.mediafire.com/file/8cvfd3ql5sa2l0w/MODS+AIKRO+S4.rar/file" class="btn" target="_blank" rel="noopener noreferrer">تحميل مودات السيرفر</a>
+    </div>
+
+    <!-- الرتب والهدايا -->
+    <div class="section">
+        <h2>💎 الرتب والهدايا</h2>
+        <div class="card-grid">
+            
+            <!-- رتبة FUN -->
+            <div class="card">
+                <div>
+                    <img src="4452.png" alt="FUN Rank" class="rank-image">
+                    <h3>رتبة FUN</h3>
+                    <p>انسخ الكود وافتح تكت في الدسكورد راح تحصل هديتك.</p>
+                </div>
+                <div>
+                    <div class="price">هدية مجانية</div>
+                    
+                    <!-- منطقة عرض الكود والتوقيت -->
+                    <div id="gift-display-area" class="gift-display-area" style="display:none;">
+                        <p style="font-size:0.9em; color:#aaa; margin:0;">كودك هو:</p>
+                        <div class="code-display" id="gift-code-text"></div>
+                        
+                        <div id="countdown-container" class="countdown-timer">
+                            ⏳ صلاحية الكود تنتهي خلال: <br>
+                            <span id="timer-display">00:00:00</span>
+                        </div>
+                    </div>
+
+                    <!-- زر الحصول على الهدية -->
+                    <button id="claim-btn" class="btn btn-gift" onclick="claimGift()">احصل على هديتك</button>
+                </div>
+            </div>
+
+            <!-- رتبة VIP -->
+            <div class="card">
+                <div>
+                    <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/4c/Gold_Armor.png" alt="VIP Rank" class="rank-image">
+                    <h3>رتبة VIP</h3>
+                    <p>مزايا إضافية ودخول أولوية.</p>
+                </div>
+                <div>
+                    <div class="price">$2.00</div>
+                    <p><small>اشتراك شهري</small></p>
+                    <a href="#" class="btn">شراء الآن</a>
+                </div>
+            </div>
+
+            <!-- رتبة MVP -->
+            <div class="card">
+                <div>
+                    <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/5/5d/Diamond_Armor.png" alt="MVP Rank" class="rank-image">
+                    <h3>رتبة MVP</h3>
+                    <p>صلاحيات كاملة ومميزات حصرية.</p>
+                </div>
+                <div>
+                    <div class="price">$5.00</div>
+                    <p><small>اشتراك شهري</small></p>
+                    <a href="#" class="btn">شراء الآن</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- متجر الآيتمات -->
+    <div class="section">
+        <h2>🛒 متجر الآيتمات</h2>
+        <div class="card-grid">
+            <div class="card">
+                <img src="100coin.png" alt="Item" class="item-image">
+                <h3>100 COIN</h3>
+                <p>عملة السيرفر تمكنك من التجارة في السيرفر</p>
+                <div class="price">$1.00</div>
+                <a href="#" class="btn">شراء</a>
+            </div>
+            <div class="card">
+                <img src="رابط_صورة_الآيتم_2" alt="Item" class="item-image">
+                <h3>500 COIN</h3>
+                <p>عملة السيرفر تمكنك من التجارة في السيرفر</p>
+                <div class="price">$3.00</div>
+                <a href="#" class="btn">شراء</a>
+            </div>
+            <div class="card">
+                <img src="رابط_صورة_الآيتم_3" alt="Item" class="item-image">
+                <h3>1000 COIN</h3>
+                <p>عملة السيرفر تمكنك من التجارة في السيرفر</p>
+                <div class="price">$5.00</div>
+                <a href="#" class="btn">شراء</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- الأخبار -->
+    <div class="section">
+        <h2>📰 أخبار وفعاليات</h2>
+        <div class="card">
+            <h3>🎉 حدث نهاية الأسبوع!</h3>
+            <p>خصم 50% على جميع الرتب، فعالية أكبر عدد من القتل في البدوارد!</p>
+            <small style="color:#888">بتاريخ: 2023/10/25</small>
+        </div>
+    </div>
+
+    <!-- القوانين -->
+    <div class="section">
+        <h2>⚖️ قوانين السيرفر</h2>
+        <ul class="rules-list">
+            <li>🚫 ممنوع استخدام الهاكات أو الغش.</li>
+            <li>🚫 ممنوع السب والقذف واحترام الآخرين.</li>
+            <li>🚫 ممنوع التطفل على أراضي اللاعبين.</li>
+            <li>✅ يجب الالتزام بقوانين الديسكورد أيضاً.</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    /* 
+       قائمة الأكواد التي ستظهر عشوائياً للاعبين.
+    */
+    const giftCodes = [
+        "GIFT-ABC-123",
+        "GIFT-XYZ-999",
+        "GIFT-MC-2023",
+        "GIFT-FREE-RANK",
+        "CODE-5555",
+        "DIAMOND-444"
+    ];
+
+    // متغيرات الوقت
+    const COOLDOWN_TIME = 48 * 60 * 60 * 1000; // 48 ساعة بالمللي ثانية
+    let timerInterval;
+
+    // دالة لبدء العداد التنازلي
+    function startCountdown(endTime) {
+        clearInterval(timerInterval); // إيقاف أي عداد سابق
+        
+        const timerDisplay = document.getElementById('timer-display');
+        const claimBtn = document.getElementById('claim-btn');
+        const displayArea = document.getElementById('gift-display-area');
+        
+        // إخفاء الزر وإظهار الكود
+        claimBtn.style.display = 'none';
+        displayArea.style.display = 'block';
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = endTime - now;
+
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                // انتهى الوقت: إعادة ضبط الواجهة لطلب هدية جديدة
+                localStorage.removeItem('giftClaimTime');
+                localStorage.removeItem('giftCodeValue');
+                
+                displayArea.style.display = 'none';
+                claimBtn.style.display = 'inline-block';
+                claimBtn.disabled = false;
+                claimBtn.innerText = "احصل على هدية جديدة";
+                timerDisplay.innerHTML = "EXPIRED";
+            } else {
+                // حساب الوقت المتبقي
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // عرض الوقت بصيغة س:د:ث
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                let timeString = "";
+                if (days > 0) timeString += days + " يوم ";
+                timeString += hours + "س " + minutes + "د " + seconds + "ث";
+                
+                timerDisplay.innerHTML = timeString;
+            }
+        }
+
+        updateTimer(); // تشغيل فوري
+        timerInterval = setInterval(updateTimer, 1000); // تحديث كل ثانية
+    }
+
+    // دالة الحصول على الهدية
+    function claimGift() {
+        const claimBtn = document.getElementById('claim-btn');
+        
+        // اختيار كود عشوائي
+        const randomCode = giftCodes[Math.floor(Math.random() * giftCodes.length)];
+        
+        // حفظ البيانات
+        const claimTime = new Date().getTime();
+        localStorage.setItem('giftClaimTime', claimTime);
+        localStorage.setItem('giftCodeValue', randomCode);
+
+        // عرض الكود
+        document.getElementById('gift-code-text').innerText = randomCode;
+        
+        // تشغيل العداد
+        const endTime = claimTime + COOLDOWN_TIME;
+        startCountdown(endTime);
+    }
+
+    // فحص الحالة عند تحميل الصفحة
+    window.onload = function() {
+        const savedTime = localStorage.getItem('giftClaimTime');
+        const savedCode = localStorage.getItem('giftCodeValue');
+
+        if (savedTime && savedCode) {
+            const expiryTime = parseInt(savedTime) + COOLDOWN_TIME;
+            const now = new Date().getTime();
+
+            if (now < expiryTime) {
+                // لا يزال هناك وقت - عرض الكود والعداد
+                document.getElementById('gift-code-text').innerText = savedCode;
+                startCountdown(expiryTime);
+            } else {
+                // انتهى الوقت - مسح القديم والسماح بجديد
+                localStorage.removeItem('giftClaimTime');
+                localStorage.removeItem('giftCodeValue');
+            }
+        }
+        
+        // كود حالة السيرفر
+        checkServerStatus();
+    };
+
+    function copyIP() {
+        const ip = document.getElementById("server-ip").innerText;
+        navigator.clipboard.writeText(ip);
+        const msg = document.getElementById("copy-msg");
+        msg.style.display = "block";
+        setTimeout(() => msg.style.display = "none", 2000);
+    }
+
+    function checkServerStatus() {
+        const serverIP = "cities-declare.gl.joinmc.link"; 
+        fetch(`https://api.mcsrvstat.us/2/${serverIP}`)
+            .then(response => response.json())
+            .then(data => {
+                const statusText = document.getElementById("status-text");
+                const statusDot = document.getElementById("status-dot");
+                const playerCount = document.getElementById("player-count");
+                const maxPlayers = document.getElementById("max-players");
+
+                if (data.online) {
+                    statusText.innerText = "أونلاين";
+                    statusText.style.color = "#4CAF50";
+                    statusDot.style.backgroundColor = "#4CAF50";
+                    playerCount.innerText = data.players.online;
+                    maxPlayers.innerText = data.players.max;
+                } else {
+                    statusText.innerText = "أوفلاين";
+                    statusText.style.color = "#ff4444";
+                    statusDot.style.backgroundColor = "#ff4444";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("status-text").innerText = "خطأ";
+            });
+    }
+</script>
+
+</body>
+</html>
