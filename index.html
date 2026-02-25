@@ -104,27 +104,11 @@
         .close-btn:hover { color: #fff; }
         .modal-hint { font-size: 0.8em; color: #666; margin-top: 5px; text-align: right; padding-right: 30px; }
 
-        /* مودال القوانين (احترافي) */
-        .rules-modal-content {
-            max-width: 600px;
-            max-height: 70vh;
-            overflow-y: auto;
-            text-align: right;
-        }
+        /* مودال القوانين */
+        .rules-modal-content { max-width: 600px; max-height: 70vh; overflow-y: auto; text-align: right; }
         .rules-modal-content h2 { text-align: center; margin-bottom: 25px; font-size: 2em; text-shadow: 0 0 10px rgba(0,230,118,0.2); }
-        
-        .rule-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-right: 4px solid var(--primary-color);
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
-        .rule-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateX(-5px);
-        }
+        .rule-card { background: rgba(255, 255, 255, 0.05); border-right: 4px solid var(--primary-color); padding: 15px; margin-bottom: 15px; border-radius: 8px; transition: 0.3s; }
+        .rule-card:hover { background: rgba(255, 255, 255, 0.08); transform: translateX(-5px); }
         .rule-card h3 { margin: 0 0 5px 0; color: var(--primary-color); font-size: 1.1em; display: flex; align-items: center; gap: 10px; }
         .rule-card p { margin: 0; color: #ccc; font-size: 0.95em; line-height: 1.5; }
 
@@ -175,6 +159,8 @@
             <h2>ROBLOX</h2>
             <p>عالم الألعاب اللامتناهي</p>
         </div>
+        
+        <!-- تم تحديث رابط الصورة هنا -->
         <div class="choice-card card-minecraft" onclick="showPage('minecraft')">
             <img src="logominecraft.png" alt="Minecraft">
             <h2>MINECRAFT</h2>
@@ -196,7 +182,7 @@
     <div class="container">
         <button class="user-btn back-btn" onclick="goHome()">⬅ الرئيسية</button>
         <header>
-            <img src="logominecraft.png" alt="GIF" class="animated-gif">
+            <img src="standard_1.gif" alt="GIF" class="animated-gif">
             <h1>⚔️ SERVEUR 4AIKRO_S4 ⚔️</h1>
             <p>UPDATE: 1</p>
         </header>
@@ -208,7 +194,6 @@
             <p>اللاعبين: <span id="player-count">0</span> / <span id="max-players">0</span></p>
         </div>
 
-        <!-- تم إضافة زر القوانين هنا -->
         <div style="text-align:center; margin-bottom:25px;">
             <a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="btn btn-discord" style="background:#5865F2;">Discord</a>
             <a href="https://www.mediafire.com/file/8cvfd3ql5sa2l0w/MODS+AIKRO+S4.rar/file" class="btn" target="_blank">تحميل المودات</a>
@@ -322,7 +307,7 @@
     </div>
 </div>
 
-<!-- نافذة القوانين (الجديدة) -->
+<!-- نافذة القوانين -->
 <div id="rules-modal" class="modal">
     <div class="modal-content rules-modal-content">
         <span class="close-btn" onclick="closeModal('rules-modal')">&times;</span>
@@ -647,4 +632,3 @@
 </script>
 </body>
 </html>
-
