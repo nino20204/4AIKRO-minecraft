@@ -24,6 +24,8 @@
             --bronze-color: #cd7f32;
             --glass: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
+            --online-color: #00e676;
+            --offline-color: #ff5252;
         }
 
         body {
@@ -33,7 +35,6 @@
             overflow-x: hidden; min-height: 100vh;
         }
 
-        /* خلفية متحركة */
         .bg-animation {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(45deg, #0a0a0a, #1a1a1a, #0f3d1f, #0a0a0a);
@@ -47,8 +48,7 @@
             background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
             padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
             z-index: 1000; border-bottom: 1px solid var(--glass-border);
-            flex-wrap: wrap; /* للسماح بالنزول لسطر جديد إذا ضاقت الشاشة */
-            gap: 10px;
+            flex-wrap: wrap; gap: 10px;
         }
         .brand-logo { font-family: 'Tajawal', sans-serif; font-size: 1.5em; font-weight: 900; background: linear-gradient(to right, #fff, #00e676); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; }
         
@@ -58,21 +58,17 @@
             padding: 8px 15px; border-radius: 12px; cursor: pointer; font-family: 'Cairo', sans-serif;
             transition: 0.3s; font-size: 0.9em; display: flex; align-items: center; gap: 8px;
         }
-        .user-btn:hover { background: var(--secondary-color); border-color: var(--secondary-color); transform: translateY(-2px); }
+        .user-btn:hover { background: var(--secondary-color); border-color: var(--secondary-color); }
         .user-btn.profile-btn { background: rgba(76, 175, 50, 0.2); border: 1px solid var(--secondary-color); }
-        .key-badge { background: var(--bronze-color); color: white; padding: 2px 6px; border-radius: 20px; font-size: 0.85em; font-weight: bold; }
+        .key-badge { background: var(--bronze-color); color: white; padding: 2px 6px; border-radius: 20px; font-size: 0.85em; }
 
         /* واجهة الاختيار */
         #landing-page { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 100px 20px 50px 20px; }
         
-        .landing-logo {
-            width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
-            border: 4px solid var(--primary-color); box-shadow: 0 0 30px rgba(0, 230, 118, 0.4);
-            margin-bottom: 20px; animation: pulseLogo 3s infinite;
-        }
+        .landing-logo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary-color); box-shadow: 0 0 30px rgba(0, 230, 118, 0.4); margin-bottom: 20px; animation: pulseLogo 3s infinite; }
         @keyframes pulseLogo { 0% { box-shadow: 0 0 20px rgba(0, 230, 118, 0.2); } 50% { box-shadow: 0 0 40px rgba(0, 230, 118, 0.6); } 100% { box-shadow: 0 0 20px rgba(0, 230, 118, 0.2); } }
 
-        .landing-title { font-family: 'Tajawal', sans-serif; font-size: 3em; margin-bottom: 10px; background: linear-gradient(135deg, #ffffff, #00e676); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; animation: fadeInDown 1s; }
+        .landing-title { font-family: 'Tajawal', sans-serif; font-size: 3em; margin-bottom: 10px; background: linear-gradient(135deg, #ffffff, #00e676); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
         .landing-subtitle { font-size: 1.1em; color: #aaa; margin-bottom: 40px; }
         .choices-container { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 800px; }
         
@@ -102,16 +98,12 @@
         .modal-content { background: #1e1e1e; margin: 5% auto; padding: 30px 20px; border-radius: 20px; width: 90%; max-width: 450px; border: 1px solid #333; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.5); position: relative; }
         .modal-content h2 { margin-top: 0; color: var(--primary-color); margin-bottom: 15px; font-size: 1.5em; }
         .modal-content input { width: 90%; padding: 12px; margin: 8px 0; border-radius: 8px; border: none; background: #2a2a2a; color: white; font-family: 'Cairo', sans-serif; text-align: center; font-size: 1em; box-sizing: border-box; }
-        .modal-content input:focus { outline: 2px solid var(--primary-color); }
         .close-btn { position: absolute; top: 10px; left: 15px; font-size: 25px; cursor: pointer; color: #555; transition: 0.3s; }
-        .close-btn:hover { color: #fff; }
         .modal-hint { font-size: 0.75em; color: #666; margin-top: 5px; padding: 0 10px; }
 
         /* مودال القوانين */
         .rules-modal-content { max-width: 600px; max-height: 80vh; overflow-y: auto; text-align: right; }
         .rule-card { background: rgba(255, 255, 255, 0.05); border-right: 4px solid var(--primary-color); padding: 12px; margin-bottom: 12px; border-radius: 8px; }
-        .rule-card h3 { margin: 0 0 5px 0; color: var(--primary-color); font-size: 1em; }
-        .rule-card p { margin: 0; color: #ccc; font-size: 0.9em; }
 
         /* تنسيقات البطاقات */
         .balance-display { background: rgba(0,0,0,0.3); padding: 8px; border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(205, 127, 50, 0.3); display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.9em; }
@@ -119,15 +111,58 @@
         .section { margin-bottom: 30px; }
         .section h2 { border-bottom: 2px solid var(--primary-color); padding-bottom: 8px; color: #fff; font-size: 1.5em; display: inline-block; margin-bottom: 15px; }
         .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
-        .card { background: #1e1e1e; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #333; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .card { background: #1e1e1e; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; }
         .card:hover { transform: translateY(-3px); border-color: var(--primary-color); }
         .btn { display: inline-block; background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; padding: 10px 20px; text-decoration: none; border-radius: 50px; margin: 5px; transition: 0.3s; border: none; cursor: pointer; font-size: 0.95em; font-family: 'Cairo', sans-serif; font-weight: bold; }
         .btn:hover { transform: translateY(-2px); }
         .btn-bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); }
         .btn-rules { background: linear-gradient(135deg, #555, #333); border: 1px solid #444; }
+        
+        /* حالة السيرفر */
         .server-status { background: #1e1e1e; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px solid #333; }
         .ip-box { background: #2a2a2a; padding: 10px 20px; border-radius: 50px; display: inline-block; cursor: pointer; transition: 0.3s; border: 1px solid #444; font-weight: bold; font-size: 0.9em; }
         .ip-box:hover { background: var(--secondary-color); }
+
+        /* تأثيرات الضوء على الكلمة */
+        .status-text {
+            font-weight: bold;
+            transition: all 0.5s ease;
+        }
+        
+        /* تأثير الضوء الأخضر (أونلاين) - مريح للعين */
+        .status-online {
+            color: var(--online-color);
+            text-shadow: 0 0 8px rgba(0, 230, 118, 0.6);
+            animation: glowGreen 2s ease-in-out infinite alternate;
+        }
+        @keyframes glowGreen {
+            from { text-shadow: 0 0 5px rgba(0, 230, 118, 0.4); }
+            to { text-shadow: 0 0 15px rgba(0, 230, 118, 0.8), 0 0 20px rgba(0, 230, 118, 0.4); }
+        }
+
+        /* تأثير الضوء الأحمر (أوفلاين) - مريح للعين */
+        .status-offline {
+            color: var(--offline-color);
+            text-shadow: 0 0 8px rgba(255, 82, 82, 0.6);
+            animation: glowRed 2s ease-in-out infinite alternate;
+        }
+        @keyframes glowRed {
+            from { text-shadow: 0 0 5px rgba(255, 82, 82, 0.4); }
+            to { text-shadow: 0 0 15px rgba(255, 82, 82, 0.8), 0 0 20px rgba(255, 82, 82, 0.4); }
+        }
+
+        /* النقطة بجانب الحالة */
+        .status-dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-left: 5px; }
+        .dot-online { background-color: var(--online-color); box-shadow: 0 0 10px var(--online-color); animation: pulseDot 1.5s infinite; }
+        .dot-offline { background-color: var(--offline-color); box-shadow: 0 0 10px var(--offline-color); animation: pulseDot 2s infinite; }
+        
+        @keyframes pulseDot {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        /* باقي التنسيقات */
         header { text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 20px; padding-top: 30px; }
         header h1 { color: #fff; margin: 10px 0 0 0; font-size: 2em; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 0 10px var(--primary-color); }
         .animated-gif { width: 200px; border-radius: 10px; box-shadow: 0 0 20px rgba(76, 175, 50, 0.4); margin-bottom: 10px; border: 2px solid rgba(255,255,255,0.1); }
@@ -138,38 +173,18 @@
 
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* === تنسيقات خاصة بالهواتف (Responsive) === */
+        /* تنسيقات الهواتف */
         @media (max-width: 600px) {
-            .global-user-bar {
-                justify-content: center; /* توسيط العناصر */
-                padding: 10px;
-                position: relative; /* تحويله لتمرير عادي ليصبح جزءا من الصفحة */
-            }
-            .brand-logo {
-                font-size: 1.3em;
-                order: -1; /* وضع اللوجو في الأعلى */
-                width: 100%;
-                text-align: center;
-                margin-bottom: 5px;
-            }
-            .auth-actions {
-                width: 100%;
-                justify-content: center;
-            }
+            .global-user-bar { justify-content: center; padding: 10px; position: relative; }
+            .brand-logo { font-size: 1.3em; order: -1; width: 100%; text-align: center; margin-bottom: 5px; }
+            .auth-actions { width: 100%; justify-content: center; }
             .landing-title { font-size: 2em; }
-            .landing-subtitle { font-size: 1em; margin-bottom: 30px; }
-            .landing-logo { width: 100px; height: 100px; }
-            
             .choice-card { min-height: 350px; padding: 15px; }
-            .choice-card img { width: 80px; height: 80px; }
-            .choice-card h2 { font-size: 1.5em; }
-            
             .container { margin: 10px auto; padding: 15px; border-radius: 15px; }
             .back-btn { position: relative; top: 0; right: 0; margin-bottom: 15px; width: 100%; display: block; box-sizing: border-box; }
             header h1 { font-size: 1.6em; }
             .animated-gif { width: 150px; }
             .section h2 { font-size: 1.3em; }
-            
             .modal-content { margin: 20px auto; padding: 20px 15px; width: 95%; }
         }
     </style>
@@ -186,7 +201,7 @@
 
 <!-- 1. الواجهة الرئيسية -->
 <div id="landing-page">
-    <img src="newlogosite.gif" alt="Logo" class="landing-logo">
+    <img src="logo-site.jpg" alt="Logo" class="landing-logo">
     <h1 class="landing-title">Choose Your Game</h1>
     <p class="landing-subtitle">الخدمات التي يوفرها 4AIKRO</p>
     <div class="choices-container">
@@ -222,7 +237,7 @@
         </header>
 
         <div class="server-status">
-            <h3>حالة السيرفر: <span id="status-text">...</span> <span class="status-dot" id="status-dot"></span></h3>
+            <h3>حالة السيرفر: <span id="status-text" class="status-text">جاري التحميل...</span> <span class="status-dot" id="status-dot"></span></h3>
             <div class="ip-box" onclick="copyIP()"><strong>IP:</strong> <span id="server-ip">cities-declare.gl.joinmc.link</span> 📋</div>
             <p id="copy-msg" style="display:none;">تم النسخ!</p>
             <p>اللاعبين: <span id="player-count">0</span> / <span id="max-players">0</span></p>
@@ -239,7 +254,7 @@
             <div class="card-grid">
                 <div class="card">
                     <div>
-                        <img src="gift.png" alt="Daily Gift" class="rank-image">
+                        <img src="4452.png" alt="Daily Gift" class="rank-image">
                         <h3>الهدية اليومية</h3>
                         <p>هدية مجانية كل 24 ساعة.</p>
                         <div class="balance-display" id="key-balance-box" style="display:none;">
@@ -304,7 +319,7 @@
     </div>
 </div>
 
-<!-- نافذة تسجيل الدخول -->
+<!-- نوافذة المودال -->
 <div id="login-modal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
@@ -316,7 +331,6 @@
     </div>
 </div>
 
-<!-- نافذة إنشاء حساب -->
 <div id="register-modal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('register-modal')">&times;</span>
@@ -330,7 +344,6 @@
     </div>
 </div>
 
-<!-- نافذة المخزون -->
 <div id="inventory-modal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('inventory-modal')">&times;</span>
@@ -341,27 +354,14 @@
     </div>
 </div>
 
-<!-- نافذة القوانين -->
 <div id="rules-modal" class="modal">
     <div class="modal-content rules-modal-content">
         <span class="close-btn" onclick="closeModal('rules-modal')">&times;</span>
         <h2>⚖️ قوانين السيرفر</h2>
-        <div class="rule-card">
-            <h3>🚫 الغش والهاكات</h3>
-            <p>يمنع استخدام أي برامج خارجية. العقوبة: باند دائم.</p>
-        </div>
-        <div class="rule-card">
-            <h3>🗣️ الاحترام</h3>
-            <p>يمنع السب أو التحرش. حافظ على جو ودي.</p>
-        </div>
-        <div class="rule-card">
-            <h3>🏗️ البناء</h3>
-            <p>يمنع التخريب في أراضي اللاعبين.</p>
-        </div>
-        <div class="rule-card">
-            <h3>📢 المحادثة</h3>
-            <p>يمنع نشر روابط إعلانية أو سبام.</p>
-        </div>
+        <div class="rule-card"><h3>🚫 الغش والهاكات</h3><p>يمنع استخدام أي برامج خارجية.</p></div>
+        <div class="rule-card"><h3>🗣️ الاحترام</h3><p>يمنع السب أو التحرش.</p></div>
+        <div class="rule-card"><h3>🏗️ البناء</h3><p>يمنع التخريب.</p></div>
+        <div class="rule-card"><h3>📢 المحادثة</h3><p>يمنع الإعلانات.</p></div>
     </div>
 </div>
 
@@ -504,7 +504,7 @@
         document.getElementById('roblox-page').style.display = 'none';
     }
 
-    const COOLDOWN_TIME = 24 * 60 * 60 * 1000; // 24 ساعة
+    const COOLDOWN_TIME = 24 * 60 * 60 * 1000; 
     let timerInterval;
 
     function initKeyLogic() {
@@ -599,19 +599,28 @@
         fetch(`https://api.mcsrvstat.us/2/cities-declare.gl.joinmc.link`)
             .then(response => response.json())
             .then(data => {
+                const statusText = document.getElementById("status-text");
+                const statusDot = document.getElementById("status-dot");
+                const playerCount = document.getElementById("player-count");
+                const maxPlayers = document.getElementById("max-players");
+
+                // إزالة الكلاسات القديمة
+                statusText.classList.remove("status-online", "status-offline");
+                statusDot.classList.remove("dot-online", "dot-offline");
+
                 if (data.online) {
-                    document.getElementById("status-text").innerText = "أونلاين";
-                    document.getElementById("status-dot").style.backgroundColor = "#00e676";
-                    document.getElementById("player-count").innerText = data.players.online;
-                    document.getElementById("max-players").innerText = data.players.max;
+                    statusText.innerText = "أونلاين";
+                    statusText.classList.add("status-online");
+                    statusDot.classList.add("dot-online");
+                    playerCount.innerText = data.players.online;
+                    maxPlayers.innerText = data.players.max;
                 } else {
-                    document.getElementById("status-text").innerText = "أوفلاين";
+                    statusText.innerText = "أوفلاين";
+                    statusText.classList.add("status-offline");
+                    statusDot.classList.add("dot-offline");
                 }
             });
     }
 </script>
 </body>
 </html>
-
-
-
