@@ -214,7 +214,7 @@
                 <div id="player-count"></div>
                 <div id="server-version"></div>
             </div>
-            <!-- تم تحديث الآيبي هنا أيضاً ليكون هو الظاهر للمستخدم -->
+            <!-- تم تحديث الآيبي الظاهر ليتوافق مع الكود الجديد -->
             <div class="ip-box" onclick="copyIP()"><strong>IP:</strong> <span id="server-ip">147.185.221.16:6093</span> 📋</div>
             <p id="copy-msg" style="display:none; margin-top:5px; font-size:0.8em; color:#22c55e;">تم النسخ!</p>
         </div>
@@ -571,40 +571,54 @@
         setTimeout(() => msg.style.display = "none", 2000);
     }
 
+    /* === تحديث دالة التحقق من السيرفر بالكود الجديد === */
     function checkServerStatus() {
         const statusText = document.getElementById("status-text");
         const statusDot = document.getElementById("status-dot");
         const playerElement = document.getElementById("player-count");
         const versionElement = document.getElementById("server-version");
 
+        statusText.innerText = "جارٍ التحقق...";
         statusText.classList.remove("status-online", "status-offline");
         statusDot.classList.remove("dot-online", "dot-offline");
+        playerElement.innerText = "";
+        versionElement.innerText = "";
 
-        // تم تحديث الآيبي هنا للاتصال بالسيرفر الجديد
         fetch("https://api.mcsrvstat.us/2/147.185.221.16:6093")
             .then(response => response.json())
             .then(data => {
-                if (data.online) {
+
+                if (data && data.online === true) {
+
                     statusText.innerText = "🟢 السيرفر أونلاين";
                     statusText.classList.add("status-online");
                     statusDot.classList.add("dot-online");
-                    
-                    playerElement.innerText = "عدد اللاعبين: " + data.players.online + " / " + data.players.max;
-                    versionElement.innerText = "الإصدار: " + data.version;
+
+                    if (data.players) {
+                        playerElement.innerText = 
+                            "عدد اللاعبين: " + data.players.online + " / " + data.players.max;
+                    }
+
+                    if (data.version) {
+                        versionElement.innerText = "الإصدار: " + data.version;
+                    }
+
                 } else {
+
                     statusText.innerText = "🔴 السيرفر أوفلاين";
                     statusText.classList.add("status-offline");
                     statusDot.classList.add("dot-offline");
-                    
-                    playerElement.innerText = "";
-                    versionElement.innerText = "";
+
                 }
+
             })
             .catch(error => {
-                statusText.innerText = "⚠️ خطأ في الاتصال";
+
+                statusText.innerText = "⚠️ تعذر الاتصال بالـ API";
                 statusText.classList.add("status-offline");
-                playerElement.innerText = "";
-                versionElement.innerText = "";
+                statusDot.classList.add("dot-offline");
+
+                console.error("Server check error:", error);
             });
     }
 </script>
