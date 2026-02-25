@@ -4,8 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سيرفر ماينكرافت - 4AIKRO_S4</title>
+    
+    <!-- Google Analytics - تم الإضافة هنا -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6NG69R3LKS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-6NG69R3LKS');
+    </script>
+
     <!-- خط عربي متطور -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <style>
         /* تصميم الموقع */
         :root {
@@ -345,7 +356,7 @@
         <h2>🛒 متجر الآيتمات</h2>
         <div class="card-grid">
             <div class="card">
-                <img src="100coin.png" alt="Item" class="item-image">
+                <img src="رابط_صورة_الآيتم_1" alt="Item" class="item-image">
                 <h3>100 COIN</h3>
                 <p>عملة السيرفر تمكنك من التجارة في السيرفر</p>
                 <div class="price">$1.00</div>
@@ -409,13 +420,12 @@
 
     // دالة لبدء العداد التنازلي
     function startCountdown(endTime) {
-        clearInterval(timerInterval); // إيقاف أي عداد سابق
+        clearInterval(timerInterval);
         
         const timerDisplay = document.getElementById('timer-display');
         const claimBtn = document.getElementById('claim-btn');
         const displayArea = document.getElementById('gift-display-area');
         
-        // إخفاء الزر وإظهار الكود
         claimBtn.style.display = 'none';
         displayArea.style.display = 'block';
 
@@ -425,7 +435,6 @@
 
             if (distance < 0) {
                 clearInterval(timerInterval);
-                // انتهى الوقت: إعادة ضبط الواجهة لطلب هدية جديدة
                 localStorage.removeItem('giftClaimTime');
                 localStorage.removeItem('giftCodeValue');
                 
@@ -435,12 +444,10 @@
                 claimBtn.innerText = "احصل على هدية جديدة";
                 timerDisplay.innerHTML = "EXPIRED";
             } else {
-                // حساب الوقت المتبقي
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
                 
-                // عرض الوقت بصيغة س:د:ث
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 let timeString = "";
                 if (days > 0) timeString += days + " يوم ";
@@ -450,31 +457,24 @@
             }
         }
 
-        updateTimer(); // تشغيل فوري
-        timerInterval = setInterval(updateTimer, 1000); // تحديث كل ثانية
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
     }
 
-    // دالة الحصول على الهدية
     function claimGift() {
         const claimBtn = document.getElementById('claim-btn');
-        
-        // اختيار كود عشوائي
         const randomCode = giftCodes[Math.floor(Math.random() * giftCodes.length)];
         
-        // حفظ البيانات
         const claimTime = new Date().getTime();
         localStorage.setItem('giftClaimTime', claimTime);
         localStorage.setItem('giftCodeValue', randomCode);
 
-        // عرض الكود
         document.getElementById('gift-code-text').innerText = randomCode;
         
-        // تشغيل العداد
         const endTime = claimTime + COOLDOWN_TIME;
         startCountdown(endTime);
     }
 
-    // فحص الحالة عند تحميل الصفحة
     window.onload = function() {
         const savedTime = localStorage.getItem('giftClaimTime');
         const savedCode = localStorage.getItem('giftCodeValue');
@@ -484,17 +484,14 @@
             const now = new Date().getTime();
 
             if (now < expiryTime) {
-                // لا يزال هناك وقت - عرض الكود والعداد
                 document.getElementById('gift-code-text').innerText = savedCode;
                 startCountdown(expiryTime);
             } else {
-                // انتهى الوقت - مسح القديم والسماح بجديد
                 localStorage.removeItem('giftClaimTime');
                 localStorage.removeItem('giftCodeValue');
             }
         }
         
-        // كود حالة السيرفر
         checkServerStatus();
     };
 
