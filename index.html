@@ -129,9 +129,9 @@
         .close-btn { position: absolute; top: 15px; left: 15px; font-size: 28px; cursor: pointer; color: #444; transition: 0.3s; }
         .close-btn:hover { color: #fff; }
         
-        /* تنسيقات البطاقات */
-        .balance-display { background: rgba(0,0,0,0.3); padding: 8px; border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(205, 127, 50, 0.3); display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.9em; }
-        .balance-count { font-size: 1.5em; font-weight: 900; color: var(--bronze-color); }
+        /* === إصلاح مشكلة بطاقات الرتب والهدايا === */
+        .balance-display { background: rgba(0,0,0,0.3); padding: 6px; border-radius: 8px; margin-bottom: 8px; border: 1px solid rgba(205, 127, 50, 0.3); display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.85em; }
+        .balance-count { font-size: 1.2em; font-weight: 900; color: var(--bronze-color); }
         
         /* حركة الظهور */
         .section { margin-bottom: 30px; opacity: 0; transform: translateY(50px); transition: all 0.8s ease; }
@@ -139,17 +139,46 @@
         
         .section h2 { border-bottom: 2px solid var(--primary-color); padding-bottom: 8px; color: #fff; font-size: 1.5em; display: inline-block; margin-bottom: 15px; }
         
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 15px; }
+        /* تعديل الشبكة لمنع التمدد */
+        .card-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 20px; 
+            align-items: start; /* هذا السطر يمنع البطاقات القصيرة من التمدد لتصبح طويلة */
+        }
         
-        .card { background: #1e1e1e; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #333; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .card { 
+            background: #1e1e1e; 
+            padding: 20px; 
+            border-radius: 15px; 
+            text-align: center; 
+            border: 1px solid #333; 
+            transition: 0.3s; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between;
+            height: 100%; /* ليملأ الفراغ المتاح عمودياً داخل صفه الخاص */
+            box-sizing: border-box;
+            overflow: hidden; /* لمنع خروج المحتوى */
+        }
         .card:hover { transform: translateY(-3px); border-color: var(--primary-color); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        
+        /* تحديد ارتفاع صور الرتب لمنع الخلل */
+        .rank-image {
+            width: 100%; 
+            height: 110px; /* ارتفاع ثابت ومناسب */
+            object-fit: contain; /* تضمين الصورة كاملة داخل المربع */
+            margin-bottom: 10px; 
+            transition: transform 0.3s;
+        }
+        .card:hover .rank-image { transform: scale(1.05); }
         
         /* الأزرار */
         .btn { 
             display: inline-block; background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; 
-            padding: 12px 30px; text-decoration: none; border-radius: 50px; transition: 0.3s; 
-            border: none; cursor: pointer; font-size: 1em; font-family: 'Cairo', sans-serif; font-weight: bold; 
-            position: relative; overflow: hidden; margin-top: 10px;
+            padding: 10px 25px; text-decoration: none; border-radius: 50px; transition: 0.3s; 
+            border: none; cursor: pointer; font-size: 0.95em; font-family: 'Cairo', sans-serif; font-weight: bold; 
+            position: relative; overflow: hidden; margin-top: 5px;
         }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(76, 175, 50, 0.4); }
         
@@ -182,7 +211,7 @@
         .status-info { margin-top: 10px; font-size: 1.1em; }
 
         /* صور الآيتمات */
-        .item-image { width: 100%; height: 118px; object-fit: contain; background: linear-gradient(135deg, #1a1a1a, #252525); border-radius: 8px; margin-bottom: 15px; padding: 5px; display: block; margin-left: auto; margin-right: auto; border: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.3s ease; }
+        .item-image { width: 100%; height: 110px; object-fit: contain; background: linear-gradient(135deg, #1a1a1a, #252525); border-radius: 8px; margin-bottom: 10px; padding: 5px; display: block; margin-left: auto; margin-right: auto; border: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.3s ease; }
         .card:hover .item-image { transform: scale(1.02); }
 
         /* زر العودة للأعلى */
@@ -212,7 +241,7 @@
         @media (max-width: 600px) {
             .brand-logo { font-size: 1.2em; margin-right: 0; text-align: center; }
             .container { margin: 10px auto; padding: 15px; border-radius: 15px; }
-            .item-image { height: 90px; }
+            .rank-image, .item-image { height: 90px; }
             .inv-body { flex-direction: column; }
             .inv-grid { flex: none; height: 150px; overflow-x: auto; display: flex; flex-wrap: nowrap; grid-template-columns: none; }
             .inv-slot { min-width: 70px; }
@@ -227,7 +256,6 @@
 <!-- الشريط العلوي -->
 <div class="global-user-bar">
     <div class="brand-logo">4AIKRO</div>
-    <!-- الأزرار ستظهر هنا فقط إذا كنا في الواجهة الرئيسية -->
     <div id="auth-btn-container" class="auth-actions"></div>
 </div>
 
@@ -433,8 +461,6 @@
     function updateAuthUI() {
         const container = document.getElementById('auth-btn-container');
         const username = getCurrentUser();
-        
-        // نتحقق إذا كانت الواجهة الرئيسية ظاهرة
         const isLandingVisible = document.getElementById('landing-page').style.display !== 'none';
         
         if (username) {
@@ -442,7 +468,6 @@
             const userObj = db[username] || { inventory: [] };
             const itemCount = userObj.inventory.reduce((sum, item) => sum + item.count, 0);
 
-            // نعرض زر البروفايل دائماً إذا كان مسجل الدخول
             container.innerHTML = `
                 <div class="user-btn profile-btn" onclick="openInventoryModal()">
                     👤 ${username}
@@ -456,15 +481,12 @@
             if(balanceBox) balanceBox.style.display = 'flex';
 
         } else {
-            // إذا لم يكن مسجل دخول
             if (isLandingVisible) {
-                // نعرض الأزرار فقط إذا كنا في الواجهة الرئيسية
                 container.innerHTML = `
                     <button class="user-btn" onclick="openModal('login-modal')">🔑 تسجيل دخول</button>
                     <button class="user-btn" onclick="openModal('register-modal')" style="border-color:#cd7f32;">📝 إنشاء حساب</button>
                 `;
             } else {
-                // نخفي الأزرار في الصفحات الداخلية (ماينكرافت/روبلوكس)
                 container.innerHTML = '';
             }
             
@@ -601,176 +623,4 @@
         `;
     }
 
-    function openRulesModal() { openModal('rules-modal'); }
-
-    function showPage(pageName) {
-        document.getElementById('landing-page').style.display = 'none';
-        document.getElementById('minecraft-page').style.display = 'none';
-        document.getElementById('roblox-page').style.display = 'none';
-
-        if (pageName === 'minecraft') {
-            document.getElementById('minecraft-page').style.display = 'block';
-            checkServerStatus();
-            initKeyLogic();
-            updateAuthUI(); // تحديث لإخفاء أزرار التسجيل من الشريط العلوي
-            setTimeout(revealOnScroll, 100); 
-        } else if (pageName === 'roblox') {
-            document.getElementById('roblox-page').style.display = 'block';
-            updateAuthUI(); // تحديث لإخفاء أزرار التسجيل من الشريط العلوي
-        }
-    }
-
-    function goHome() {
-        document.getElementById('landing-page').style.display = 'flex';
-        document.getElementById('minecraft-page').style.display = 'none';
-        document.getElementById('roblox-page').style.display = 'none';
-        updateAuthUI(); // تحديث لإظهار أزرار التسجيل في الشريط العلوي
-    }
-
-    const COOLDOWN_TIME = 24 * 60 * 60 * 1000; 
-    let timerInterval;
-
-    function initKeyLogic() {
-        const username = getCurrentUser();
-        const claimBtn = document.getElementById('claim-key-btn');
-        const displayArea = document.getElementById('key-display-area');
-        
-        if(!claimBtn) return;
-
-        if (!username) {
-            claimBtn.disabled = false;
-            claimBtn.innerText = "🔑 سجل دخولك";
-            claimBtn.onclick = () => openModal('login-modal');
-            displayArea.style.display = 'none';
-            return;
-        }
-        
-        const lastClaim = localStorage.getItem(`mc_keyTime_${username}`);
-        
-        if (lastClaim) {
-            const nextClaimTime = parseInt(lastClaim) + COOLDOWN_TIME;
-            const now = new Date().getTime();
-            
-            if (now < nextClaimTime) {
-                claimBtn.disabled = true;
-                claimBtn.innerText = "⏳ انتظر";
-                displayArea.style.display = 'block';
-                startCountdown(nextClaimTime);
-            } else {
-                setupClaimable();
-            }
-        } else {
-            setupClaimable();
-        }
-    }
-
-    function setupClaimable() {
-        const claimBtn = document.getElementById('claim-key-btn');
-        if(!claimBtn) return;
-        claimBtn.disabled = false;
-        claimBtn.innerText = "🔑 احصل على مفتاحك";
-        claimBtn.onclick = claimBronzeKey;
-        document.getElementById('key-display-area').style.display = 'none';
-    }
-
-    function claimBronzeKey() {
-        const username = getCurrentUser();
-        if(!username) return;
-        addItemToInventory('bronze_key');
-        const now = new Date().getTime();
-        localStorage.setItem(`mc_keyTime_${username}`, now);
-        initKeyLogic(); 
-    }
-
-    function startCountdown(endTime) {
-        clearInterval(timerInterval);
-        const timerDisplay = document.getElementById('timer-display');
-        function updateTimer() {
-            const now = new Date().getTime();
-            const distance = endTime - now;
-            if (distance < 0) {
-                clearInterval(timerInterval);
-                setupClaimable();
-            } else {
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                if(timerDisplay) timerDisplay.innerHTML = `${hours}س ${minutes}د ${seconds}ث`;
-            }
-        }
-        updateTimer();
-        timerInterval = setInterval(updateTimer, 1000);
-    }
-
-    function copyIP() {
-        navigator.clipboard.writeText(document.getElementById("server-ip").innerText);
-        const msg = document.getElementById("copy-msg");
-        msg.style.display = "block";
-        setTimeout(() => msg.style.display = "none", 2000);
-    }
-
-    function checkServerStatus() {
-        const statusText = document.getElementById("status-text");
-        const statusDot = document.getElementById("status-dot");
-        const playerElement = document.getElementById("player-count");
-        const versionElement = document.getElementById("server-version");
-
-        statusText.innerText = "جارٍ التحقق...";
-        statusText.classList.remove("status-online", "status-offline");
-        statusDot.classList.remove("dot-online", "dot-offline");
-        playerElement.innerText = "";
-        versionElement.innerText = "";
-
-        fetch("https://api.mcstatus.io/v2/status/java/cities-declare.gl.joinmc.link")
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.online === true) {
-                    statusText.innerText = "🟢 السيرفر أونلاين";
-                    statusText.classList.add("status-online");
-                    statusDot.classList.add("dot-online");
-                    playerElement.innerText = "عدد اللاعبين: " + data.players.online + " / " + data.players.max;
-                    versionElement.innerText = "الإصدار: " + data.version.name_clean;
-                } else {
-                    statusText.innerText = "🔴 السيرفر أوفلاين";
-                    statusText.classList.add("status-offline");
-                    statusDot.classList.add("dot-offline");
-                }
-            })
-            .catch(error => {
-                statusText.innerText = "⚠️ خطأ في الاتصال";
-                statusText.classList.add("status-offline");
-                statusDot.classList.add("dot-offline");
-            });
-    }
-
-    function revealOnScroll() {
-        const reveals = document.querySelectorAll(".section");
-        reveals.forEach(element => {
-            const windowHeight = window.innerHeight;
-            const elementTop = element.getBoundingClientRect().top;
-            if (elementTop < windowHeight - 150) {
-                element.classList.add("visible");
-            }
-        });
-    }
-
-    window.addEventListener("scroll", revealOnScroll);
-
-    scrollTopBtn = document.getElementById("scrollTopBtn");
-    window.onscroll = function() { scrollFunction(); };
-
-    function scrollFunction() {
-      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        scrollTopBtn.style.display = "block";
-      } else {
-        scrollTopBtn.style.display = "none";
-      }
-    }
-
-    function topFunction() {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    }
-</script>
-</body>
-</html>
+    function openRulesModal() { openModal('rules-modal
