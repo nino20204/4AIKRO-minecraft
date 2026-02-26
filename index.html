@@ -26,7 +26,10 @@
             --glass-border: rgba(255, 255, 255, 0.1);
             --online-color: #22c55e;
             --offline-color: #ef4444;
+            --rarity-common: #ffffff; /* أبيض للعادي */
             --rarity-rare: #5555ff;
+            --rarity-epic: #aa00aa;
+            --rarity-legendary: #ffaa00;
         }
 
         body {
@@ -238,7 +241,11 @@
         .inv-slot.selected { border-color: var(--primary-color); box-shadow: 0 0 15px rgba(0, 230, 118, 0.3); }
         .inv-slot img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)); }
         .inv-slot .item-count { position: absolute; bottom: 2px; left: 2px; background: rgba(0,0,0,0.8); font-size: 0.7em; padding: 1px 4px; border-radius: 4px; font-weight: bold; }
+        
+        /* ألوان الندرة للسلوتس */
+        .rarity-common { border-color: #555; box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05); }
         .rarity-rare { border-color: var(--rarity-rare); box-shadow: inset 0 0 10px rgba(85, 85, 255, 0.2); }
+        
         .inv-details { flex: 1; padding: 20px; background: #111; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .inv-details img { width: 80px; height: 80px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
         .inv-details h3 { margin: 0 0 5px 0; font-size: 1.1em; color: #fff; }
@@ -454,20 +461,21 @@
 </div>
 
 <script>
-    // === قاعدة بيانات العناصر ===
+    // === قاعدة بيانات العناصر (تم التحديث) ===
     const GAME_ITEMS = {
         bronze_key: {
             id: 'bronze_key',
-            name: 'مفتاح برونزي',
-            description: 'مفتاح يومي نادر يُستخدم لفتح الصناديق اليومية.',
-            image: 'https://static.wikia.nocookie.net/minecraft_gamepedia/images/b/b7/Oak_Door_JE2.png',
-            rarity: 'rare',
+            name: 'COPPER KEY', // تم تغيير الاسم
+            description: 'مفتاح نحاسي أساسي يومي.', // تم تحديث الوصف
+            // يمكنك تغيير رابط الصورة من هنا:
+            image: 'https://static.wikia.nocookie.net/minecraft_gamepedia/images/c/c9/Copper_Ingot_JE4.png', 
+            rarity: 'common', // تم التغيير إلى عادي
+            max_stack: 25000 // الحد الأقصى 25000
         }
     };
 
     document.body.onload = function() { updateAuthUI(); };
 
-    // === تم الإصلاح: العودة للمفتاح القديم لاستعادة الحسابات ===
     function getDB() { return JSON.parse(localStorage.getItem('4aikro_db')) || {}; }
     function saveDB(db) { localStorage.setItem('4aikro_db', JSON.stringify(db)); }
     
@@ -481,9 +489,7 @@
         
         if (username) {
             const db = getDB();
-            // التأكد من وجود كائن المستخدم
             const userObj = db[username] || {};
-            // دعم النظام القديم (mc_keys) والجديد (inventory)
             const oldKeys = userObj.mc_keys ? userObj.mc_keys.length : 0;
             const newItems = userObj.inventory ? userObj.inventory.reduce((sum, item) => sum + item.count, 0) : 0;
             const totalCount = oldKeys + newItems;
@@ -564,38 +570,31 @@
         initKeyLogic();
     }
 
-    // === نظام المخزون (يدعم الحسابات القديمة والجديدة) ===
+    // === نظام المخزون ===
     function openInventoryModal() {
         const username = getCurrentUser();
         if (!username) return;
 
         let db = getDB();
-        
-        // ضمان وجود كائن المستخدم
         if (!db[username]) db[username] = {};
-        
-        // تهيئة inventory إذا لم يكن موجوداً (للحسابات القديمة)
         if (!db[username].inventory) db[username].inventory = [];
 
-        // ترحيل المفاتيح القديمة (mc_keys) إلى النظام الجديد تلقائياً
+        // ترحيل المفاتيح القديمة
         if (db[username].mc_keys && db[username].mc_keys.length > 0) {
             db[username].mc_keys.forEach(() => {
-                // نضيف العناصر للـ inventory
-                let itemEntry = db[username].inventory.find(i => i.id === 'bronze_key');
-                if (itemEntry) itemEntry.count++;
-                else db[username].inventory.push({ id: 'bronze_key', count: 1 });
+                addItemToInventory('bronze_key', false, false); // Add silently
             });
-            // حذف القائمة القديمة بعد الترحيل
             delete db[username].mc_keys;
             saveDB(db);
-            updateAuthUI(); // تحديث العداد
+            updateAuthUI();
         }
         
         renderInventoryGrid();
         openModal('inventory-modal');
     }
 
-    function addItemToInventory(itemId, alertUser = true) {
+    // تم تعديل الدالة لتدعم الحد الأقصى للتكديس
+    function addItemToInventory(itemId, alertUser = true, checkMaxStack = true) {
         const username = getCurrentUser();
         let db = getDB();
         
@@ -603,9 +602,16 @@
         if (!db[username].inventory) db[username].inventory = [];
 
         let itemEntry = db[username].inventory.find(i => i.id === itemId);
+        const itemData = GAME_ITEMS[itemId];
+        const maxStack = itemData ? itemData.max_stack : 64; // افتراضي 64
 
         if (itemEntry) {
-            itemEntry.count++; 
+            // التحقق من الحد الأقصى
+            if (checkMaxStack && itemEntry.count >= maxStack) {
+                if(alertUser) alert("⚠️ وصلت للحد الأقصى (" + maxStack + ") لهذا العنصر!");
+                return;
+            }
+            itemEntry.count++;
         } else {
             db[username].inventory.push({ id: itemId, count: 1 });
         }
@@ -650,15 +656,22 @@
         document.querySelectorAll('.inv-slot')[index].classList.add('selected');
 
         const details = document.getElementById('inv-details');
-        let color = '#fff'; let name = 'عادي';
-        if(itemData.rarity === 'rare') { color = 'var(--rarity-rare)'; name = 'نادر'; }
+        
+        // تحديد اللون والاسم بناءً على الندرة
+        let color = '#fff'; 
+        let nameRarity = 'عادي'; // Common
+        
+        if(itemData.rarity === 'rare') { color = 'var(--rarity-rare)'; nameRarity = 'نادر'; }
+        if(itemData.rarity === 'epic') { color = 'var(--rarity-epic)'; nameRarity = 'ملحمي'; }
+        if(itemData.rarity === 'legendary') { color = 'var(--rarity-legendary)'; nameRarity = 'خرافي'; }
+        // common is already set to white
 
         details.innerHTML = `
             <img src="${itemData.image}" style="width:100px; height:100px; filter: drop-shadow(0 5px 15px ${color});">
             <h3 style="color:${color};">${itemData.name}</h3>
-            <div class="rarity-text" style="color:${color};">${name}</div>
+            <div class="rarity-text" style="color:${color};">${nameRarity}</div>
             <p>${itemData.description}</p>
-            <div style="margin-top:15px; font-size:0.8em; color:#555;">الكمية: ${entry.count}</div>
+            <div style="margin-top:15px; font-size:0.8em; color:#555;">الكمية: ${entry.count} / ${itemData.max_stack}</div>
         `;
     }
 
@@ -738,7 +751,7 @@
     function claimBronzeKey() {
         const username = getCurrentUser();
         if(!username) return;
-        addItemToInventory('bronze_key');
+        addItemToInventory('bronze_key'); // ستتحقق من الحد الأقصى تلقائياً
         const now = new Date().getTime();
         localStorage.setItem(`mc_keyTime_${username}`, now);
         initKeyLogic(); 
