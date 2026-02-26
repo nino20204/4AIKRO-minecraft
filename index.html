@@ -26,10 +26,8 @@
             --glass-border: rgba(255, 255, 255, 0.1);
             --online-color: #22c55e;
             --offline-color: #ef4444;
-            --rarity-common: #ffffff; /* أبيض للعادي */
+            --rarity-common: #ffffff;
             --rarity-rare: #5555ff;
-            --rarity-epic: #aa00aa;
-            --rarity-legendary: #ffaa00;
         }
 
         body {
@@ -358,7 +356,7 @@
 
                 <div class="card">
                     <div>
-                        <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/4c/Gold_Armor.png" alt="VIP" class="rank-image">
+                        <img src="vip.jpg" alt="VIP" class="rank-image">
                         <h3>رتبة VIP</h3>
                         <p>مزايا إضافية.</p>
                     </div>
@@ -368,7 +366,7 @@
 
                 <div class="card">
                     <div>
-                        <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/5/5d/Diamond_Armor.png" alt="MVP" class="rank-image">
+                        <img src="mvp.jpg" alt="MVP" class="rank-image">
                         <h3>رتبة MVP</h3>
                         <p>صلاحيات كاملة.</p>
                     </div>
@@ -461,16 +459,15 @@
 </div>
 
 <script>
-    // === قاعدة بيانات العناصر (تم التحديث) ===
+    // === قاعدة بيانات العناصر ===
     const GAME_ITEMS = {
         bronze_key: {
             id: 'bronze_key',
-            name: 'COPPER KEY', // تم تغيير الاسم
-            description: 'مفتاح نحاسي أساسي يومي.', // تم تحديث الوصف
-            // يمكنك تغيير رابط الصورة من هنا:
+            name: 'COPPER KEY',
+            description: 'مفتاح نحاسي أساسي يومي.',
             image: 'https://static.wikia.nocookie.net/minecraft_gamepedia/images/c/c9/Copper_Ingot_JE4.png', 
-            rarity: 'common', // تم التغيير إلى عادي
-            max_stack: 25000 // الحد الأقصى 25000
+            rarity: 'common',
+            max_stack: 25000
         }
     };
 
@@ -579,10 +576,9 @@
         if (!db[username]) db[username] = {};
         if (!db[username].inventory) db[username].inventory = [];
 
-        // ترحيل المفاتيح القديمة
         if (db[username].mc_keys && db[username].mc_keys.length > 0) {
             db[username].mc_keys.forEach(() => {
-                addItemToInventory('bronze_key', false, false); // Add silently
+                addItemToInventory('bronze_key', false, false);
             });
             delete db[username].mc_keys;
             saveDB(db);
@@ -593,7 +589,6 @@
         openModal('inventory-modal');
     }
 
-    // تم تعديل الدالة لتدعم الحد الأقصى للتكديس
     function addItemToInventory(itemId, alertUser = true, checkMaxStack = true) {
         const username = getCurrentUser();
         let db = getDB();
@@ -603,10 +598,9 @@
 
         let itemEntry = db[username].inventory.find(i => i.id === itemId);
         const itemData = GAME_ITEMS[itemId];
-        const maxStack = itemData ? itemData.max_stack : 64; // افتراضي 64
+        const maxStack = itemData ? itemData.max_stack : 64;
 
         if (itemEntry) {
-            // التحقق من الحد الأقصى
             if (checkMaxStack && itemEntry.count >= maxStack) {
                 if(alertUser) alert("⚠️ وصلت للحد الأقصى (" + maxStack + ") لهذا العنصر!");
                 return;
@@ -656,20 +650,13 @@
         document.querySelectorAll('.inv-slot')[index].classList.add('selected');
 
         const details = document.getElementById('inv-details');
-        
-        // تحديد اللون والاسم بناءً على الندرة
-        let color = '#fff'; 
-        let nameRarity = 'عادي'; // Common
-        
-        if(itemData.rarity === 'rare') { color = 'var(--rarity-rare)'; nameRarity = 'نادر'; }
-        if(itemData.rarity === 'epic') { color = 'var(--rarity-epic)'; nameRarity = 'ملحمي'; }
-        if(itemData.rarity === 'legendary') { color = 'var(--rarity-legendary)'; nameRarity = 'خرافي'; }
-        // common is already set to white
+        let color = '#fff'; let name = 'عادي';
+        if(itemData.rarity === 'rare') { color = 'var(--rarity-rare)'; name = 'نادر'; }
 
         details.innerHTML = `
             <img src="${itemData.image}" style="width:100px; height:100px; filter: drop-shadow(0 5px 15px ${color});">
             <h3 style="color:${color};">${itemData.name}</h3>
-            <div class="rarity-text" style="color:${color};">${nameRarity}</div>
+            <div class="rarity-text" style="color:${color};">${name}</div>
             <p>${itemData.description}</p>
             <div style="margin-top:15px; font-size:0.8em; color:#555;">الكمية: ${entry.count} / ${itemData.max_stack}</div>
         `;
@@ -751,7 +738,7 @@
     function claimBronzeKey() {
         const username = getCurrentUser();
         if(!username) return;
-        addItemToInventory('bronze_key'); // ستتحقق من الحد الأقصى تلقائياً
+        addItemToInventory('bronze_key');
         const now = new Date().getTime();
         localStorage.setItem(`mc_keyTime_${username}`, now);
         initKeyLogic(); 
