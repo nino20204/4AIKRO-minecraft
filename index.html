@@ -56,17 +56,24 @@
         .user-btn {
             background: var(--glass); color: white; border: 1px solid var(--glass-border);
             padding: 8px 15px; border-radius: 12px; cursor: pointer; font-family: 'Cairo', sans-serif;
-            transition: 0.3s; font-size: 0.9em; display: flex; align-items: center; gap: 8px;
+            transition: 0.3s; font-size: 0.9em; display: flex; align-items: center; gap: 8px; position: relative; overflow: hidden;
         }
-        .user-btn:hover { background: var(--secondary-color); border-color: var(--secondary-color); }
+        .user-btn:hover { background: var(--secondary-color); border-color: var(--secondary-color); transform: translateY(-2px); }
         .user-btn.profile-btn { background: rgba(76, 175, 50, 0.2); border: 1px solid var(--secondary-color); }
         .key-badge { background: var(--bronze-color); color: white; padding: 2px 6px; border-radius: 20px; font-size: 0.85em; }
 
         /* واجهة الاختيار */
         #landing-page { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 100px 20px 50px 20px; }
         
-        .landing-logo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary-color); box-shadow: 0 0 30px rgba(0, 230, 118, 0.4); margin-bottom: 20px; animation: pulseLogo 3s infinite; }
+        /* حركة اللوقو (حياة) */
+        .landing-logo { 
+            width: 120px; height: 120px; border-radius: 50%; object-fit: cover; 
+            border: 4px solid var(--primary-color); box-shadow: 0 0 30px rgba(0, 230, 118, 0.4); 
+            margin-bottom: 20px; 
+            animation: pulseLogo 3s infinite, float 6s ease-in-out infinite; 
+        }
         @keyframes pulseLogo { 0% { box-shadow: 0 0 20px rgba(0, 230, 118, 0.2); } 50% { box-shadow: 0 0 40px rgba(0, 230, 118, 0.6); } 100% { box-shadow: 0 0 20px rgba(0, 230, 118, 0.2); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
 
         .landing-title { font-family: 'Tajawal', sans-serif; font-size: 3em; margin-bottom: 10px; background: linear-gradient(135deg, #ffffff, #00e676); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
         .landing-subtitle { font-size: 1.1em; color: #aaa; margin-bottom: 40px; }
@@ -75,13 +82,14 @@
         .choice-card {
             width: 100%; max-width: 320px; height: auto; min-height: 380px;
             background: var(--glass); backdrop-filter: blur(15px);
-            border-radius: 25px; cursor: pointer; transition: 0.5s;
+            border-radius: 25px; cursor: pointer; transition: 0.5s cubic-bezier(0.23, 1, 0.320, 1);
             border: 2px solid var(--glass-border); position: relative; overflow: hidden;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5); padding: 20px;
         }
-        .choice-card:hover { transform: translateY(-10px); border-color: var(--primary-color); box-shadow: 0 0 30px rgba(0, 230, 118, 0.2); }
-        .choice-card img { width: 100px; height: 100px; margin-bottom: 15px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
+        .choice-card:hover { transform: translateY(-10px) scale(1.02); border-color: var(--primary-color); box-shadow: 0 0 30px rgba(0, 230, 118, 0.2); }
+        .choice-card img { width: 100px; height: 100px; margin-bottom: 15px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); transition: transform 0.5s; }
+        .choice-card:hover img { transform: scale(1.1) rotate(5deg); }
         .choice-card h2 { font-size: 1.8em; margin: 0; }
         .choice-card p { color: #ccc; margin-top: 10px; padding: 0 10px; }
         .card-minecraft:hover { border-color: #4CAF50; box-shadow: 0 0 40px rgba(76, 175, 50, 0.3); }
@@ -97,7 +105,7 @@
         .modal-content { background: #1e1e1e; margin: 5% auto; padding: 30px 20px; border-radius: 20px; width: 90%; max-width: 450px; border: 1px solid #333; text-align: center; position: relative; }
         .modal-content h2 { margin-top: 0; color: var(--primary-color); margin-bottom: 15px; font-size: 1.5em; }
         .modal-content input { width: 90%; padding: 12px; margin: 8px 0; border-radius: 8px; border: none; background: #2a2a2a; color: white; font-family: 'Cairo', sans-serif; text-align: center; font-size: 1em; box-sizing: border-box; }
-        .close-btn { position: absolute; top: 10px; left: 15px; font-size: 25px; cursor: pointer; color: #555; }
+        .close-btn { position: absolute; top: 10px; left: 15px; font-size: 25px; cursor: pointer; color: #555; transition: 0.3s; }
         .modal-hint { font-size: 0.75em; color: #666; margin-top: 5px; }
 
         /* مودال القوانين */
@@ -110,10 +118,25 @@
         .section { margin-bottom: 30px; }
         .section h2 { border-bottom: 2px solid var(--primary-color); padding-bottom: 8px; color: #fff; font-size: 1.5em; display: inline-block; margin-bottom: 15px; }
         .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
-        .card { background: #1e1e1e; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; }
-        .card:hover { transform: translateY(-3px); border-color: var(--primary-color); }
-        .btn { display: inline-block; background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; padding: 10px 20px; text-decoration: none; border-radius: 50px; margin: 5px; transition: 0.3s; border: none; cursor: pointer; font-size: 0.95em; font-family: 'Cairo', sans-serif; font-weight: bold; }
-        .btn:hover { transform: translateY(-2px); }
+        .card { background: #1e1e1e; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #333; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-3px); border-color: var(--primary-color); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        
+        /* الأزرار (حياة) */
+        .btn { 
+            display: inline-block; background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; 
+            padding: 10px 20px; text-decoration: none; border-radius: 50px; margin: 5px; transition: 0.3s; 
+            border: none; cursor: pointer; font-size: 0.95em; font-family: 'Cairo', sans-serif; font-weight: bold; 
+            position: relative; overflow: hidden;
+        }
+        /* تأثير اللمعان */
+        .btn::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+        .btn:hover::after { left: 100%; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(76, 175, 50, 0.4); }
+        
         .btn-bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); }
         .btn-rules { background: linear-gradient(135deg, #555, #333); border: 1px solid #444; }
         
@@ -137,10 +160,33 @@
         header { text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 20px; padding-top: 30px; }
         header h1 { color: #fff; margin: 10px 0 0 0; font-size: 2em; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 0 10px var(--primary-color); }
         .animated-gif { width: 200px; border-radius: 10px; box-shadow: 0 0 20px rgba(76, 175, 50, 0.4); margin-bottom: 10px; border: 2px solid rgba(255,255,255,0.1); }
-        .rank-image { width: 100%; height: 120px; object-fit: contain; margin-bottom: 10px; }
+        .rank-image { width: 100%; height: 120px; object-fit: contain; margin-bottom: 10px; transition: transform 0.3s; }
+        .rank-image:hover { transform: scale(1.1); }
+        
         .countdown-timer { margin-top: 8px; font-size: 0.85em; color: #bbb; background: rgba(0,0,0,0.3); padding: 6px; border-radius: 5px; }
         .countdown-timer span { color: #ff9800; font-weight: bold; }
-        .item-image { width: 100%; height: 150px; object-fit: contain; background: #252525; border-radius: 8px; margin-bottom: 10px; padding: 10px; }
+
+        /* === إصلاح وتجميل صور الآيتمات === */
+        .item-image {
+            width: 100%; 
+            height: 150px; 
+            object-fit: contain; 
+            background: linear-gradient(135deg, #1a1a1a, #252525); /* خلفية متدرجة */
+            border-radius: 12px; 
+            margin-bottom: 15px; 
+            padding: 15px; 
+            display: block; /* لإصلاح مشكلة الميول */
+            margin-left: auto; /* توسيط */
+            margin-right: auto; /* توسيط */
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        /* حركة الصور */
+        .card:hover .item-image {
+            transform: scale(1.05) translateY(-5px); /* تكبير ورفع طفيف */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5); /* ظل أكبر */
+            border-color: var(--primary-color);
+        }
 
         /* تنسيقات الهواتف */
         @media (max-width: 600px) {
@@ -155,6 +201,7 @@
             .animated-gif { width: 150px; }
             .section h2 { font-size: 1.3em; }
             .status-text { font-size: 1.5em; }
+            .item-image { height: 130px; }
         }
     </style>
 </head>
@@ -212,7 +259,6 @@
                 <div id="player-count"></div>
                 <div id="server-version"></div>
             </div>
-            <!-- تم تحديث الآيبي هنا -->
             <div class="ip-box" onclick="copyIP()"><strong>IP:</strong> <span id="server-ip">cities-declare.gl.joinmc.link</span> 📋</div>
             <p id="copy-msg" style="display:none; margin-top:5px; font-size:0.8em; color:#22c55e;">تم النسخ!</p>
         </div>
@@ -569,7 +615,6 @@
         setTimeout(() => msg.style.display = "none", 2000);
     }
 
-    /* === تم استبدال دالة التحقق من السيرفر بالكود المطلوب === */
     function checkServerStatus() {
         const statusText = document.getElementById("status-text");
         const statusDot = document.getElementById("status-dot");
@@ -619,4 +664,3 @@
 </script>
 </body>
 </html>
-
