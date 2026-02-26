@@ -129,51 +129,63 @@
         .close-btn { position: absolute; top: 15px; left: 15px; font-size: 28px; cursor: pointer; color: #444; transition: 0.3s; }
         .close-btn:hover { color: #fff; }
         
-        /* === إصلاح مشكلة بطاقات الرتب والهدايا === */
+        /* تعديل شكل الـ Header */
+        header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            padding: 40px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .animated-gif {
+            width: 140px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(76, 175, 50, 0.4);
+            border: 2px solid rgba(255,255,255,0.1);
+            flex-shrink: 0;
+        }
+
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: right;
+        }
+
+        header h1 {
+            color: #fff;
+            margin: 0;
+            font-size: 2.2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px var(--primary-color);
+            line-height: 1.2;
+        }
+        
+        header p { margin: 5px 0 0 0; color: #aaa; }
+
+        /* بطاقات */
         .balance-display { background: rgba(0,0,0,0.3); padding: 6px; border-radius: 8px; margin-bottom: 8px; border: 1px solid rgba(205, 127, 50, 0.3); display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.85em; }
         .balance-count { font-size: 1.2em; font-weight: 900; color: var(--bronze-color); }
         
-        /* حركة الظهور */
         .section { margin-bottom: 30px; opacity: 0; transform: translateY(50px); transition: all 0.8s ease; }
         .section.visible { opacity: 1; transform: translateY(0); }
         
         .section h2 { border-bottom: 2px solid var(--primary-color); padding-bottom: 8px; color: #fff; font-size: 1.5em; display: inline-block; margin-bottom: 15px; }
         
-        /* تعديل الشبكة لمنع التمدد */
-        .card-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 20px; 
-            align-items: start; /* هذا السطر يمنع البطاقات القصيرة من التمدد لتصبح طويلة */
-        }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; align-items: start; }
         
-        .card { 
-            background: #1e1e1e; 
-            padding: 20px; 
-            border-radius: 15px; 
-            text-align: center; 
-            border: 1px solid #333; 
-            transition: 0.3s; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between;
-            height: 100%; /* ليملأ الفراغ المتاح عمودياً داخل صفه الخاص */
-            box-sizing: border-box;
-            overflow: hidden; /* لمنع خروج المحتوى */
-        }
+        .card { background: #1e1e1e; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #333; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-sizing: border-box; overflow: hidden; }
         .card:hover { transform: translateY(-3px); border-color: var(--primary-color); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
         
-        /* تحديد ارتفاع صور الرتب لمنع الخلل */
-        .rank-image {
-            width: 100%; 
-            height: 110px; /* ارتفاع ثابت ومناسب */
-            object-fit: contain; /* تضمين الصورة كاملة داخل المربع */
-            margin-bottom: 10px; 
-            transition: transform 0.3s;
-        }
+        .rank-image { width: 100%; height: 110px; object-fit: contain; margin-bottom: 10px; transition: transform 0.3s; }
         .card:hover .rank-image { transform: scale(1.05); }
         
-        /* الأزرار */
         .btn { 
             display: inline-block; background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; 
             padding: 10px 25px; text-decoration: none; border-radius: 50px; transition: 0.3s; 
@@ -185,7 +197,6 @@
         .btn-bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); }
         .btn-rules { background: linear-gradient(135deg, #555, #333); border: 1px solid #444; }
         
-        /* حالة السيرفر */
         .server-status { 
             padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 25px;
             border: 1px solid rgba(255, 255, 255, 0.2); 
@@ -210,11 +221,9 @@
         
         .status-info { margin-top: 10px; font-size: 1.1em; }
 
-        /* صور الآيتمات */
         .item-image { width: 100%; height: 110px; object-fit: contain; background: linear-gradient(135deg, #1a1a1a, #252525); border-radius: 8px; margin-bottom: 10px; padding: 5px; display: block; margin-left: auto; margin-right: auto; border: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.3s ease; }
         .card:hover .item-image { transform: scale(1.02); }
 
-        /* زر العودة للأعلى */
         #scrollTopBtn { display: none; position: fixed; bottom: 30px; left: 30px; z-index: 1500; border: none; outline: none; background: var(--primary-color); color: #000; cursor: pointer; padding: 15px; border-radius: 50%; font-size: 18px; box-shadow: 0 5px 15px rgba(0,230,118,0.3); transition: 0.3s; }
         #scrollTopBtn:hover { background: #fff; transform: scale(1.1); }
 
@@ -242,6 +251,9 @@
             .brand-logo { font-size: 1.2em; margin-right: 0; text-align: center; }
             .container { margin: 10px auto; padding: 15px; border-radius: 15px; }
             .rank-image, .item-image { height: 90px; }
+            header { flex-direction: column; text-align: center; gap: 15px; padding: 30px 15px; }
+            .header-text { text-align: center; align-items: center; }
+            header h1 { font-size: 1.6em; }
             .inv-body { flex-direction: column; }
             .inv-grid { flex: none; height: 150px; overflow-x: auto; display: flex; flex-wrap: nowrap; grid-template-columns: none; }
             .inv-slot { min-width: 70px; }
@@ -292,8 +304,10 @@
         <button class="user-btn back-btn" onclick="goHome()">⬅ الرئيسية</button>
         <header>
             <img src="standard_1.gif" alt="GIF" class="animated-gif">
-            <h1>⚔️ SERVEUR 4AIKRO_S4 ⚔️</h1>
-            <p>UPDATE: 1</p>
+            <div class="header-text">
+                <h1>⚔️ SERVEUR 4AIKRO_S4 ⚔️</h1>
+                <p>UPDATE: 1</p>
+            </div>
         </header>
 
         <div class="server-status">
@@ -466,7 +480,7 @@
         if (username) {
             const db = getDB();
             const userObj = db[username] || { inventory: [] };
-            const itemCount = userObj.inventory.reduce((sum, item) => sum + item.count, 0);
+            const itemCount = userObj.inventory ? userObj.inventory.reduce((sum, item) => sum + item.count, 0) : 0;
 
             container.innerHTML = `
                 <div class="user-btn profile-btn" onclick="openInventoryModal()">
@@ -544,16 +558,26 @@
         initKeyLogic();
     }
 
-    // === نظام المخزون ===
+    // === نظام المخزون (تم الإصلاح) ===
     function openInventoryModal() {
         const username = getCurrentUser();
+        if (!username) return; // لا تفتح المخزون إذا لم يكن هناك مستخدم
+
         let db = getDB();
         
+        // إصلاح: التأكد من وجود كائن المستخدم في قاعدة البيانات
+        if (!db[username]) {
+            db[username] = { inventory: [] };
+            saveDB(db);
+        }
+        
+        // ترقية البيانات القديمة (إذا وجدت)
         if(db[username].mc_keys && db[username].mc_keys.length > 0){
             db[username].mc_keys.forEach(() => addItemToInventory('bronze_key', false));
             delete db[username].mc_keys;
             saveDB(db);
         }
+        
         renderInventoryGrid();
         openModal('inventory-modal');
     }
@@ -561,6 +585,10 @@
     function addItemToInventory(itemId, alertUser = true) {
         const username = getCurrentUser();
         let db = getDB();
+        
+        // إصلاح: التأكد من وجود كائن المستخدم
+        if (!db[username]) db[username] = { inventory: [] };
+        
         if (!db[username].inventory) db[username].inventory = [];
 
         let itemEntry = db[username].inventory.find(i => i.id === itemId);
@@ -653,11 +681,12 @@
     let timerInterval;
 
     function initKeyLogic() {
-        const username = getCurrentUser();
         const claimBtn = document.getElementById('claim-key-btn');
         const displayArea = document.getElementById('key-display-area');
         
         if(!claimBtn) return;
+        
+        const username = getCurrentUser();
 
         if (!username) {
             claimBtn.disabled = false;
