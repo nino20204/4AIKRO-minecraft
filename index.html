@@ -623,4 +623,176 @@
         `;
     }
 
-    function openRulesModal() { openModal('rules-modal
+    function openRulesModal() { openModal('rules-modal'); }
+
+    function showPage(pageName) {
+        document.getElementById('landing-page').style.display = 'none';
+        document.getElementById('minecraft-page').style.display = 'none';
+        document.getElementById('roblox-page').style.display = 'none';
+
+        if (pageName === 'minecraft') {
+            document.getElementById('minecraft-page').style.display = 'block';
+            checkServerStatus();
+            initKeyLogic();
+            updateAuthUI(); 
+            setTimeout(revealOnScroll, 100); 
+        } else if (pageName === 'roblox') {
+            document.getElementById('roblox-page').style.display = 'block';
+            updateAuthUI(); 
+        }
+    }
+
+    function goHome() {
+        document.getElementById('landing-page').style.display = 'flex';
+        document.getElementById('minecraft-page').style.display = 'none';
+        document.getElementById('roblox-page').style.display = 'none';
+        updateAuthUI();
+    }
+
+    const COOLDOWN_TIME = 24 * 60 * 60 * 1000; 
+    let timerInterval;
+
+    function initKeyLogic() {
+        const username = getCurrentUser();
+        const claimBtn = document.getElementById('claim-key-btn');
+        const displayArea = document.getElementById('key-display-area');
+        
+        if(!claimBtn) return;
+
+        if (!username) {
+            claimBtn.disabled = false;
+            claimBtn.innerText = "🔑 سجل دخولك";
+            claimBtn.onclick = () => openModal('login-modal');
+            displayArea.style.display = 'none';
+            return;
+        }
+        
+        const lastClaim = localStorage.getItem(`mc_keyTime_${username}`);
+        
+        if (lastClaim) {
+            const nextClaimTime = parseInt(lastClaim) + COOLDOWN_TIME;
+            const now = new Date().getTime();
+            
+            if (now < nextClaimTime) {
+                claimBtn.disabled = true;
+                claimBtn.innerText = "⏳ انتظر";
+                displayArea.style.display = 'block';
+                startCountdown(nextClaimTime);
+            } else {
+                setupClaimable();
+            }
+        } else {
+            setupClaimable();
+        }
+    }
+
+    function setupClaimable() {
+        const claimBtn = document.getElementById('claim-key-btn');
+        if(!claimBtn) return;
+        claimBtn.disabled = false;
+        claimBtn.innerText = "🔑 احصل على مفتاحك";
+        claimBtn.onclick = claimBronzeKey;
+        document.getElementById('key-display-area').style.display = 'none';
+    }
+
+    function claimBronzeKey() {
+        const username = getCurrentUser();
+        if(!username) return;
+        addItemToInventory('bronze_key');
+        const now = new Date().getTime();
+        localStorage.setItem(`mc_keyTime_${username}`, now);
+        initKeyLogic(); 
+    }
+
+    function startCountdown(endTime) {
+        clearInterval(timerInterval);
+        const timerDisplay = document.getElementById('timer-display');
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = endTime - now;
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                setupClaimable();
+            } else {
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                if(timerDisplay) timerDisplay.innerHTML = `${hours}س ${minutes}د ${seconds}ث`;
+            }
+        }
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function copyIP() {
+        navigator.clipboard.writeText(document.getElementById("server-ip").innerText);
+        const msg = document.getElementById("copy-msg");
+        msg.style.display = "block";
+        setTimeout(() => msg.style.display = "none", 2000);
+    }
+
+    function checkServerStatus() {
+        const statusText = document.getElementById("status-text");
+        const statusDot = document.getElementById("status-dot");
+        const playerElement = document.getElementById("player-count");
+        const versionElement = document.getElementById("server-version");
+
+        statusText.innerText = "جارٍ التحقق...";
+        statusText.classList.remove("status-online", "status-offline");
+        statusDot.classList.remove("dot-online", "dot-offline");
+        playerElement.innerText = "";
+        versionElement.innerText = "";
+
+        fetch("https://api.mcstatus.io/v2/status/java/cities-declare.gl.joinmc.link")
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.online === true) {
+                    statusText.innerText = "🟢 السيرفر أونلاين";
+                    statusText.classList.add("status-online");
+                    statusDot.classList.add("dot-online");
+                    playerElement.innerText = "عدد اللاعبين: " + data.players.online + " / " + data.players.max;
+                    versionElement.innerText = "الإصدار: " + data.version.name_clean;
+                } else {
+                    statusText.innerText = "🔴 السيرفر أوفلاين";
+                    statusText.classList.add("status-offline");
+                    statusDot.classList.add("dot-offline");
+                }
+            })
+            .catch(error => {
+                statusText.innerText = "⚠️ خطأ في الاتصال";
+                statusText.classList.add("status-offline");
+                statusDot.classList.add("dot-offline");
+            });
+    }
+
+    function revealOnScroll() {
+        const reveals = document.querySelectorAll(".section");
+        reveals.forEach(element => {
+            const windowHeight = window.innerHeight;
+            const elementTop = element.getBoundingClientRect().top;
+            if (elementTop < windowHeight - 150) {
+                element.classList.add("visible");
+            }
+        });
+    }
+
+    window.addEventListener("scroll", revealOnScroll);
+
+    scrollTopBtn = document.getElementById("scrollTopBtn");
+    window.onscroll = function() { scrollFunction(); };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        scrollTopBtn.style.display = "block";
+      } else {
+        scrollTopBtn.style.display = "none";
+      }
+    }
+
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+</script>
+</body>
+</html>
