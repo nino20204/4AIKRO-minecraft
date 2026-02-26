@@ -26,6 +26,7 @@
             --glass-border: rgba(255, 255, 255, 0.1);
             --online-color: #22c55e;
             --offline-color: #ef4444;
+            --rarity-rare: #5555ff;
         }
 
         body {
@@ -51,7 +52,6 @@
             flex-wrap: wrap; gap: 10px;
         }
         
-        /* تعديل اللوقو: اضافة هامش لتحريكه لليسار ومنع القطع */
         .brand-logo { 
             font-family: 'Tajawal', sans-serif; 
             font-size: 1.5em; 
@@ -61,7 +61,7 @@
             -webkit-text-fill-color: transparent; 
             white-space: nowrap; 
             flex-shrink: 0;
-            margin-right: 15px; /* تحريك لليسار في RTL */
+            margin-right: 15px; 
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
         }
         
@@ -104,8 +104,6 @@
         .choice-card:hover img { transform: scale(1.1) rotate(5deg); }
         .choice-card h2 { font-size: 1.8em; margin: 0; }
         .choice-card p { color: #ccc; margin-top: 10px; padding: 0 10px; }
-        .card-minecraft:hover { border-color: #4CAF50; box-shadow: 0 0 40px rgba(76, 175, 50, 0.3); }
-        .card-roblox:hover { border-color: #E53935; box-shadow: 0 0 40px rgba(229, 57, 53, 0.3); }
 
         /* المحتوى */
         #minecraft-page, #roblox-page { display: none; }
@@ -114,16 +112,23 @@
 
         /* المودال */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); backdrop-filter: blur(8px); overflow-y: auto; }
-        .modal-content { background: #1e1e1e; margin: 5% auto; padding: 30px 20px; border-radius: 20px; width: 90%; max-width: 450px; border: 1px solid #333; text-align: center; position: relative; }
-        .modal-content h2 { margin-top: 0; color: var(--primary-color); margin-bottom: 15px; font-size: 1.5em; }
-        .modal-content input { width: 90%; padding: 12px; margin: 8px 0; border-radius: 8px; border: none; background: #2a2a2a; color: white; font-family: 'Cairo', sans-serif; text-align: center; font-size: 1em; box-sizing: border-box; }
-        .close-btn { position: absolute; top: 10px; left: 15px; font-size: 25px; cursor: pointer; color: #555; transition: 0.3s; }
-        .modal-hint { font-size: 0.75em; color: #666; margin-top: 5px; }
-
-        /* مودال القوانين */
-        .rules-modal-content { max-width: 600px; max-height: 80vh; overflow-y: auto; text-align: right; }
-        .rule-card { background: rgba(255, 255, 255, 0.05); border-right: 4px solid var(--primary-color); padding: 12px; margin-bottom: 12px; border-radius: 8px; }
-
+        .modal-content { 
+            background: linear-gradient(145deg, #1e1e1e, #111); 
+            margin: 8% auto; padding: 40px 30px; border-radius: 24px; width: 90%; max-width: 420px; 
+            border: 1px solid #333; text-align: center; position: relative; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .modal-content h2 { margin-top: 0; color: var(--primary-color); margin-bottom: 25px; font-size: 1.6em; font-weight: 900; }
+        .modal-content input { 
+            width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; 
+            border: 2px solid #333; background: #0a0a0a; color: white; 
+            font-family: 'Cairo', sans-serif; text-align: center; font-size: 1em; box-sizing: border-box; 
+            transition: 0.3s;
+        }
+        .modal-content input:focus { border-color: var(--primary-color); outline: none; background: #111; }
+        .close-btn { position: absolute; top: 15px; left: 15px; font-size: 28px; cursor: pointer; color: #444; transition: 0.3s; }
+        .close-btn:hover { color: #fff; }
+        
         /* تنسيقات البطاقات */
         .balance-display { background: rgba(0,0,0,0.3); padding: 8px; border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(205, 127, 50, 0.3); display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.9em; }
         .balance-count { font-size: 1.5em; font-weight: 900; color: var(--bronze-color); }
@@ -142,22 +147,16 @@
         /* الأزرار */
         .btn { 
             display: inline-block; background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; 
-            padding: 10px 20px; text-decoration: none; border-radius: 50px; transition: 0.3s; 
-            border: none; cursor: pointer; font-size: 0.95em; font-family: 'Cairo', sans-serif; font-weight: bold; 
-            position: relative; overflow: hidden;
+            padding: 12px 30px; text-decoration: none; border-radius: 50px; transition: 0.3s; 
+            border: none; cursor: pointer; font-size: 1em; font-family: 'Cairo', sans-serif; font-weight: bold; 
+            position: relative; overflow: hidden; margin-top: 10px;
         }
-        .btn::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: 0.5s;
-        }
-        .btn:hover::after { left: 100%; }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(76, 175, 50, 0.4); }
         
         .btn-bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); }
         .btn-rules { background: linear-gradient(135deg, #555, #333); border: 1px solid #444; }
         
-        /* حالة السيرفر - تعديل لاستقبال صورة خلفية */
+        /* حالة السيرفر */
         .server-status { 
             padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 25px;
             border: 1px solid rgba(255, 255, 255, 0.2); 
@@ -166,23 +165,11 @@
             position: relative;
             overflow: hidden;
             color: #fff;
-
-            /* === إعدادات صورة الخلفية === */
-            /* ضع رابط صورتك الطويلة هنا */
             background-image: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://wallpapercave.com/wp/wp9336459.jpg');
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
         }
-        /* طبقة إضافية لضمان وضوح النص */
-        .server-status::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.5); /* ظلام إضافي فوق الصورة */
-            z-index: 0;
-        }
-        /* جعل النص فوق الطبقات */
+        .server-status::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 0; }
         .server-status > * { position: relative; z-index: 1; }
 
         .ip-box { background: rgba(51, 65, 85, 0.8); padding: 10px 20px; border-radius: 50px; display: inline-block; cursor: pointer; transition: 0.3s; border: 1px solid #475569; font-weight: bold; font-size: 0.9em; margin-top: 10px; }
@@ -190,81 +177,57 @@
 
         .status-text { font-size: 22px; font-weight: bold; transition: all 0.5s ease; }
         .status-online { color: var(--online-color); text-shadow: 0 0 8px rgba(34, 197, 94, 0.6); animation: glowGreen 2s ease-in-out infinite alternate; }
-        @keyframes glowGreen { from { text-shadow: 0 0 5px rgba(34, 197, 94, 0.4); } to { text-shadow: 0 0 15px rgba(34, 197, 94, 0.8); } }
         .status-offline { color: var(--offline-color); text-shadow: 0 0 8px rgba(239, 68, 68, 0.6); animation: glowRed 2s ease-in-out infinite alternate; }
-        @keyframes glowRed { from { text-shadow: 0 0 5px rgba(239, 68, 68, 0.4); } to { text-shadow: 0 0 15px rgba(239, 68, 68, 0.8); } }
-        .status-dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-left: 5px; }
-        .dot-online { background-color: var(--online-color); box-shadow: 0 0 10px var(--online-color); animation: pulseDot 1.5s infinite; }
-        .dot-offline { background-color: var(--offline-color); box-shadow: 0 0 10px var(--offline-color); }
-        @keyframes pulseDot { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
+        
         .status-info { margin-top: 10px; font-size: 1.1em; }
 
-        /* باقي التنسيقات */
-        header { text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 20px; padding-top: 30px; }
-        header h1 { color: #fff; margin: 10px 0 0 0; font-size: 2em; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 0 10px var(--primary-color); }
-        .animated-gif { width: 200px; border-radius: 10px; box-shadow: 0 0 20px rgba(76, 175, 50, 0.4); margin-bottom: 10px; border: 2px solid rgba(255,255,255,0.1); }
-        .rank-image { width: 100%; height: 120px; object-fit: contain; margin-bottom: 10px; transition: transform 0.3s; }
-        .rank-image:hover { transform: scale(1.1); }
-        
-        .countdown-timer { margin-top: 8px; font-size: 0.85em; color: #bbb; background: rgba(0,0,0,0.3); padding: 6px; border-radius: 5px; }
-        .countdown-timer span { color: #ff9800; font-weight: bold; }
-
         /* صور الآيتمات */
-        .item-image {
-            width: 100%; 
-            height: 118px; 
-            object-fit: contain; 
-            background: linear-gradient(135deg, #1a1a1a, #252525); 
-            border-radius: 8px; 
-            margin-bottom: 15px; 
-            padding: 5px; 
-            display: block; 
-            margin-left: auto; 
-            margin-right: auto; 
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.3s ease;
-        }
+        .item-image { width: 100%; height: 118px; object-fit: contain; background: linear-gradient(135deg, #1a1a1a, #252525); border-radius: 8px; margin-bottom: 15px; padding: 5px; display: block; margin-left: auto; margin-right: auto; border: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.3s ease; }
         .card:hover .item-image { transform: scale(1.02); }
 
         /* زر العودة للأعلى */
-        #scrollTopBtn {
-            display: none; position: fixed; bottom: 30px; left: 30px; z-index: 1500;
-            border: none; outline: none; background: var(--primary-color); color: #000;
-            cursor: pointer; padding: 15px; border-radius: 50%; font-size: 18px;
-            box-shadow: 0 5px 15px rgba(0,230,118,0.3); transition: 0.3s;
-        }
+        #scrollTopBtn { display: none; position: fixed; bottom: 30px; left: 30px; z-index: 1500; border: none; outline: none; background: var(--primary-color); color: #000; cursor: pointer; padding: 15px; border-radius: 50%; font-size: 18px; box-shadow: 0 5px 15px rgba(0,230,118,0.3); transition: 0.3s; }
         #scrollTopBtn:hover { background: #fff; transform: scale(1.1); }
+
+        /* === نظام المخزون === */
+        .inventory-modal-content { max-width: 900px; background: #0a0a0a; border: 1px solid #333; text-align: right; padding: 0; display: flex; flex-direction: column; height: 80vh; }
+        .inv-header { padding: 15px 20px; background: linear-gradient(to left, #1a1a1a, #0f3d1f); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+        .inv-header h2 { margin: 0; font-size: 1.2em; display: flex; align-items: center; gap: 10px; }
+        .inv-body { display: flex; flex: 1; overflow: hidden; }
+        .inv-grid { flex: 2; padding: 15px; display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; overflow-y: auto; background: #0f0f0f; border-left: 1px solid #222; }
+        .inv-slot { aspect-ratio: 1; background: #1a1a1a; border: 2px solid #333; border-radius: 8px; cursor: pointer; position: relative; transition: 0.2s; display: flex; align-items: center; justify-content: center; padding: 5px; }
+        .inv-slot:hover { border-color: #fff; transform: scale(1.05); z-index: 2; }
+        .inv-slot.selected { border-color: var(--primary-color); box-shadow: 0 0 15px rgba(0, 230, 118, 0.3); }
+        .inv-slot img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)); }
+        .inv-slot .item-count { position: absolute; bottom: 2px; left: 2px; background: rgba(0,0,0,0.8); font-size: 0.7em; padding: 1px 4px; border-radius: 4px; font-weight: bold; }
+        .rarity-rare { border-color: var(--rarity-rare); box-shadow: inset 0 0 10px rgba(85, 85, 255, 0.2); }
+        .inv-details { flex: 1; padding: 20px; background: #111; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .inv-details img { width: 80px; height: 80px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
+        .inv-details h3 { margin: 0 0 5px 0; font-size: 1.1em; color: #fff; }
+        .inv-details .rarity-text { font-size: 0.8em; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
+        .inv-details p { font-size: 0.85em; color: #aaa; line-height: 1.4; margin: 0; }
+        .inv-empty-msg { color: #444; text-align: center; margin-top: 50%; font-size: 0.9em; }
 
         /* تنسيقات الهواتف */
         @media (max-width: 600px) {
-            .global-user-bar { justify-content: center; padding: 10px; position: relative; }
-            /* تصغير الخط قليلاً في الهواتف لضمان ظهور الاسم كاملاً */
             .brand-logo { font-size: 1.2em; margin-right: 0; text-align: center; }
-            .auth-actions { width: 100%; justify-content: center; }
-            .landing-title { font-size: 2em; }
-            .choice-card { min-height: 350px; padding: 15px; }
             .container { margin: 10px auto; padding: 15px; border-radius: 15px; }
-            .back-btn { position: relative; top: 0; right: 0; margin-bottom: 15px; width: 100%; display: block; box-sizing: border-box; }
-            header h1 { font-size: 1.6em; }
-            .animated-gif { width: 150px; }
-            .section h2 { font-size: 1.3em; }
-            .status-text { font-size: 1.5em; }
             .item-image { height: 90px; }
-            .card-grid { grid-template-columns: 1fr; }
-            #scrollTopBtn { bottom: 15px; left: 15px; padding: 12px; }
+            .inv-body { flex-direction: column; }
+            .inv-grid { flex: none; height: 150px; overflow-x: auto; display: flex; flex-wrap: nowrap; grid-template-columns: none; }
+            .inv-slot { min-width: 70px; }
         }
     </style>
 </head>
 <body>
 
 <div class="bg-animation"></div>
-
-<!-- زر العودة للأعلى -->
 <button onclick="topFunction()" id="scrollTopBtn" title="العودة للأعلى">⬆</button>
 
-<!-- شريط المستخدم -->
+<!-- الشريط العلوي -->
 <div class="global-user-bar">
     <div class="brand-logo">4AIKRO</div>
+    <!-- الأزرار ستظهر هنا فقط إذا كنا في الواجهة الرئيسية -->
     <div id="auth-btn-container" class="auth-actions"></div>
 </div>
 
@@ -316,11 +279,10 @@
             <p id="copy-msg" style="display:none; margin-top:5px; font-size:0.8em; color:#22c55e;">تم النسخ!</p>
         </div>
 
-        <!-- الأزرار بجانب بعض -->
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
             <a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="btn btn-discord" style="background:#5865F2;">Discord</a>
             <a href="https://www.mediafire.com/file/8cvfd3ql5sa2l0w/MODS+AIKRO+S4.rar/file" class="btn" target="_blank">تحميل المودات</a>
-            <button class="btn btn-rules" onclick="openRulesModal()">⚖️ القوانين</button>
+            <button class="btn btn-rules" onclick="openModal('rules-modal')">⚖️ القوانين</button>
         </div>
 
         <div class="section">
@@ -334,7 +296,7 @@
                         <div class="balance-display" id="key-balance-box" style="display:none;">
                             <span>رصيدك:</span>
                             <span class="balance-count" id="key-balance-num">0</span>
-                            <span>KEY</span>
+                            <span>عنصر</span>
                         </div>
                     </div>
                     <div>
@@ -400,7 +362,7 @@
         <h2>تسجيل الدخول</h2>
         <input type="text" id="login-name" placeholder="اسم المستخدم">
         <input type="password" id="login-code" placeholder="الكود السري">
-        <button class="btn" onclick="handleLogin()" style="width:95%;">دخول</button>
+        <button class="btn" onclick="handleLogin()" style="width:100%;">دخول</button>
         <p id="login-error" style="color:#ff4444; font-size:0.8em; margin-top:10px; display:none;"></p>
     </div>
 </div>
@@ -408,23 +370,33 @@
 <div id="register-modal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('register-modal')">&times;</span>
+        <div style="font-size:3em; margin-bottom:10px;">📝</div>
         <h2>إنشاء حساب جديد</h2>
+        <p style="font-size:0.85em; color:#888; margin-bottom:20px;">أنشئ حسابك للوصول للمخزون والمزايا الحصرية</p>
         <input type="text" id="reg-name" placeholder="اسم المستخدم">
         <input type="password" id="reg-code" placeholder="الكود السري">
         <input type="email" id="reg-email" placeholder="البريد الإلكتروني (اختياري)">
-        <p class="modal-hint">*إذا أدخلت الإيميل، يجب أن يكون غير مستخدم من قبل.</p>
-        <button class="btn" onclick="handleRegister()" style="width:95%;">إنشاء الحساب</button>
+        <button class="btn" onclick="handleRegister()" style="width:100%;">إنشاء الحساب</button>
         <p id="register-error" style="color:#ff4444; font-size:0.8em; margin-top:10px; display:none;"></p>
     </div>
 </div>
 
+<!-- مخزون احترافي -->
 <div id="inventory-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('inventory-modal')">&times;</span>
-        <h2>📦 مخزونك</h2>
-        <div id="keys-list" style="max-height:250px; overflow-y:auto; margin-top:15px; text-align:left;"></div>
-        <br>
-        <button class="btn" style="background:#444" onclick="logout()">تسجيل الخروج</button>
+    <div class="modal-content inventory-modal-content">
+        <div class="inv-header">
+            <h2>📦 المخزون</h2>
+            <div style="display:flex; gap:10px;">
+                <button class="btn" style="background:#444; padding:5px 15px; font-size:0.8em;" onclick="logout()">خروج</button>
+                <span class="close-btn" style="position:relative; top:0; left:0; font-size:20px;" onclick="closeModal('inventory-modal')">&times;</span>
+            </div>
+        </div>
+        <div class="inv-body">
+            <div class="inv-grid" id="inv-grid"></div>
+            <div class="inv-details" id="inv-details">
+                <p class="inv-empty-msg">اختر عنصراً لعرض التفاصيل</p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -440,10 +412,21 @@
 </div>
 
 <script>
+    // === قاعدة بيانات العناصر ===
+    const GAME_ITEMS = {
+        bronze_key: {
+            id: 'bronze_key',
+            name: 'مفتاح برونزي',
+            description: 'مفتاح يومي نادر يُستخدم لفتح الصناديق اليومية.',
+            image: 'https://static.wikia.nocookie.net/minecraft_gamepedia/images/b/b7/Oak_Door_JE2.png',
+            rarity: 'rare',
+        }
+    };
+
     document.body.onload = function() { updateAuthUI(); };
 
-    function getDB() { return JSON.parse(localStorage.getItem('4aikro_db')) || {}; }
-    function saveDB(db) { localStorage.setItem('4aikro_db', JSON.stringify(db)); }
+    function getDB() { return JSON.parse(localStorage.getItem('4aikro_db_v2')) || {}; }
+    function saveDB(db) { localStorage.setItem('4aikro_db_v2', JSON.stringify(db)); }
     function getCurrentUser() { return localStorage.getItem('4aikro_session'); }
     function setCurrentUser(username) { localStorage.setItem('4aikro_session', username); }
 
@@ -451,28 +434,40 @@
         const container = document.getElementById('auth-btn-container');
         const username = getCurrentUser();
         
+        // نتحقق إذا كانت الواجهة الرئيسية ظاهرة
+        const isLandingVisible = document.getElementById('landing-page').style.display !== 'none';
+        
         if (username) {
             const db = getDB();
-            const userObj = db[username] || { mc_keys: [] };
-            const keyCount = userObj.mc_keys ? userObj.mc_keys.length : 0;
+            const userObj = db[username] || { inventory: [] };
+            const itemCount = userObj.inventory.reduce((sum, item) => sum + item.count, 0);
 
+            // نعرض زر البروفايل دائماً إذا كان مسجل الدخول
             container.innerHTML = `
                 <div class="user-btn profile-btn" onclick="openInventoryModal()">
                     👤 ${username}
-                    <span class="key-badge">🗝️ ${keyCount}</span>
+                    <span class="key-badge">🎒 ${itemCount}</span>
                 </div>
             `;
 
             const balanceNum = document.getElementById('key-balance-num');
             const balanceBox = document.getElementById('key-balance-box');
-            if(balanceNum) balanceNum.innerText = keyCount;
+            if(balanceNum) balanceNum.innerText = itemCount;
             if(balanceBox) balanceBox.style.display = 'flex';
 
         } else {
-            container.innerHTML = `
-                <button class="user-btn" onclick="openModal('login-modal')">🔑 دخول</button>
-                <button class="user-btn" onclick="openModal('register-modal')" style="border-color:#cd7f32;">📝 جديد</button>
-            `;
+            // إذا لم يكن مسجل دخول
+            if (isLandingVisible) {
+                // نعرض الأزرار فقط إذا كنا في الواجهة الرئيسية
+                container.innerHTML = `
+                    <button class="user-btn" onclick="openModal('login-modal')">🔑 تسجيل دخول</button>
+                    <button class="user-btn" onclick="openModal('register-modal')" style="border-color:#cd7f32;">📝 إنشاء حساب</button>
+                `;
+            } else {
+                // نخفي الأزرار في الصفحات الداخلية (ماينكرافت/روبلوكس)
+                container.innerHTML = '';
+            }
+            
             const balanceBox = document.getElementById('key-balance-box');
             if(balanceBox) balanceBox.style.display = 'none';
         }
@@ -503,7 +498,6 @@
     function handleRegister() {
         const name = document.getElementById('reg-name').value.trim();
         const code = document.getElementById('reg-code').value.trim();
-        const email = document.getElementById('reg-email').value.trim();
         const err = document.getElementById('register-error');
 
         if (!name || !code) { err.innerText = "الاسم والكود مطلوبان"; err.style.display='block'; return; }
@@ -511,18 +505,8 @@
         let db = getDB();
         if (db[name]) { err.innerText = "الاسم موجود!"; err.style.display='block'; return; }
 
-        let count = parseInt(localStorage.getItem('4aikro_reg_count') || '0');
-        if (count >= 3) { err.innerText = "الحد الأقصى للحسابات!"; err.style.display='block'; return; }
-
-        if (email) {
-            for (let user in db) {
-                if (db[user].email === email) { err.innerText = "الإيميل مستخدم!"; err.style.display='block'; return; }
-            }
-        }
-
-        db[name] = { code: code, email: email, mc_keys: [] };
+        db[name] = { code: code, email: document.getElementById('reg-email').value.trim(), inventory: [] };
         saveDB(db);
-        localStorage.setItem('4aikro_reg_count', count + 1);
 
         setCurrentUser(name);
         closeModal('register-modal');
@@ -538,22 +522,83 @@
         initKeyLogic();
     }
 
+    // === نظام المخزون ===
     function openInventoryModal() {
         const username = getCurrentUser();
-        const db = getDB();
-        const keys = db[username]?.mc_keys || [];
-        const listContainer = document.getElementById('keys-list');
-        if (keys.length === 0) {
-            listContainer.innerHTML = '<p style="text-align:center; color:#555; padding:20px;">لا تملك مفاتيح</p>';
-        } else {
-            listContainer.innerHTML = keys.map(k => `
-                <div style="background:#222; padding:10px; margin:5px 0; border-radius:5px; border:1px solid #333; display:flex; justify-content:space-between; font-size:0.9em;">
-                    <span style="color:#cd7f32; font-family:monospace;">${k.code}</span>
-                    <small style="color:#666;">${k.date}</small>
-                </div>
-            `).join('');
+        let db = getDB();
+        
+        if(db[username].mc_keys && db[username].mc_keys.length > 0){
+            db[username].mc_keys.forEach(() => addItemToInventory('bronze_key', false));
+            delete db[username].mc_keys;
+            saveDB(db);
         }
+        renderInventoryGrid();
         openModal('inventory-modal');
+    }
+
+    function addItemToInventory(itemId, alertUser = true) {
+        const username = getCurrentUser();
+        let db = getDB();
+        if (!db[username].inventory) db[username].inventory = [];
+
+        let itemEntry = db[username].inventory.find(i => i.id === itemId);
+
+        if (itemEntry) {
+            itemEntry.count++; 
+        } else {
+            db[username].inventory.push({ id: itemId, count: 1 });
+        }
+
+        saveDB(db);
+        updateAuthUI();
+        if(alertUser) alert("🎉 تم إضافة العنصر للمخزون!");
+    }
+
+    function renderInventoryGrid() {
+        const username = getCurrentUser();
+        const db = getDB();
+        const inventory = db[username]?.inventory || [];
+        const grid = document.getElementById('inv-grid');
+        const details = document.getElementById('inv-details');
+        details.innerHTML = '<p class="inv-empty-msg">اختر عنصراً</p>';
+
+        if (inventory.length === 0) {
+            grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#333; padding:20px;">المخزون فارغ</p>';
+            return;
+        }
+
+        grid.innerHTML = inventory.map((entry, index) => {
+            const itemData = GAME_ITEMS[entry.id];
+            if(!itemData) return '';
+            return `
+            <div class="inv-slot rarity-${itemData.rarity}" onclick="showItemDetails(${index})">
+                <img src="${itemData.image}" alt="${itemData.name}">
+                ${entry.count > 1 ? `<span class="item-count">x${entry.count}</span>` : ''}
+            </div>
+            `;
+        }).join('');
+    }
+
+    function showItemDetails(index) {
+        const username = getCurrentUser();
+        const db = getDB();
+        const entry = db[username].inventory[index];
+        const itemData = GAME_ITEMS[entry.id];
+        
+        document.querySelectorAll('.inv-slot').forEach(el => el.classList.remove('selected'));
+        document.querySelectorAll('.inv-slot')[index].classList.add('selected');
+
+        const details = document.getElementById('inv-details');
+        let color = '#fff'; let name = 'عادي';
+        if(itemData.rarity === 'rare') { color = 'var(--rarity-rare)'; name = 'نادر'; }
+
+        details.innerHTML = `
+            <img src="${itemData.image}" style="width:100px; height:100px; filter: drop-shadow(0 5px 15px ${color});">
+            <h3 style="color:${color};">${itemData.name}</h3>
+            <div class="rarity-text" style="color:${color};">${name}</div>
+            <p>${itemData.description}</p>
+            <div style="margin-top:15px; font-size:0.8em; color:#555;">الكمية: ${entry.count}</div>
+        `;
     }
 
     function openRulesModal() { openModal('rules-modal'); }
@@ -567,16 +612,19 @@
             document.getElementById('minecraft-page').style.display = 'block';
             checkServerStatus();
             initKeyLogic();
-            updateAuthUI();
+            updateAuthUI(); // تحديث لإخفاء أزرار التسجيل من الشريط العلوي
             setTimeout(revealOnScroll, 100); 
         } else if (pageName === 'roblox') {
             document.getElementById('roblox-page').style.display = 'block';
+            updateAuthUI(); // تحديث لإخفاء أزرار التسجيل من الشريط العلوي
         }
     }
+
     function goHome() {
         document.getElementById('landing-page').style.display = 'flex';
         document.getElementById('minecraft-page').style.display = 'none';
         document.getElementById('roblox-page').style.display = 'none';
+        updateAuthUI(); // تحديث لإظهار أزرار التسجيل في الشريط العلوي
     }
 
     const COOLDOWN_TIME = 24 * 60 * 60 * 1000; 
@@ -597,9 +645,6 @@
             return;
         }
         
-        let db = getDB();
-        if(!db[username]) db[username] = { mc_keys: [] };
-
         const lastClaim = localStorage.getItem(`mc_keyTime_${username}`);
         
         if (lastClaim) {
@@ -631,15 +676,9 @@
     function claimBronzeKey() {
         const username = getCurrentUser();
         if(!username) return;
-        const randomKey = "BRONZE-KEY-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-        let db = getDB();
-        if (!db[username].mc_keys) db[username].mc_keys = [];
-        db[username].mc_keys.push({ code: randomKey, date: new Date().toLocaleDateString('en-GB') });
-        saveDB(db);
+        addItemToInventory('bronze_key');
         const now = new Date().getTime();
         localStorage.setItem(`mc_keyTime_${username}`, now);
-        alert(`🎉 مبروك! حصلت على: ${randomKey}`);
-        updateAuthUI(); 
         initKeyLogic(); 
     }
 
@@ -701,7 +740,6 @@
                 statusText.innerText = "⚠️ خطأ في الاتصال";
                 statusText.classList.add("status-offline");
                 statusDot.classList.add("dot-offline");
-                console.error("Server check error:", error);
             });
     }
 
@@ -710,8 +748,7 @@
         reveals.forEach(element => {
             const windowHeight = window.innerHeight;
             const elementTop = element.getBoundingClientRect().top;
-            const elementVisible = 150;
-            if (elementTop < windowHeight - elementVisible) {
+            if (elementTop < windowHeight - 150) {
                 element.classList.add("visible");
             }
         });
@@ -737,4 +774,3 @@
 </script>
 </body>
 </html>
-
