@@ -50,7 +50,19 @@
             z-index: 1000; border-bottom: 1px solid var(--glass-border);
             flex-wrap: wrap; gap: 10px;
         }
-        .brand-logo { font-family: 'Tajawal', sans-serif; font-size: 1.5em; font-weight: 900; background: linear-gradient(to right, #fff, #00e676); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; }
+        
+        /* تعديل اللوقو: اضافة توهج ومنع التصغير */
+        .brand-logo { 
+            font-family: 'Tajawal', sans-serif; 
+            font-size: 1.5em; 
+            font-weight: 900; 
+            background: linear-gradient(to right, #fff, #00e676); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            white-space: nowrap; 
+            flex-shrink: 0; /* منع التصغير */
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); /* لمعان خافت */
+        }
         
         .auth-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
         .user-btn {
@@ -115,7 +127,7 @@
         .balance-display { background: rgba(0,0,0,0.3); padding: 8px; border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(205, 127, 50, 0.3); display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.9em; }
         .balance-count { font-size: 1.5em; font-weight: 900; color: var(--bronze-color); }
         
-        /* حركة الظهور الاحترافية */
+        /* حركة الظهور */
         .section { margin-bottom: 30px; opacity: 0; transform: translateY(50px); transition: all 0.8s ease; }
         .section.visible { opacity: 1; transform: translateY(0); }
         
@@ -129,7 +141,7 @@
         /* الأزرار */
         .btn { 
             display: inline-block; background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; 
-            padding: 10px 20px; text-decoration: none; border-radius: 50px; margin: 5px; transition: 0.3s; 
+            padding: 10px 20px; text-decoration: none; border-radius: 50px; transition: 0.3s; 
             border: none; cursor: pointer; font-size: 0.95em; font-family: 'Cairo', sans-serif; font-weight: bold; 
             position: relative; overflow: hidden;
         }
@@ -170,10 +182,10 @@
         .countdown-timer { margin-top: 8px; font-size: 0.85em; color: #bbb; background: rgba(0,0,0,0.3); padding: 6px; border-radius: 5px; }
         .countdown-timer span { color: #ff9800; font-weight: bold; }
 
-        /* === تعديل ارتفاع صور الآيتمات (زيادة 31% ليصبح 118px) === */
+        /* صور الآيتمات */
         .item-image {
             width: 100%; 
-            height: 118px; /* تم زيادة الارتفاع من 90px إلى 118px */
+            height: 118px; 
             object-fit: contain; 
             background: linear-gradient(135deg, #1a1a1a, #252525); 
             border-radius: 8px; 
@@ -185,9 +197,7 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: transform 0.3s ease;
         }
-        .card:hover .item-image {
-            transform: scale(1.02);
-        }
+        .card:hover .item-image { transform: scale(1.02); }
 
         /* زر العودة للأعلى */
         #scrollTopBtn {
@@ -201,7 +211,7 @@
         /* تنسيقات الهواتف */
         @media (max-width: 600px) {
             .global-user-bar { justify-content: center; padding: 10px; position: relative; }
-            .brand-logo { font-size: 1.3em; order: -1; width: 100%; text-align: center; margin-bottom: 5px; }
+            .brand-logo { font-size: 1.2em; order: -1; width: 100%; text-align: center; margin-bottom: 5px; }
             .auth-actions { width: 100%; justify-content: center; }
             .landing-title { font-size: 2em; }
             .choice-card { min-height: 350px; padding: 15px; }
@@ -278,7 +288,8 @@
             <p id="copy-msg" style="display:none; margin-top:5px; font-size:0.8em; color:#22c55e;">تم النسخ!</p>
         </div>
 
-        <div style="text-align:center; margin-bottom:20px;">
+        <!-- تعديل: وضع الأزرار في سطر واحد باستخدام Flexbox -->
+        <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
             <a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="btn btn-discord" style="background:#5865F2;">Discord</a>
             <a href="https://www.mediafire.com/file/8cvfd3ql5sa2l0w/MODS+AIKRO+S4.rar/file" class="btn" target="_blank">تحميل المودات</a>
             <button class="btn btn-rules" onclick="openRulesModal()">⚖️ القوانين</button>
@@ -338,13 +349,13 @@
                     <a href="#" class="btn">شراء</a>
                 </div>
                  <div class="card">
-                    <img src="500coin.jpg" class="item-image">
+                    <img src="رابط_2" class="item-image">
                     <h3>500 COIN</h3>
                     <div class="price">$3.00</div>
                     <a href="#" class="btn">شراء</a>
                 </div>
                  <div class="card">
-                    <img src="1000coin.jpg" class="item-image">
+                    <img src="رابط_3" class="item-image">
                     <h3>1000 COIN</h3>
                     <div class="price">$5.00</div>
                     <a href="#" class="btn">شراء</a>
@@ -648,32 +659,21 @@
             .then(data => {
 
                 if (data && data.online === true) {
-
                     statusText.innerText = "🟢 السيرفر أونلاين";
                     statusText.classList.add("status-online");
                     statusDot.classList.add("dot-online");
-
-                    playerElement.innerText =
-                        "عدد اللاعبين: " + data.players.online + " / " + data.players.max;
-
-                    versionElement.innerText =
-                        "الإصدار: " + data.version.name_clean;
-
+                    playerElement.innerText = "عدد اللاعبين: " + data.players.online + " / " + data.players.max;
+                    versionElement.innerText = "الإصدار: " + data.version.name_clean;
                 } else {
-
                     statusText.innerText = "🔴 السيرفر أوفلاين";
                     statusText.classList.add("status-offline");
                     statusDot.classList.add("dot-offline");
-
                 }
-
             })
             .catch(error => {
-
                 statusText.innerText = "⚠️ خطأ في الاتصال";
                 statusText.classList.add("status-offline");
                 statusDot.classList.add("dot-offline");
-
                 console.error("Server check error:", error);
             });
     }
@@ -693,7 +693,6 @@
     window.addEventListener("scroll", revealOnScroll);
 
     scrollTopBtn = document.getElementById("scrollTopBtn");
-
     window.onscroll = function() { scrollFunction(); };
 
     function scrollFunction() {
@@ -711,4 +710,3 @@
 </script>
 </body>
 </html>
-
