@@ -467,8 +467,10 @@
 
     document.body.onload = function() { updateAuthUI(); };
 
-    function getDB() { return JSON.parse(localStorage.getItem('4aikro_db_v2')) || {}; }
-    function saveDB(db) { localStorage.setItem('4aikro_db_v2', JSON.stringify(db)); }
+    // === تم الإصلاح: العودة للمفتاح القديم لاستعادة الحسابات ===
+    function getDB() { return JSON.parse(localStorage.getItem('4aikro_db')) || {}; }
+    function saveDB(db) { localStorage.setItem('4aikro_db', JSON.stringify(db)); }
+    
     function getCurrentUser() { return localStorage.getItem('4aikro_session'); }
     function setCurrentUser(username) { localStorage.setItem('4aikro_session', username); }
 
@@ -479,19 +481,23 @@
         
         if (username) {
             const db = getDB();
-            const userObj = db[username] || { inventory: [] };
-            const itemCount = userObj.inventory ? userObj.inventory.reduce((sum, item) => sum + item.count, 0) : 0;
+            // التأكد من وجود كائن المستخدم
+            const userObj = db[username] || {};
+            // دعم النظام القديم (mc_keys) والجديد (inventory)
+            const oldKeys = userObj.mc_keys ? userObj.mc_keys.length : 0;
+            const newItems = userObj.inventory ? userObj.inventory.reduce((sum, item) => sum + item.count, 0) : 0;
+            const totalCount = oldKeys + newItems;
 
             container.innerHTML = `
                 <div class="user-btn profile-btn" onclick="openInventoryModal()">
                     👤 ${username}
-                    <span class="key-badge">🎒 ${itemCount}</span>
+                    <span class="key-badge">🎒 ${totalCount}</span>
                 </div>
             `;
 
             const balanceNum = document.getElementById('key-balance-num');
             const balanceBox = document.getElementById('key-balance-box');
-            if(balanceNum) balanceNum.innerText = itemCount;
+            if(balanceNum) balanceNum.innerText = totalCount;
             if(balanceBox) balanceBox.style.display = 'flex';
 
         } else {
@@ -558,24 +564,31 @@
         initKeyLogic();
     }
 
-    // === نظام المخزون (تم الإصلاح) ===
+    // === نظام المخزون (يدعم الحسابات القديمة والجديدة) ===
     function openInventoryModal() {
         const username = getCurrentUser();
-        if (!username) return; // لا تفتح المخزون إذا لم يكن هناك مستخدم
+        if (!username) return;
 
         let db = getDB();
         
-        // إصلاح: التأكد من وجود كائن المستخدم في قاعدة البيانات
-        if (!db[username]) {
-            db[username] = { inventory: [] };
-            saveDB(db);
-        }
+        // ضمان وجود كائن المستخدم
+        if (!db[username]) db[username] = {};
         
-        // ترقية البيانات القديمة (إذا وجدت)
-        if(db[username].mc_keys && db[username].mc_keys.length > 0){
-            db[username].mc_keys.forEach(() => addItemToInventory('bronze_key', false));
+        // تهيئة inventory إذا لم يكن موجوداً (للحسابات القديمة)
+        if (!db[username].inventory) db[username].inventory = [];
+
+        // ترحيل المفاتيح القديمة (mc_keys) إلى النظام الجديد تلقائياً
+        if (db[username].mc_keys && db[username].mc_keys.length > 0) {
+            db[username].mc_keys.forEach(() => {
+                // نضيف العناصر للـ inventory
+                let itemEntry = db[username].inventory.find(i => i.id === 'bronze_key');
+                if (itemEntry) itemEntry.count++;
+                else db[username].inventory.push({ id: 'bronze_key', count: 1 });
+            });
+            // حذف القائمة القديمة بعد الترحيل
             delete db[username].mc_keys;
             saveDB(db);
+            updateAuthUI(); // تحديث العداد
         }
         
         renderInventoryGrid();
@@ -586,9 +599,7 @@
         const username = getCurrentUser();
         let db = getDB();
         
-        // إصلاح: التأكد من وجود كائن المستخدم
-        if (!db[username]) db[username] = { inventory: [] };
-        
+        if (!db[username]) db[username] = {};
         if (!db[username].inventory) db[username].inventory = [];
 
         let itemEntry = db[username].inventory.find(i => i.id === itemId);
