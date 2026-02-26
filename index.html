@@ -47,34 +47,43 @@
         /* شريط علوي */
         .global-user-bar {
             position: fixed; top: 0; left: 0; width: 100%;
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
-            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(15px);
+            padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
             z-index: 1000; border-bottom: 1px solid var(--glass-border);
-            flex-wrap: wrap; gap: 10px;
+            flex-wrap: wrap; gap: 10px; box-sizing: border-box;
         }
         
         .brand-logo { 
             font-family: 'Tajawal', sans-serif; 
-            font-size: 1.5em; 
+            font-size: 1.6em; 
             font-weight: 900; 
             background: linear-gradient(to right, #fff, #00e676); 
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; 
             white-space: nowrap; 
             flex-shrink: 0;
-            margin-right: 15px; 
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+            cursor: pointer; transition: 0.3s;
         }
+        .brand-logo:hover { transform: scale(1.05); }
         
-        .auth-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .auth-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; align-items: center; }
+        
         .user-btn {
             background: var(--glass); color: white; border: 1px solid var(--glass-border);
-            padding: 8px 15px; border-radius: 12px; cursor: pointer; font-family: 'Cairo', sans-serif;
+            padding: 8px 18px; border-radius: 12px; cursor: pointer; font-family: 'Cairo', sans-serif;
             transition: 0.3s; font-size: 0.9em; display: flex; align-items: center; gap: 8px; position: relative; overflow: hidden;
+            font-weight: bold;
         }
-        .user-btn:hover { background: var(--secondary-color); border-color: var(--secondary-color); transform: translateY(-2px); }
-        .user-btn.profile-btn { background: rgba(76, 175, 50, 0.2); border: 1px solid var(--secondary-color); }
-        .key-badge { background: var(--bronze-color); color: white; padding: 2px 6px; border-radius: 20px; font-size: 0.85em; }
+        .user-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--primary-color); transform: translateY(-2px); }
+        
+        .user-btn.profile-btn { background: rgba(76, 175, 50, 0.15); border: 1px solid rgba(76, 175, 50, 0.5); }
+        .user-btn.profile-btn:hover { background: rgba(76, 175, 50, 0.3); }
+        
+        .user-btn.logout-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.85em; padding: 6px 12px; }
+        .user-btn.logout-btn:hover { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #ef4444; }
+
+        .key-badge { background: var(--bronze-color); color: white; padding: 2px 6px; border-radius: 20px; font-size: 0.8em; }
 
         /* واجهة الاختيار */
         #landing-page { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 100px 20px 50px 20px; }
@@ -108,7 +117,7 @@
 
         /* المحتوى */
         #minecraft-page, #roblox-page { display: none; }
-        .container { width: 95%; max-width: 1400px; margin: 100px auto 30px auto; background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(10px); padding: 20px; border-radius: 20px; border: 1px solid var(--glass-border); position: relative; }
+        .container { width: 95%; max-width: 1400px; margin: 90px auto 30px auto; background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(10px); padding: 25px; border-radius: 20px; border: 1px solid var(--glass-border); position: relative; }
         .back-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); font-size: 0.85em; padding: 6px 12px; }
 
         /* المودال */
@@ -117,8 +126,9 @@
             background: linear-gradient(145deg, #1e1e1e, #111); 
             margin: 8% auto; padding: 40px 30px; border-radius: 24px; width: 90%; max-width: 420px; 
             border: 1px solid #333; text-align: center; position: relative; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: modalFadeIn 0.3s ease;
         }
+        @keyframes modalFadeIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .modal-content h2 { margin-top: 0; color: var(--primary-color); margin-bottom: 25px; font-size: 1.6em; font-weight: 900; }
         .modal-content input { 
             width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; 
@@ -129,46 +139,59 @@
         .modal-content input:focus { border-color: var(--primary-color); outline: none; background: #111; }
         .close-btn { position: absolute; top: 15px; left: 15px; font-size: 28px; cursor: pointer; color: #444; transition: 0.3s; }
         .close-btn:hover { color: #fff; }
+        .modal-link { font-size: 0.85em; color: var(--primary-color); cursor: pointer; margin-top: 15px; display: block; opacity: 0.8; }
+        .modal-link:hover { opacity: 1; text-decoration: underline; }
         
-        /* تعديل شكل الـ Header */
+        /* === تعديل شكل الـ Header (ترتيب عمودي عصري) === */
         header {
             display: flex;
-            flex-direction: row;
+            flex-direction: column; /* ترتيب عمودي */
             align-items: center;
             justify-content: center;
-            gap: 25px;
-            padding: 40px 20px;
+            gap: 15px; /* المسافة بين العناصر */
+            padding: 50px 20px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             margin-bottom: 25px;
-            flex-wrap: wrap;
+            text-align: center;
         }
         
         .animated-gif {
-            width: 140px;
+            width: 150px; /* حجم أكبر قليلاً ليكون مميزاً */
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(76, 175, 50, 0.4);
-            border: 2px solid rgba(255,255,255,0.1);
-            flex-shrink: 0;
+            box-shadow: 0 0 30px rgba(76, 175, 50, 0.5);
+            border: 3px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s;
         }
+        .animated-gif:hover { transform: scale(1.05); }
 
         .header-text {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            text-align: right;
+            align-items: center;
+            gap: 8px; /* مسافة بين العنوان والتحديث */
         }
 
         header h1 {
             color: #fff;
             margin: 0;
-            font-size: 2.2em;
+            font-size: 2.4em;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px var(--primary-color);
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px var(--primary-color);
             line-height: 1.2;
+            font-family: 'Tajawal', sans-serif; /* خط مميز للعنوان */
         }
         
-        header p { margin: 5px 0 0 0; color: #aaa; }
+        header p {
+            margin: 0;
+            color: #ccc;
+            font-size: 0.9em;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            letter-spacing: 1px;
+        }
 
         /* بطاقات */
         .balance-display { background: rgba(0,0,0,0.3); padding: 6px; border-radius: 8px; margin-bottom: 8px; border: 1px solid rgba(205, 127, 50, 0.3); display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.85em; }
@@ -202,13 +225,9 @@
             padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 25px;
             border: 1px solid rgba(255, 255, 255, 0.2); 
             box-shadow: 0 0 20px rgba(0,0,0,0.4); 
-            opacity: 1; transform: none; 
-            position: relative;
-            overflow: hidden;
-            color: #fff;
+            position: relative; overflow: hidden; color: #fff;
             background-image: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://wallpapercave.com/wp/wp9336459.jpg');
-            background-size: cover;
-            background-position: center;
+            background-size: cover; background-position: center;
         }
         .server-status::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 0; }
         .server-status > * { position: relative; z-index: 1; }
@@ -240,7 +259,6 @@
         .inv-slot img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)); }
         .inv-slot .item-count { position: absolute; bottom: 2px; left: 2px; background: rgba(0,0,0,0.8); font-size: 0.7em; padding: 1px 4px; border-radius: 4px; font-weight: bold; }
         
-        /* ألوان الندرة للسلوتس */
         .rarity-common { border-color: #555; box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05); }
         .rarity-rare { border-color: var(--rarity-rare); box-shadow: inset 0 0 10px rgba(85, 85, 255, 0.2); }
         
@@ -251,17 +269,32 @@
         .inv-details p { font-size: 0.85em; color: #aaa; line-height: 1.4; margin: 0; }
         .inv-empty-msg { color: #444; text-align: center; margin-top: 50%; font-size: 0.9em; }
 
+        /* === نظام الإشعارات (Toast) === */
+        #toast-container {
+            position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;
+        }
+        .toast {
+            background: #1e1e1e; color: white; padding: 12px 20px; border-radius: 8px; border-right: 4px solid var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); animation: slideIn 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
+            display: flex; align-items: center; gap: 10px; font-size: 0.9em;
+        }
+        .toast.error { border-color: #ef4444; }
+        .toast.success { border-color: var(--primary-color); }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }
+
         /* تنسيقات الهواتف */
         @media (max-width: 600px) {
-            .brand-logo { font-size: 1.2em; margin-right: 0; text-align: center; }
-            .container { margin: 10px auto; padding: 15px; border-radius: 15px; }
+            .brand-logo { font-size: 1.2em; }
+            .container { margin: 80px auto 20px auto; padding: 15px; }
+            header h1 { font-size: 1.8em; } /* تصغير الخط قليلاً في الهاتف */
+            .animated-gif { width: 120px; }
             .rank-image, .item-image { height: 90px; }
-            header { flex-direction: column; text-align: center; gap: 15px; padding: 30px 15px; }
-            .header-text { text-align: center; align-items: center; }
-            header h1 { font-size: 1.6em; }
             .inv-body { flex-direction: column; }
             .inv-grid { flex: none; height: 150px; overflow-x: auto; display: flex; flex-wrap: nowrap; grid-template-columns: none; }
             .inv-slot { min-width: 70px; }
+            #toast-container { left: 20px; right: 20px; bottom: 20px; }
+            .toast { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -269,10 +302,11 @@
 
 <div class="bg-animation"></div>
 <button onclick="topFunction()" id="scrollTopBtn" title="العودة للأعلى">⬆</button>
+<div id="toast-container"></div>
 
 <!-- الشريط العلوي -->
 <div class="global-user-bar">
-    <div class="brand-logo">4AIKRO</div>
+    <div class="brand-logo" onclick="goHome()">4AIKRO</div>
     <div id="auth-btn-container" class="auth-actions"></div>
 </div>
 
@@ -307,6 +341,8 @@
 <div id="minecraft-page">
     <div class="container">
         <button class="user-btn back-btn" onclick="goHome()">⬅ الرئيسية</button>
+        
+        <!-- Header Updated Structure -->
         <header>
             <img src="standard_1.gif" alt="GIF" class="animated-gif">
             <div class="header-text">
@@ -328,7 +364,8 @@
 
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
             <a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="btn btn-discord" style="background:#5865F2;">Discord</a>
-            <a href="https://www.mediafire.com/file/8cvfd3ql5sa2l0w/MODS+AIKRO+S4.rar/file" class="btn" target="_blank">تحميل المودات</a>
+            <!-- تم تحديث رابط التحميل -->
+            <a href="https://www.mediafire.com/file/9ifvfmahwl2ke46/mods+serveur+4AIKRO_S4.rar/file" class="btn" target="_blank">تحميل المودات</a>
             <button class="btn btn-rules" onclick="openModal('rules-modal')">⚖️ القوانين</button>
         </div>
 
@@ -410,7 +447,18 @@
         <input type="text" id="login-name" placeholder="اسم المستخدم">
         <input type="password" id="login-code" placeholder="الكود السري">
         <button class="btn" onclick="handleLogin()" style="width:100%;">دخول</button>
-        <p id="login-error" style="color:#ff4444; font-size:0.8em; margin-top:10px; display:none;"></p>
+        <span class="modal-link" onclick="openForgotModal()">نسيت كودك؟</span>
+    </div>
+</div>
+
+<div id="forgot-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('forgot-modal')">&times;</span>
+        <h2>استرجاع الكود</h2>
+        <p style="font-size:0.85em; color:#888; margin-bottom:15px;">أدخل بريدك الإلكتروني المسجل به للعثور على كودك.</p>
+        <input type="email" id="forgot-email" placeholder="البريد الإلكتروني">
+        <button class="btn" onclick="handleForgot()" style="width:100%;">بحث</button>
+        <span class="modal-link" onclick="closeModal('forgot-modal'); openModal('login-modal');">العودة لتسجيل الدخول</span>
     </div>
 </div>
 
@@ -422,9 +470,8 @@
         <p style="font-size:0.85em; color:#888; margin-bottom:20px;">أنشئ حسابك للوصول للمخزون والمزايا الحصرية</p>
         <input type="text" id="reg-name" placeholder="اسم المستخدم">
         <input type="password" id="reg-code" placeholder="الكود السري">
-        <input type="email" id="reg-email" placeholder="البريد الإلكتروني (اختياري)">
+        <input type="email" id="reg-email" placeholder="البريد الإلكتروني (ضروري للاسترجاع)">
         <button class="btn" onclick="handleRegister()" style="width:100%;">إنشاء الحساب</button>
-        <p id="register-error" style="color:#ff4444; font-size:0.8em; margin-top:10px; display:none;"></p>
     </div>
 </div>
 
@@ -433,10 +480,7 @@
     <div class="modal-content inventory-modal-content">
         <div class="inv-header">
             <h2>📦 المخزون</h2>
-            <div style="display:flex; gap:10px;">
-                <button class="btn" style="background:#444; padding:5px 15px; font-size:0.8em;" onclick="logout()">خروج</button>
-                <span class="close-btn" style="position:relative; top:0; left:0; font-size:20px;" onclick="closeModal('inventory-modal')">&times;</span>
-            </div>
+            <span class="close-btn" style="position:relative; top:0; left:0; font-size:20px;" onclick="closeModal('inventory-modal')">&times;</span>
         </div>
         <div class="inv-body">
             <div class="inv-grid" id="inv-grid"></div>
@@ -465,7 +509,7 @@
             id: 'bronze_key',
             name: 'COPPER KEY',
             description: 'مفتاح نحاسي أساسي يومي.',
-            image: 'COPPERKEY.png', 
+            image: 'COPPERKEY.png',
             rarity: 'common',
             max_stack: 25000
         }
@@ -478,6 +522,16 @@
     
     function getCurrentUser() { return localStorage.getItem('4aikro_session'); }
     function setCurrentUser(username) { localStorage.setItem('4aikro_session', username); }
+
+    // === نظام الإشعارات Toast ===
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = message;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
 
     function updateAuthUI() {
         const container = document.getElementById('auth-btn-container');
@@ -496,6 +550,7 @@
                     👤 ${username}
                     <span class="key-badge">🎒 ${totalCount}</span>
                 </div>
+                <button class="user-btn logout-btn" onclick="logout()">🚪 خروج</button>
             `;
 
             const balanceNum = document.getElementById('key-balance-num');
@@ -520,12 +575,31 @@
 
     function openModal(id) { document.getElementById(id).style.display = 'block'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function openForgotModal() { closeModal('login-modal'); openModal('forgot-modal'); }
+
+    function handleForgot() {
+        const email = document.getElementById('forgot-email').value.trim();
+        if(!email) { showToast("أدخل البريد الإلكتروني", "error"); return; }
+
+        let db = getDB();
+        let foundUser = null;
+        for(let user in db) {
+            if(db[user].email === email) { foundUser = user; break; }
+        }
+
+        if(foundUser) {
+            const code = db[foundUser].code;
+            showToast(`✅ تم العثور على الحساب! الكود هو: <b style='color:var(--primary-color)'>${code}</b>`, 'success');
+            closeModal('forgot-modal');
+        } else {
+            showToast("❌ البريد الإلكتروني غير مسجل لدينا.", "error");
+        }
+    }
 
     function handleLogin() {
         const name = document.getElementById('login-name').value.trim();
         const code = document.getElementById('login-code').value.trim();
-        const err = document.getElementById('login-error');
-        if (!name || !code) { err.innerText = "أدخل الاسم والكود"; err.style.display='block'; return; }
+        if (!name || !code) { showToast("أدخل الاسم والكود", "error"); return; }
 
         let db = getDB();
         if (db[name] && db[name].code === code) {
@@ -533,38 +607,37 @@
             closeModal('login-modal');
             updateAuthUI();
             initKeyLogic();
-            alert("مرحباً بك، " + name);
+            showToast(`مرحباً بك، ${name} 👋`, 'success');
         } else {
-            err.innerText = "خطأ في الاسم أو الكود";
-            err.style.display='block';
+            showToast("خطأ في الاسم أو الكود", "error");
         }
     }
 
     function handleRegister() {
         const name = document.getElementById('reg-name').value.trim();
         const code = document.getElementById('reg-code').value.trim();
-        const err = document.getElementById('register-error');
+        const email = document.getElementById('reg-email').value.trim();
 
-        if (!name || !code) { err.innerText = "الاسم والكود مطلوبان"; err.style.display='block'; return; }
+        if (!name || !code || !email) { showToast("جميع الحقول مطلوبة", "error"); return; }
 
         let db = getDB();
-        if (db[name]) { err.innerText = "الاسم موجود!"; err.style.display='block'; return; }
+        if (db[name]) { showToast("الاسم موجود مسبقاً!", "error"); return; }
 
-        db[name] = { code: code, email: document.getElementById('reg-email').value.trim(), inventory: [] };
+        db[name] = { code: code, email: email, inventory: [] };
         saveDB(db);
 
         setCurrentUser(name);
         closeModal('register-modal');
         updateAuthUI();
         initKeyLogic();
-        alert("تم إنشاء الحساب!");
+        showToast("تم إنشاء الحساب بنجاح! 🎉");
     }
 
     function logout() {
         localStorage.removeItem('4aikro_session');
-        closeModal('inventory-modal');
         updateAuthUI();
         initKeyLogic();
+        showToast("تم تسجيل الخروج");
     }
 
     // === نظام المخزون ===
@@ -602,7 +675,7 @@
 
         if (itemEntry) {
             if (checkMaxStack && itemEntry.count >= maxStack) {
-                if(alertUser) alert("⚠️ وصلت للحد الأقصى (" + maxStack + ") لهذا العنصر!");
+                if(alertUser) showToast(`⚠️ وصلت للحد الأقصى (${maxStack})`, 'error');
                 return;
             }
             itemEntry.count++;
@@ -612,7 +685,7 @@
 
         saveDB(db);
         updateAuthUI();
-        if(alertUser) alert("🎉 تم إضافة العنصر للمخزون!");
+        if(alertUser) showToast("🎉 تم إضافة العنصر للمخزون!");
     }
 
     function renderInventoryGrid() {
@@ -680,7 +753,6 @@
             updateAuthUI(); 
         }
     }
-
     function goHome() {
         document.getElementById('landing-page').style.display = 'flex';
         document.getElementById('minecraft-page').style.display = 'none';
@@ -766,9 +838,7 @@
 
     function copyIP() {
         navigator.clipboard.writeText(document.getElementById("server-ip").innerText);
-        const msg = document.getElementById("copy-msg");
-        msg.style.display = "block";
-        setTimeout(() => msg.style.display = "none", 2000);
+        showToast("تم نسخ الأيبي!", 'success');
     }
 
     function checkServerStatus() {
@@ -836,5 +906,3 @@
 </script>
 </body>
 </html>
-
-
