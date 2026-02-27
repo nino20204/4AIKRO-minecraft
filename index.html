@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4AIKRO - Portal</title>
+    <title>STORE 4AIKRO</title>
     
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1P984G5247"></script>
@@ -73,7 +73,7 @@
             background: var(--glass); color: white; border: 1px solid var(--glass-border);
             padding: 8px 18px; border-radius: 12px; cursor: pointer; font-family: 'Cairo', sans-serif;
             transition: 0.3s; font-size: 0.9em; display: flex; align-items: center; gap: 8px; position: relative; overflow: hidden;
-            font-weight: bold;
+            font-weight: bold; text-decoration: none;
         }
         .user-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--primary-color); transform: translateY(-2px); }
         
@@ -124,7 +124,7 @@
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); backdrop-filter: blur(8px); overflow-y: auto; }
         .modal-content { 
             background: linear-gradient(145deg, #1e1e1e, #111); 
-            margin: 8% auto; padding: 40px 30px; border-radius: 24px; width: 90%; max-width: 420px; 
+            margin: 5% auto; padding: 40px 30px; border-radius: 24px; width: 90%; max-width: 420px; 
             border: 1px solid #333; text-align: center; position: relative; 
             box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: modalFadeIn 0.3s ease;
         }
@@ -142,56 +142,17 @@
         .modal-link { font-size: 0.85em; color: var(--primary-color); cursor: pointer; margin-top: 15px; display: block; opacity: 0.8; }
         .modal-link:hover { opacity: 1; text-decoration: underline; }
         
-        /* === تعديل شكل الـ Header (ترتيب عمودي عصري) === */
+        /* Header */
         header {
-            display: flex;
-            flex-direction: column; /* ترتيب عمودي */
-            align-items: center;
-            justify-content: center;
-            gap: 15px; /* المسافة بين العناصر */
-            padding: 50px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 25px;
-            text-align: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 15px; padding: 50px 20px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 25px; text-align: center;
         }
-        
-        .animated-gif {
-            width: 150px; /* حجم أكبر قليلاً ليكون مميزاً */
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(76, 175, 50, 0.5);
-            border: 3px solid rgba(255,255,255,0.1);
-            transition: transform 0.3s;
-        }
+        .animated-gif { width: 150px; border-radius: 10px; box-shadow: 0 0 30px rgba(76, 175, 50, 0.5); border: 3px solid rgba(255,255,255,0.1); transition: transform 0.3s; }
         .animated-gif:hover { transform: scale(1.05); }
-
-        .header-text {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px; /* مسافة بين العنوان والتحديث */
-        }
-
-        header h1 {
-            color: #fff;
-            margin: 0;
-            font-size: 2.4em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 15px var(--primary-color);
-            line-height: 1.2;
-            font-family: 'Tajawal', sans-serif; /* خط مميز للعنوان */
-        }
-        
-        header p {
-            margin: 0;
-            color: #ccc;
-            font-size: 0.9em;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 4px 12px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            letter-spacing: 1px;
-        }
+        .header-text { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        header h1 { color: #fff; margin: 0; font-size: 2.4em; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 15px var(--primary-color); line-height: 1.2; font-family: 'Tajawal', sans-serif; }
+        header p { margin: 0; color: #ccc; font-size: 0.9em; background: rgba(255, 255, 255, 0.1); padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); letter-spacing: 1px; }
 
         /* بطاقات */
         .balance-display { background: rgba(0,0,0,0.3); padding: 6px; border-radius: 8px; margin-bottom: 8px; border: 1px solid rgba(205, 127, 50, 0.3); display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.85em; }
@@ -201,12 +162,9 @@
         .section.visible { opacity: 1; transform: translateY(0); }
         
         .section h2 { border-bottom: 2px solid var(--primary-color); padding-bottom: 8px; color: #fff; font-size: 1.5em; display: inline-block; margin-bottom: 15px; }
-        
         .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; align-items: start; }
-        
         .card { background: #1e1e1e; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #333; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-sizing: border-box; overflow: hidden; }
         .card:hover { transform: translateY(-3px); border-color: var(--primary-color); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
-        
         .rank-image { width: 100%; height: 110px; object-fit: contain; margin-bottom: 10px; transition: transform 0.3s; }
         .card:hover .rank-image { transform: scale(1.05); }
         
@@ -217,7 +175,6 @@
             position: relative; overflow: hidden; margin-top: 5px;
         }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(76, 175, 50, 0.4); }
-        
         .btn-bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); }
         .btn-rules { background: linear-gradient(135deg, #555, #333); border: 1px solid #444; }
         
@@ -239,8 +196,6 @@
         .status-online { color: var(--online-color); text-shadow: 0 0 8px rgba(34, 197, 94, 0.6); animation: glowGreen 2s ease-in-out infinite alternate; }
         .status-offline { color: var(--offline-color); text-shadow: 0 0 8px rgba(239, 68, 68, 0.6); animation: glowRed 2s ease-in-out infinite alternate; }
         
-        .status-info { margin-top: 10px; font-size: 1.1em; }
-
         .item-image { width: 100%; height: 110px; object-fit: contain; background: linear-gradient(135deg, #1a1a1a, #252525); border-radius: 8px; margin-bottom: 10px; padding: 5px; display: block; margin-left: auto; margin-right: auto; border: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.3s ease; }
         .card:hover .item-image { transform: scale(1.02); }
 
@@ -262,28 +217,47 @@
         .rarity-common { border-color: #555; box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05); }
         .rarity-rare { border-color: var(--rarity-rare); box-shadow: inset 0 0 10px rgba(85, 85, 255, 0.2); }
         
-        .inv-details { flex: 1; padding: 20px; background: #111; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .inv-details { flex: 1; padding: 20px; background: #111; display: flex; flex-direction: column; align-items: center; text-align: center; overflow-y: auto; }
         .inv-details img { width: 80px; height: 80px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
         .inv-details h3 { margin: 0 0 5px 0; font-size: 1.1em; color: #fff; }
         .inv-details .rarity-text { font-size: 0.8em; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
         .inv-details p { font-size: 0.85em; color: #aaa; line-height: 1.4; margin: 0; }
         .inv-empty-msg { color: #444; text-align: center; margin-top: 50%; font-size: 0.9em; }
 
-        /* === نظام الإشعارات (Toast) === */
+        /* Referral Box */
+        .referral-box {
+            margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.3);
+            border-radius: 10px; border: 1px dashed #444; width: 100%; box-sizing: border-box;
+        }
+        .referral-title { font-size: 0.9em; color: var(--primary-color); margin-bottom: 8px; display: block; }
+        .referral-link-display {
+            display: flex; gap: 5px; justify-content: center; align-items: center;
+        }
+        .referral-link-input {
+            flex: 1; background: #0a0a0a; border: 1px solid #333; padding: 8px;
+            border-radius: 6px; color: #fff; font-size: 0.8em; text-align: center;
+            pointer-events: none;
+        }
+        .referral-copy-btn {
+            background: var(--bronze-color); border: none; padding: 8px 12px;
+            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.8em;
+        }
+        .referral-info { font-size: 0.75em; color: #666; margin-top: 5px; }
+
+        /* Toast */
         #toast-container {
             position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;
         }
         .toast {
             background: #1e1e1e; color: white; padding: 12px 20px; border-radius: 8px; border-right: 4px solid var(--primary-color);
             box-shadow: 0 5px 15px rgba(0,0,0,0.5); animation: slideIn 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
-            display: flex; align-items: center; gap: 10px; font-size: 0.9em;
+            display: flex; align-items: center; gap: 10px; font-size: 0.9em; max-width: 300px;
         }
         .toast.error { border-color: #ef4444; }
         .toast.success { border-color: var(--primary-color); }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }
 
-        /* تنسيقات الهواتف */
         @media (max-width: 600px) {
             .brand-logo { font-size: 1.2em; }
             .container { margin: 80px auto 20px auto; padding: 15px; }
@@ -294,7 +268,7 @@
             .inv-grid { flex: none; height: 150px; overflow-x: auto; display: flex; flex-wrap: nowrap; grid-template-columns: none; }
             .inv-slot { min-width: 70px; }
             #toast-container { left: 20px; right: 20px; bottom: 20px; }
-            .toast { width: 100%; justify-content: center; }
+            .toast { width: 100%; justify-content: center; max-width: 100%; }
         }
     </style>
 </head>
@@ -306,7 +280,7 @@
 
 <!-- الشريط العلوي -->
 <div class="global-user-bar">
-    <div class="brand-logo" onclick="goHome()">4AIKRO</div>
+    <div class="brand-logo" onclick="goHome()">STORE 4AIKRO</div>
     <div id="auth-btn-container" class="auth-actions"></div>
 </div>
 
@@ -314,7 +288,7 @@
 <div id="landing-page">
     <img src="newlogosite.gif" alt="Logo" class="landing-logo">
     <h1 class="landing-title">Choose Your Game</h1>
-    <p class="landing-subtitle">الخدمات التي يوفرها 4AIKRO</p>
+    <p class="landing-subtitle">الخدمات التي يوفرها STORE 4AIKRO</p>
     <div class="choices-container">
         <div class="choice-card card-roblox" onclick="showPage('roblox')">
             <img src="logoroblox.png" alt="Roblox">
@@ -341,8 +315,6 @@
 <div id="minecraft-page">
     <div class="container">
         <button class="user-btn back-btn" onclick="goHome()">⬅ الرئيسية</button>
-        
-        <!-- Header Updated Structure -->
         <header>
             <img src="standard_1.gif" alt="GIF" class="animated-gif">
             <div class="header-text">
@@ -359,12 +331,10 @@
                 <div id="server-version"></div>
             </div>
             <div class="ip-box" onclick="copyIP()"><strong>IP:</strong> <span id="server-ip">cities-declare.gl.joinmc.link</span> 📋</div>
-            <p id="copy-msg" style="display:none; margin-top:5px; font-size:0.8em; color:#22c55e;">تم النسخ!</p>
         </div>
 
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
             <a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="btn btn-discord" style="background:#5865F2;">Discord</a>
-            <!-- تم تحديث رابط التحميل -->
             <a href="https://www.mediafire.com/file/eyavtrl589c7s5x/mods_serveur_4AIKRO_S4.rar/file" class="btn" target="_blank">تحميل المودات</a>
             <button class="btn btn-rules" onclick="openModal('rules-modal')">⚖️ القوانين</button>
         </div>
@@ -480,12 +450,23 @@
     <div class="modal-content inventory-modal-content">
         <div class="inv-header">
             <h2>📦 المخزون</h2>
-            <span class="close-btn" style="position:relative; top:0; left:0; font-size:20px;" onclick="closeModal('inventory-modal')">&times;</span>
+            <div style="display:flex; gap:10px;">
+                <button class="btn logout-btn" onclick="logout()">🚪 خروج</button>
+                <span class="close-btn" style="position:relative; top:0; left:0; font-size:20px;" onclick="closeModal('inventory-modal')">&times;</span>
+            </div>
         </div>
         <div class="inv-body">
             <div class="inv-grid" id="inv-grid"></div>
             <div class="inv-details" id="inv-details">
                 <p class="inv-empty-msg">اختر عنصراً لعرض التفاصيل</p>
+                <div class="referral-box">
+                    <span class="referral-title">🔗 رابط الدعوة الخاص بك</span>
+                    <div class="referral-link-display">
+                        <input type="text" id="ref-link-display" class="referral-link-input" readonly>
+                        <button class="referral-copy-btn" onclick="copyRefLink()">نسخ</button>
+                    </div>
+                    <p class="referral-info">ادعُ أصدقاءك واحصل على مفتاح مجاني لكل شخص جديد يدخل الموقع من خلال رابطك!</p>
+                </div>
             </div>
         </div>
     </div>
@@ -515,15 +496,108 @@
         }
     };
 
-    document.body.onload = function() { updateAuthUI(); };
+    let isProcessingReferral = false; // منع التكرار السريع
 
+    document.body.onload = function() { 
+        updateAuthUI(); 
+        checkReferralSystem(); // فحص الإحالة عند التحميل
+    };
+
+    // === نظام الإحالة والحماية ===
+    function checkReferralSystem() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const referrer = urlParams.get('ref');
+
+        if (referrer && !isProcessingReferral) {
+            isProcessingReferral = true;
+            
+            // التحقق إذا كان الزائر جديدًا
+            const visitorId = getVisitorID();
+            const lastReferrer = localStorage.getItem('last_referrer');
+
+            // إذا كان الزائر لم يحتسب إحالته لأحد من قبل
+            if (!lastReferrer) {
+                // نقوم بتسجيل الإحالة
+                localStorage.setItem('last_referrer', referrer); // حفظ لمنتمت الإحالة لمنع التكرار
+                setCookie('last_ref', referrer, 365); // حماية إضافية
+                
+                // إعطاء المكافأة للمحيل
+                grantReferralReward(referrer);
+            } else {
+                console.log("This visitor already counted a referral.");
+            }
+            
+            // تنظيف الرابط للأمان (اختياري)
+            // window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }
+
+    function grantReferralReward(referrerName) {
+        let db = getDB();
+        // التأكد من أن المحيل موجود في قاعدة البيانات
+        if (db[referrerName]) {
+            // التأكد من أن المحيل ليس نفس الشخص الذي دخل (لا يمكن أن تحيل نفسك)
+            const currentUser = getCurrentUser();
+            if (currentUser === referrerName) return;
+
+            addItemToInventoryForUser(referrerName, 'bronze_key', false);
+            saveDB(db);
+            console.log(`Referral success! ${referrerName} got a key.`);
+            
+            // إشعار (يظهر فقط إذا كان المحيل مسجل دخوله حالياً)
+            if (getCurrentUser() === referrerName) {
+                showToast("🎉 مكافأة! شخص جديد دخل برابطك!", 'success');
+                updateAuthUI();
+                renderInventoryGrid(); // تحديث العرض
+            }
+        }
+    }
+
+    // الحصول على هوية الزائر (Visitor ID)
+    function getVisitorID() {
+        let id = localStorage.getItem('visitor_uuid');
+        if (!id) {
+            id = 'vid_' + Math.random().toString(36).substr(2, 9) + Date.now();
+            localStorage.setItem('visitor_uuid', id);
+        }
+        return id;
+    }
+
+    // إضافة عنصر لمستخدم معين (للاستخدام من الإحالة)
+    function addItemToInventoryForUser(username, itemId, alertUser = false) {
+        let db = getDB();
+        if (!db[username]) db[username] = {};
+        if (!db[username].inventory) db[username].inventory = [];
+
+        let itemEntry = db[username].inventory.find(i => i.id === itemId);
+        const itemData = GAME_ITEMS[itemId];
+        const maxStack = itemData ? itemData.max_stack : 64;
+
+        if (itemEntry) {
+            if (itemEntry.count < maxStack) itemEntry.count++;
+        } else {
+            db[username].inventory.push({ id: itemId, count: 1 });
+        }
+    }
+
+    // === نظام قاعدة البيانات الأساسي ===
     function getDB() { return JSON.parse(localStorage.getItem('4aikro_db')) || {}; }
     function saveDB(db) { localStorage.setItem('4aikro_db', JSON.stringify(db)); }
     
     function getCurrentUser() { return localStorage.getItem('4aikro_session'); }
     function setCurrentUser(username) { localStorage.setItem('4aikro_session', username); }
 
-    // === نظام الإشعارات Toast ===
+    // === أدوات مساعدة ===
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            let date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
     function showToast(message, type = 'success') {
         const container = document.getElementById('toast-container');
         const toast = document.createElement('div');
@@ -557,6 +631,13 @@
             const balanceBox = document.getElementById('key-balance-box');
             if(balanceNum) balanceNum.innerText = totalCount;
             if(balanceBox) balanceBox.style.display = 'flex';
+            
+            // تحديث رابط الإحالة
+            const refLinkInput = document.getElementById('ref-link-display');
+            if(refLinkInput) {
+                const baseUrl = window.location.origin + window.location.pathname;
+                refLinkInput.value = `${baseUrl}?ref=${encodeURIComponent(username)}`;
+            }
 
         } else {
             if (isLandingVisible) {
@@ -637,6 +718,7 @@
         localStorage.removeItem('4aikro_session');
         updateAuthUI();
         initKeyLogic();
+        closeModal('inventory-modal');
         showToast("تم تسجيل الخروج");
     }
 
@@ -659,6 +741,7 @@
         }
         
         renderInventoryGrid();
+        updateAuthUI(); // لتحديث رابط الإحالة
         openModal('inventory-modal');
     }
 
@@ -694,7 +777,7 @@
         const inventory = db[username]?.inventory || [];
         const grid = document.getElementById('inv-grid');
         const details = document.getElementById('inv-details');
-        details.innerHTML = '<p class="inv-empty-msg">اختر عنصراً</p>';
+        details.innerHTML = '<p class="inv-empty-msg">اختر عنصراً</p><div class="referral-box"><span class="referral-title">🔗 رابط الدعوة الخاص بك</span><div class="referral-link-display"><input type="text" id="ref-link-display" class="referral-link-input" readonly><button class="referral-copy-btn" onclick="copyRefLink()">نسخ</button></div><p class="referral-info">ادعُ أصدقاءك واحصل على مفتاح مجاني لكل شخص جديد يدخل من رابطك!</p></div>';
 
         if (inventory.length === 0) {
             grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#333; padding:20px;">المخزون فارغ</p>';
@@ -732,7 +815,26 @@
             <div class="rarity-text" style="color:${color};">${name}</div>
             <p>${itemData.description}</p>
             <div style="margin-top:15px; font-size:0.8em; color:#555;">الكمية: ${entry.count} / ${itemData.max_stack}</div>
+            <div class="referral-box" style="margin-top:20px;">
+                <span class="referral-title">🔗 رابط الدعوة</span>
+                <div class="referral-link-display">
+                    <input type="text" id="ref-link-display" class="referral-link-input" readonly>
+                    <button class="referral-copy-btn" onclick="copyRefLink()">نسخ</button>
+                </div>
+                <p class="referral-info">ادعُ صديقًا جديدًا واحصل على مفتاح مجاني!</p>
+            </div>
         `;
+        
+        // تحديث حقل الرابط
+        updateAuthUI();
+    }
+    
+    function copyRefLink() {
+        const input = document.getElementById('ref-link-display');
+        if(input && input.value) {
+            navigator.clipboard.writeText(input.value);
+            showToast("تم نسخ رابط الدعوة! شاركه مع أصدقائك.", 'success');
+        }
     }
 
     function openRulesModal() { openModal('rules-modal'); }
