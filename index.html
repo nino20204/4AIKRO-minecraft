@@ -1,1047 +1,166 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STORE 4AIKRO</title>
-    <meta name="description" content="The ultimate store for Minecraft mods and ranks.">
-    
-    <!-- Google Fonts (Added Japanese Font) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@500;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1P984G5247"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-1P984G5247');
-    </script>
-
-    <style>
-        :root {
-            --primary-color: #00e676;
-            --secondary-color: #4CAF50;
-            --bg-dark: #050505;
-            --bronze-color: #cd7f32;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --online-color: #22c55e;
-            --offline-color: #ef4444;
-        }
-
-        * { box-sizing: border-box; }
-        
-        body {
-            font-family: 'Cairo', sans-serif; /* Default to Arabic */
-            margin: 0; padding: 0;
-            background-color: var(--bg-dark); color: white;
-            overflow-x: hidden; min-height: 100vh;
-            transition: font-family 0.3s ease;
-        }
-
-        /* Font Switching Logic */
-        body.lang-en, body.lang-jp { font-family: 'Cairo', sans-serif; } /* Cairo supports basic latin, fallback */
-        .font-jp { font-family: 'Noto Sans JP', sans-serif; } /* Class to force JP font if needed */
-
-        /* LTR Support for English/Japanese */
-        html[dir="ltr"] body { direction: ltr; text-align: left; }
-        html[dir="ltr"] .user-btn, html[dir="ltr"] .modal-content { text-align: left; }
-        html[dir="ltr"] .brand-logo { margin-right: 0; margin-left: 15px; }
-        html[dir="ltr"] .back-btn { right: auto; left: 20px; }
-        html[dir="ltr"] .close-btn { left: auto; right: 15px; }
-        html[dir="ltr"] .key-badge { margin-right: 0; margin-left: 5px; }
-        html[dir="ltr"] .inv-slot .item-count { left: auto; right: 2px; }
-
-        /* Background */
-        .bg-animation {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #050505; z-index: -1;
-        }
-        .bg-animation::after {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(0,230,118,0.03) 0%, transparent 60%);
-            animation: rotateBG 30s linear infinite;
-        }
-        @keyframes rotateBG { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary-color); }
-
-        /* Header */
-        .global-user-bar {
-            position: fixed; top: 0; left: 0; width: 100%;
-            background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(20px);
-            padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; border-bottom: 1px solid var(--glass-border);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-        }
-        
-        .brand-logo { 
-            font-family: 'Tajawal', sans-serif; font-size: 1.8em; font-weight: 900; 
-            background: linear-gradient(to right, #fff, #00e676); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            cursor: pointer; transition: 0.3s; letter-spacing: 1px;
-        }
-        .brand-logo:hover { transform: scale(1.05); }
-        
-        .auth-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; align-items: center; }
-        
-        .user-btn {
-            background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid var(--glass-border);
-            padding: 8px 20px; border-radius: 12px; cursor: pointer; font-family: inherit;
-            transition: 0.3s; font-size: 0.9em; display: flex; align-items: center; gap: 8px; 
-            font-weight: 700; text-decoration: none;
-        }
-        .user-btn:hover { border-color: var(--primary-color); transform: translateY(-2px); }
-        
-        .user-btn.profile-btn { background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.3); }
-        .user-btn.logout-btn { background: transparent; border-color: rgba(255, 50, 50, 0.3); color: #ff5555; }
-        .key-badge { background: var(--bronze-color); color: white; padding: 2px 8px; border-radius: 20px; font-size: 0.8em; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
-
-        /* Language Selector */
-        .lang-switcher {
-            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
-            color: #fff; padding: 8px 12px; border-radius: 12px; cursor: pointer;
-            font-family: inherit; font-weight: bold; font-size: 0.85em;
-            display: flex; align-items: center; gap: 6px;
-        }
-        .lang-switcher:active { transform: scale(0.95); }
-        .lang-switcher select {
-            background: transparent; border: none; color: #fff;
-            font-family: inherit; font-weight: bold; cursor: pointer;
-            outline: none; font-size: 1em;
-        }
-        .lang-switcher select option { background: #000; color: #fff; }
-
-        /* Landing Page */
-        #landing-page { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 100px 20px 50px 20px; }
-        .landing-logo { width: 150px; height: 150px; border-radius: 50%; border: 3px solid rgba(0, 230, 118, 0.3); box-shadow: 0 0 50px rgba(0, 230, 118, 0.3); margin-bottom: 25px; animation: pulseLogo 4s infinite; }
-        @keyframes pulseLogo { 0% { box-shadow: 0 0 30px rgba(0, 230, 118, 0.2); } 50% { box-shadow: 0 0 60px rgba(0, 230, 118, 0.5); } 100% { box-shadow: 0 0 30px rgba(0, 230, 118, 0.2); } }
-        .landing-title { font-family: 'Tajawal', sans-serif; font-size: 3.5em; margin-bottom: 10px; background: linear-gradient(135deg, #ffffff, #00e676); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 3px; }
-        .landing-subtitle { font-size: 1.2em; color: #666; margin-bottom: 50px; letter-spacing: 1px; }
-        .choices-container { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 900px; }
-        
-        .choice-card {
-            width: 100%; max-width: 360px; height: auto; min-height: 420px;
-            background: linear-gradient(145deg, rgba(20,20,20,0.8), rgba(10,10,10,0.9)); backdrop-filter: blur(20px);
-            border-radius: 30px; cursor: pointer; transition: 0.4s;
-            border: 1px solid rgba(255, 255, 255, 0.05); position: relative; overflow: hidden;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        }
-        .choice-card:hover { transform: translateY(-15px) scale(1.01); border-color: transparent; box-shadow: 0 0 40px rgba(0, 230, 118, 0.15); }
-        .choice-card img { width: 120px; height: 120px; margin-bottom: 20px; }
-        .choice-card h2 { font-size: 2em; margin: 0; color: #fff; }
-        .choice-card p { color: #777; margin-top: 10px; }
-
-        /* Content */
-        #minecraft-page, #roblox-page { display: none; }
-        .container { width: 95%; max-width: 1400px; margin: 90px auto 30px auto; background: rgba(15, 15, 15, 0.6); backdrop-filter: blur(20px); padding: 25px; border-radius: 25px; border: 1px solid var(--glass-border); position: relative; }
-        
-        /* Floating Back Button */
-        .back-btn { position: fixed; bottom: 30px; right: 30px; z-index: 1500; border: none; outline: none; background: rgba(0, 0, 0, 0.8); color: #fff; cursor: pointer; padding: 15px 25px; border-radius: 50px; font-size: 1em; font-family: inherit; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: 0.3s; display: none; }
-        .back-btn:hover { background: var(--primary-color); color: #000; transform: scale(1.1); }
-
-        /* Modals */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); backdrop-filter: blur(15px); overflow-y: auto; }
-        .modal-content { background: linear-gradient(145deg, #1a1a1a, #080808); margin: 6% auto; padding: 40px 30px; border-radius: 30px; width: 90%; max-width: 420px; border: 1px solid #222; text-align: center; position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.7); animation: modalPop 0.4s; }
-        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .modal-content h2 { margin-top: 0; color: var(--primary-color); margin-bottom: 25px; font-size: 1.8em; font-weight: 900; }
-        .modal-content input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 15px; border: 2px solid #222; background: #000; color: white; font-family: inherit; text-align: center; font-size: 1em; box-sizing: border-box; transition: 0.3s; }
-        .modal-content input:focus { border-color: var(--primary-color); outline: none; }
-        .close-btn { position: absolute; top: 20px; left: 20px; font-size: 30px; cursor: pointer; color: #333; transition: 0.3s; }
-        .modal-link { font-size: 0.9em; color: #555; cursor: pointer; margin-top: 20px; display: block; }
-
-        /* Header & Cards */
-        header { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; padding: 50px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 25px; text-align: center; }
-        .animated-gif { width: 160px; border-radius: 15px; box-shadow: 0 0 40px rgba(76, 175, 50, 0.3); border: 2px solid rgba(255,255,255,0.05); }
-        .header-text { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-        header h1 { margin: 0; font-size: 2.5em; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 20px rgba(255,255,255,0.1); font-family: 'Tajawal', sans-serif; }
-        header p { margin: 0; color: #555; font-size: 0.9em; background: #111; padding: 5px 15px; border-radius: 50px; border: 1px solid #222; }
-
-        .balance-display { background: rgba(205, 127, 50, 0.1); padding: 6px 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid rgba(205, 127, 50, 0.2); display: inline-flex; font-size: 0.9em; }
-        .balance-count { font-size: 1.2em; font-weight: 900; color: var(--bronze-color); }
-        
-        .section { margin-bottom: 40px; }
-        .section h2 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: #fff; font-size: 1.6em; display: inline-block; margin-bottom: 20px; }
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; align-items: start; }
-        .card { background: #111; padding: 25px; border-radius: 20px; text-align: center; border: 1px solid #222; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
-        .card:hover { transform: translateY(-5px); border-color: #333; background: #151515; }
-        .rank-image { width: 100%; height: 110px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
-        
-        .btn { background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; padding: 12px 30px; border-radius: 50px; border: none; cursor: pointer; font-size: 1em; font-family: inherit; font-weight: 700; text-decoration: none; display: inline-block; margin-top: 5px; box-shadow: 0 5px 15px rgba(76, 175, 50, 0.2); }
-        .btn:hover { transform: translateY(-2px); }
-        .btn-bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); }
-        .btn-rules { background: #222; border: 1px solid #333; }
-        
-        .server-status { padding: 30px; border-radius: 20px; text-align: center; margin-bottom: 30px; border: 1px solid #222; background-image: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://wallpapercave.com/wp/wp9336459.jpg'); background-size: cover; background-position: center; }
-        .ip-box { background: rgba(0, 230, 118, 0.1); padding: 10px 20px; border-radius: 50px; display: inline-block; cursor: pointer; border: 1px solid rgba(0, 230, 118, 0.3); font-weight: bold; font-size: 0.9em; margin-top: 10px; color: #fff; }
-        .status-text { font-size: 24px; font-weight: 900; }
-        .status-online { color: var(--online-color); text-shadow: 0 0 20px rgba(34, 197, 94, 0.8); }
-        .status-offline { color: var(--offline-color); text-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
-
-        /* Inventory */
-        .inventory-modal-content { max-width: 1000px; background: #080808; border: 1px solid #222; text-align: right; padding: 0; display: flex; flex-direction: column; height: 90vh; border-radius: 25px; overflow: hidden; }
-        .inv-header { padding: 20px; background: linear-gradient(to left, #0a0a0a, #050505); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #111; }
-        .inv-header h2 { margin: 0; font-size: 1.4em; }
-        .inv-body { display: flex; flex: 1; overflow: hidden; }
-        .inv-grid { flex: 2; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 15px; overflow-y: auto; background: #050505; border-left: 1px solid #111; align-content: start; }
-        .inv-slot { aspect-ratio: 1; background: #0a0a0a; border: 1px solid #222; border-radius: 12px; cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center; padding: 5px; }
-        .inv-slot:hover { border-color: #444; transform: scale(1.05); }
-        .inv-slot.selected { border-color: var(--primary-color); box-shadow: 0 0 20px rgba(0, 230, 118, 0.2); }
-        .inv-slot img { width: 100%; height: 100%; object-fit: contain; }
-        .inv-slot .item-count { position: absolute; bottom: 4px; left: 4px; background: #000; font-size: 0.75em; padding: 2px 6px; border-radius: 6px; font-weight: bold; border: 1px solid #222; }
-        .rarity-common { border-color: #333; }
-        .rarity-rare { border-color: #5555ff; box-shadow: inset 0 0 15px rgba(85, 85, 255, 0.2); }
-        .inv-details { flex: 1; padding: 30px 25px; background: #080808; display: flex; flex-direction: column; align-items: center; text-align: center; overflow-y: auto; justify-content: space-between; gap: 20px; }
-        .inv-details img { width: 100px; height: 100px; object-fit: contain; margin-bottom: 15px; }
-        .inv-details h3 { margin: 0 0 5px 0; font-size: 1.3em; }
-        .inv-empty-msg { color: #333; text-align: center; margin-top: 50%; }
-
-        /* Referral Box */
-        .referral-box { margin-top: 0; padding: 20px; background: #0a0a0a; border-radius: 15px; border: 1px solid #222; width: 100%; box-sizing: border-box; border-top: 3px solid var(--primary-color); }
-        .referral-title { font-size: 1em; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 900; }
-        .referral-stats { font-size: 0.9em; color: #888; margin-bottom: 15px; display: block; background: #111; padding: 8px; border-radius: 8px; }
-        .referral-stats span { color: var(--primary-color); font-weight: 900; font-size: 1.1em; }
-        .referral-link-display { display: flex; gap: 8px; justify-content: center; align-items: center; }
-        .referral-link-input { flex: 1; background: #000; border: 1px solid #222; padding: 10px; border-radius: 8px; color: #ccc; font-size: 0.85em; text-align: center; pointer-events: none; font-family: monospace; }
-        .referral-copy-btn { background: var(--secondary-color); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.9em; color: #fff; font-family: inherit; }
-        .referral-info { font-size: 0.8em; color: #555; margin-top: 10px; }
-
-        /* Toast */
-        #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 15px; }
-        .toast { background: #111; color: white; padding: 16px 24px; border-radius: 12px; border-right: 4px solid var(--primary-color); box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideIn 0.4s, fadeOut 0.5s ease 3.0s forwards; display: flex; align-items: center; gap: 12px; font-size: 1em; max-width: 350px; border: 1px solid #222; }
-        .toast.success { border-color: var(--primary-color); }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes fadeOut { to { opacity: 0; } }
-
-        @media (max-width: 600px) {
-            .brand-logo { font-size: 1.4em; }
-            .container { margin: 80px auto 15px auto; padding: 15px; }
-            header h1 { font-size: 1.8em; }
-            .inv-body { flex-direction: column; }
-            .inv-grid { flex: none; height: 180px; overflow-x: auto; display: flex; flex-wrap: nowrap; border-bottom: 1px solid #111; }
-            .inv-slot { min-width: 85px; }
-            #toast-container { left: 15px; right: 15px; bottom: 15px; }
-            .toast { width: 100%; justify-content: center; }
-            .back-btn { bottom: 20px; right: 20px; padding: 12px 20px; font-size: 0.9em; }
-            html[dir="ltr"] .back-btn { right: auto; left: 20px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STORE 4AIKRO</title>
+<link rel="preload" href="newlogosite.gif" as="image">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@500;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1P984G5247"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-1P984G5247');</script>
+<style>
+:root{--p:#00e676;--s:#4CAF50;--b:#050505;--br:#cd7f32;--g:rgba(255,255,255,0.03);--gb:rgba(255,255,255,0.08);--on:#22c55e;--off:#ef4444}
+*{box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;margin:0;padding:0;background-color:var(--b);color:#fff;overflow-x:hidden;min-height:100vh}
+html[dir="ltr"] body{direction:ltr;text-align:left}
+html[dir="ltr"] .back-btn{right:auto;left:20px}
+html[dir="ltr"] .close-btn{left:auto;right:15px}
+.bg{position:fixed;top:0;left:0;width:100%;height:100%;background:#050505;z-index:-1}
+.bg::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(0,230,118,0.03) 0%,transparent 60%);animation:rot 30s linear infinite}
+@keyframes rot{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-thumb{background:#333;border-radius:4px}
+.hdr{position:fixed;top:0;left:0;width:100%;background:rgba(5,5,5,0.85);backdrop-filter:blur(20px);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;z-index:1000;border-bottom:1px solid var(--gb)}
+.logo{font-family:'Tajawal',sans-serif;font-size:1.8em;font-weight:900;background:linear-gradient(to right,#fff,var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer}
+.acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{background:rgba(255,255,255,0.05);color:#fff;border:1px solid var(--gb);padding:8px 20px;border-radius:12px;cursor:pointer;font-family:inherit;font-weight:700;font-size:0.9em;text-decoration:none;display:flex;align-items:center;gap:8px;transition:0.3s}
+.btn:hover{border-color:var(--p);transform:translateY(-2px)}
+.btn.p{background:rgba(0,230,118,0.1);border-color:rgba(0,230,118,0.3)}
+.btn.out{background:transparent;border-color:rgba(255,50,50,0.3);color:#ff5555}
+.badge{background:var(--br);color:#fff;padding:2px 8px;border-radius:20px;font-size:0.8em}
+.lang{background:rgba(255,255,255,0.05);border:1px solid var(--gb);color:#fff;padding:8px 12px;border-radius:12px;cursor:pointer;font-family:inherit;font-weight:bold;font-size:0.85em;display:flex;align-items:center;gap:6px}
+.lang select{background:transparent;border:0;color:#fff;font-weight:bold;cursor:pointer;outline:0}
+.lang option{background:#000}
+.sh{background:linear-gradient(90deg,#1a1a1a 0%,#2a2a2a 50%,#1a1a1a 100%);background-size:200% 100%;animation:sh 1.5s infinite;min-height:50px}
+@keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+#lp{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:100px 20px 50px}
+.ll{width:150px;height:150px;border-radius:50%;border:3px solid rgba(0,230,118,0.3);box-shadow:0 0 50px rgba(0,230,118,0.3);margin-bottom:25px;animation:pl 4s infinite;background:#111}
+@keyframes pl{0%,100%{box-shadow:0 0 30px rgba(0,230,118,0.2)}50%{box-shadow:0 0 60px rgba(0,230,118,0.5)}}
+.lt{font-family:'Tajawal',sans-serif;font-size:3.5em;margin-bottom:10px;background:linear-gradient(135deg,#fff,var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.ls{font-size:1.2em;color:#666;margin-bottom:50px}
+/* تم التعديل هنا: استخدام Grid لضبط وجودهم في نفس السطر */
+.cc{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;justify-items:center;max-width:900px;width:100%}
+.crd{width:100%;max-width:400px;min-height:420px;background:linear-gradient(145deg,rgba(20,20,20,0.8),rgba(10,10,10,0.9));backdrop-filter:blur(20px);border-radius:30px;cursor:pointer;transition:0.4s;border:1px solid rgba(255,255,255,0.05);padding:25px;box-shadow:0 20px 60px rgba(0,0,0,0.5);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.crd:hover{transform:translateY(-15px) scale(1.01);box-shadow:0 0 40px rgba(0,230,118,0.15)}
+.crd img{width:120px;height:120px;margin-bottom:20px}
+.crd h2{font-size:2em;margin:0;color:#fff}
+.crd p{color:#777;margin-top:10px}
+#mp,#rp{display:none}
+.ct{width:95%;max-width:1400px;margin:90px auto 30px;background:rgba(15,15,15,0.6);backdrop-filter:blur(20px);padding:25px;border-radius:25px;border:1px solid var(--gb);position:relative}
+.bk{position:fixed;bottom:30px;right:30px;z-index:1500;border:0;outline:0;background:rgba(0,0,0,0.8);color:#fff;cursor:pointer;padding:15px 25px;border-radius:50px;font-size:1em;font-weight:bold;border:1px solid rgba(255,255,255,0.1);display:none}
+.bk:hover{background:var(--p);color:#000}
+.md{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.95);backdrop-filter:blur(15px);overflow-y:auto}
+.mc{background:linear-gradient(145deg,#1a1a1a,#080808);margin:6% auto;padding:40px 30px;border-radius:30px;width:90%;max-width:420px;border:1px solid #222;text-align:center;position:relative;box-shadow:0 30px 80px rgba(0,0,0,0.7);animation:mp 0.4s}
+@keyframes mp{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+.mc h2{margin-top:0;color:var(--p);margin-bottom:25px;font-size:1.8em}
+.mc input{width:100%;padding:15px;margin:10px 0;border-radius:15px;border:2px solid #222;background:#000;color:#fff;text-align:center;box-sizing:border-box}
+.mc input:focus{border-color:var(--p);outline:0}
+.cls{position:absolute;top:20px;left:20px;font-size:30px;cursor:pointer;color:#333}
+.ml{font-size:0.9em;color:#555;cursor:pointer;margin-top:20px;display:block}
+.hd{display:flex;flex-direction:column;align-items:center;gap:15px;padding:50px 20px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:25px;text-align:center}
+.ag{width:160px;border-radius:15px;box-shadow:0 0 40px rgba(76,175,50,0.3);border:2px solid rgba(255,255,255,0.05);background:#111}
+.ht{display:flex;flex-direction:column;align-items:center;gap:10px}
+.hd h1{margin:0;font-size:2.5em;text-transform:uppercase;letter-spacing:3px;font-family:'Tajawal',sans-serif}
+.hd p{margin:0;color:#555;font-size:0.9em;background:#111;padding:5px 15px;border-radius:50px;border:1px solid #222}
+.bl{background:rgba(205,127,50,0.1);padding:6px 12px;border-radius:8px;margin-bottom:8px;border:1px solid rgba(205,127,50,0.2);display:inline-flex;font-size:0.9em}
+.bc{font-size:1.2em;font-weight:900;color:var(--br)}
+.sec{margin-bottom:40px}
+.sec h2{border-bottom:2px solid var(--p);padding-bottom:10px;color:#fff;font-size:1.6em;display:inline-block;margin-bottom:20px}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;align-items:start}
+.cd{background:#111;padding:25px;border-radius:20px;text-align:center;border:1px solid #222;transition:0.3s;display:flex;flex-direction:column;justify-content:space-between;height:100%}
+.cd:hover{transform:translateY(-5px);background:#151515}
+.ri{width:100%;height:110px;object-fit:contain;margin-bottom:15px;filter:drop-shadow(0 5px 10px rgba(0,0,0,0.5));background:#0a0a0a;border-radius:8px}
+.bt{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;padding:12px 30px;border-radius:50px;border:0;cursor:pointer;font-size:1em;font-weight:700;text-decoration:none;display:inline-block;margin-top:5px;box-shadow:0 5px 15px rgba(76,175,50,0.2)}
+.bt:hover{transform:translateY(-2px)}
+.bt.br{background:linear-gradient(135deg,#cd7f32,#8b4513)}
+.bt.rl{background:#222;border:1px solid #333}
+.st{padding:30px;border-radius:20px;text-align:center;margin-bottom:30px;border:1px solid #222;background-image:linear-gradient(to bottom,rgba(0,0,0,0.7),rgba(0,0,0,0.9)),url('https://wallpapercave.com/wp/wp9336459.jpg');background-size:cover;background-position:center}
+.ip{background:rgba(0,230,118,0.1);padding:10px 20px;border-radius:50px;display:inline-block;cursor:pointer;border:1px solid rgba(0,230,118,0.3);font-weight:bold;font-size:0.9em;margin-top:10px;color:#fff}
+.stxt{font-size:24px;font-weight:900}
+.son{color:var(--on);text-shadow:0 0 20px rgba(34,197,94,0.8)}
+.soff{color:var(--off);text-shadow:0 0 20px rgba(239,68,68,0.8)}
+.imc{max-width:1000px;background:#080808;border:1px solid #222;text-align:right;padding:0;display:flex;flex-direction:column;height:90vh;border-radius:25px;overflow:hidden}
+.ih{padding:20px;background:linear-gradient(to left,#0a0a0a,#050505);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #111}
+.ih h2{margin:0;font-size:1.4em}
+.ib{display:flex;flex:1;overflow:hidden}
+.ig{flex:2;padding:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:15px;overflow-y:auto;background:#050505;border-left:1px solid #111;align-content:start}
+.is{aspect-ratio:1;background:#0a0a0a;border:1px solid #222;border-radius:12px;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;padding:5px}
+.is:hover{border-color:#444;transform:scale(1.05)}
+.is.sel{border-color:var(--p);box-shadow:0 0 20px rgba(0,230,118,0.2)}
+.is img{width:100%;height:100%;object-fit:contain}
+.ic{position:absolute;bottom:4px;left:4px;background:#000;font-size:0.75em;padding:2px 6px;border-radius:6px;font-weight:bold;border:1px solid #222}
+.rc{border-color:#333}
+.rr{border-color:#55f;box-shadow:inset 0 0 15px rgba(85,85,255,0.2)}
+.id{flex:1;padding:30px 25px;background:#080808;display:flex;flex-direction:column;align-items:center;text-align:center;overflow-y:auto;justify-content:space-between;gap:20px}
+.id img{width:100px;height:100px;object-fit:contain;margin-bottom:15px;background:#111;border-radius:8px}
+.id h3{margin:0 0 5px 0;font-size:1.3em}
+.em{color:#333;text-align:center;margin-top:50%;font-size:1em}
+.rf{margin-top:0;padding:20px;background:#0a0a0a;border-radius:15px;border:1px solid #222;width:100%;border-top:3px solid var(--p)}
+.rt{font-size:1em;color:#fff;margin-bottom:8px;display:flex;align-items:center;gap:8px;font-weight:900}
+.rs{font-size:0.9em;color:#888;margin-bottom:15px;display:block;background:#111;padding:8px;border-radius:8px}
+.rs span{color:var(--p);font-weight:900;font-size:1.1em}
+.rl{display:flex;gap:8px;justify-content:center;align-items:center}
+.ri{flex:1;background:#000;border:1px solid #222;padding:10px;border-radius:8px;color:#ccc;font-size:0.85em;text-align:center;pointer-events:none;font-family:monospace}
+.rcp{background:var(--s);border:0;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:0.9em;color:#fff;font-family:inherit}
+.ri{font-size:0.8em;color:#555;margin-top:10px}
+#tc{position:fixed;bottom:30px;right:30px;z-index:9999;display:flex;flex-direction:column;gap:15px}
+.t{background:#111;color:#fff;padding:16px 24px;border-radius:12px;border-right:4px solid var(--p);box-shadow:0 10px 30px rgba(0,0,0,0.5);animation:sl 0.4s,fo 0.5s ease 3s forwards;display:flex;align-items:center;gap:12px;font-size:1em;max-width:350px;border:1px solid #222}
+.t.s{border-color:var(--p)}
+@keyframes sl{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes fo{to{opacity:0;transform:translateX(100%)}}
+@media(max-width:600px){.logo{font-size:1.4em}.ct{margin:80px 0 15px;padding:15px}.hd h1{font-size:1.8em}.ag{width:120px}.ib{flex-direction:column}.ig{flex:none;height:180px;overflow-x:auto;display:flex;flex-wrap:nowrap}.is{min-width:85px}#tc{left:15px;right:15px;bottom:15px}.t{width:100%;justify-content:center}.bk{bottom:20px;right:20px;padding:12px 20px;font-size:0.9em}}
+</style>
 </head>
 <body>
-
-<div class="bg-animation"></div>
-<div id="toast-container"></div>
-
-<!-- Header -->
-<div class="global-user-bar">
-    <div class="brand-logo" onclick="goHome()" data-lang-key="brand_name">STORE 4AIKRO</div>
-    <div class="auth-actions">
-        <!-- Language Switcher -->
-        <div class="lang-switcher">
-            🌐
-            <select id="lang-select" onchange="changeLanguage(this.value)">
-                <option value="ar">العربية</option>
-                <option value="en">English</option>
-                <option value="jp">日本語</option>
-            </select>
-        </div>
-        <div id="auth-btn-container"></div>
-    </div>
-</div>
-
-<!-- Floating Back Button -->
-<button id="main-back-btn" class="back-btn" onclick="goHome()" data-lang-key="back_btn">⬅ Back</button>
-
-<!-- Landing -->
-<div id="landing-page">
-    <img src="newlogosite.gif" alt="Logo" class="landing-logo">
-    <h1 class="landing-title" data-lang-key="landing_title">Choose Your Path</h1>
-    <p class="landing-subtitle" data-lang-key="landing_subtitle">Exclusive content for elite players.</p>
-    <div class="choices-container">
-        <div class="choice-card" onclick="showPage('roblox')">
-            <img src="logoroblox.png" alt="Roblox">
-            <h2>ROBLOX</h2>
-            <p data-lang-key="roblox_desc">Endless possibilities.</p>
-        </div>
-        <div class="choice-card" onclick="showPage('minecraft')">
-            <img src="logominecraft.png" alt="Minecraft">
-            <h2>MINECRAFT</h2>
-            <p data-lang-key="mc_desc">Official Java Servers.</p>
-        </div>
-    </div>
-</div>
-
-<!-- Roblox -->
-<div id="roblox-page">
-    <div class="container">
-        <header><h1>ROBLOX</h1><p data-lang-key="coming_soon">Coming Soon</p></header>
-    </div>
-</div>
-
-<!-- Minecraft -->
-<div id="minecraft-page">
-    <div class="container">
-        <header>
-            <img src="standard_1.gif" alt="GIF" class="animated-gif">
-            <div class="header-text">
-                <h1>⚔️ 4AIKRO_S4 ⚔️</h1>
-                <p>UPDATE: 1</p>
-            </div>
-        </header>
-
-        <div class="server-status">
-            <div class="status-text" id="status-text" data-lang-key="checking">Checking...</div>
-            <span class="status-dot" id="status-dot"></span>
-            <div class="status-info">
-                <div id="player-count"></div>
-                <div id="server-version"></div>
-            </div>
-            <div class="ip-box" onclick="copyIP()"><strong>IP:</strong> <span id="server-ip">cities-declare.gl.joinmc.link</span> 📋</div>
-        </div>
-
-        <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-            <a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="btn" style="background:#5865F2;">Discord</a>
-            <a href="https://www.mediafire.com/file/eyavtrl589c7s5x/mods_serveur_4AIKRO_S4.rar/file" class="btn" target="_blank" data-lang-key="download_mods">Download Mods</a>
-            <button class="btn btn-rules" onclick="openModal('rules-modal')" data-lang-key="rules_btn">⚖️ Rules</button>
-        </div>
-
-        <div class="section">
-            <h2 data-lang-key="ranks_gifts">💎 Ranks & Gifts</h2>
-            <div class="card-grid">
-                <div class="card">
-                    <div>
-                        <img src="gift.png" alt="Daily Gift" class="rank-image">
-                        <h3 data-lang-key="daily_gift">Daily Gift</h3>
-                        <p data-lang-key="daily_gift_desc">Free gift every 24h.</p>
-                        <div class="balance-display" id="key-balance-box" style="display:none;">
-                            <span data-lang-key="balance">Balance:</span>
-                            <span class="balance-count" id="key-balance-num">0</span>
-                        </div>
-                    </div>
-                    <div>
-                        <div id="key-display-area" style="display:none; margin-bottom:10px;">
-                            <div class="countdown-timer">⏳ <span id="timer-display">00:00:00</span></div>
-                        </div>
-                        <button id="claim-key-btn" class="btn btn-bronze" onclick="claimBronzeKey()" data-lang-key="claim_key">🔑 Claim Key</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <img src="vip.jpg" alt="VIP" class="rank-image">
-                        <h3 data-lang-key="vip_rank">VIP Rank</h3>
-                        <p data-lang-key="vip_desc">Extra perks.</p>
-                    </div>
-                    <div class="price">$2.00</div>
-                    <a href="#" class="btn" data-lang-key="buy">Buy</a>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <img src="mvp.jpg" alt="MVP" class="rank-image">
-                        <h3 data-lang-key="mvp_rank">MVP Rank</h3>
-                        <p data-lang-key="mvp_desc">Full permissions.</p>
-                    </div>
-                    <div class="price">$5.00</div>
-                    <a href="#" class="btn" data-lang-key="buy">Buy</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 data-lang-key="shop">🛒 Item Shop</h2>
-            <div class="card-grid">
-                <div class="card">
-                    <img src="100coin.jpg" class="rank-image">
-                    <h3>100 COIN</h3>
-                    <div class="price">$1.00</div>
-                    <a href="#" class="btn" data-lang-key="buy">Buy</a>
-                </div>
-                 <div class="card">
-                    <img src="500coin.jpg" class="rank-image">
-                    <h3>500 COIN</h3>
-                    <div class="price">$3.00</div>
-                    <a href="#" class="btn" data-lang-key="buy">Buy</a>
-                </div>
-                 <div class="card">
-                    <img src="1000coin.jpg" class="rank-image">
-                    <h3>1000 COIN</h3>
-                    <div class="price">$5.00</div>
-                    <a href="#" class="btn" data-lang-key="buy">Buy</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modals -->
-<div id="login-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
-        <h2 data-lang-key="login_title">Login</h2>
-        <input type="text" id="login-name" data-lang-placeholder="username" placeholder="Username">
-        <input type="password" id="login-code" data-lang-placeholder="secret_code" placeholder="Secret Code">
-        <button class="btn" onclick="handleLogin()" style="width:100%;" data-lang-key="enter">Enter</button>
-        <span class="modal-link" onclick="openForgotModal()" data-lang-key="forgot_code">Forgot Code?</span>
-    </div>
-</div>
-
-<div id="forgot-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('forgot-modal')">&times;</span>
-        <h2 data-lang-key="recovery">Recovery</h2>
-        <p style="font-size:0.9em; color:#666; margin-bottom:15px;" data-lang-key="recovery_desc">Enter your email.</p>
-        <input type="email" id="forgot-email" data-lang-placeholder="email" placeholder="Email">
-        <button class="btn" onclick="handleForgot()" style="width:100%;" data-lang-key="search">Search</button>
-        <span class="modal-link" onclick="closeModal('forgot-modal'); openModal('login-modal');" data-lang-key="back_login">Back to Login</span>
-    </div>
-</div>
-
-<div id="register-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('register-modal')">&times;</span>
-        <div style="font-size:3em; margin-bottom:10px;">📝</div>
-        <h2 data-lang-key="register_title">Create Account</h2>
-        <input type="text" id="reg-name" data-lang-placeholder="username" placeholder="Username">
-        <input type="password" id="reg-code" data-lang-placeholder="secret_code" placeholder="Secret Code">
-        <input type="email" id="reg-email" data-lang-placeholder="email" placeholder="Email">
-        <button class="btn" onclick="handleRegister()" style="width:100%;" data-lang-key="create">Create</button>
-    </div>
-</div>
-
-<!-- Inventory -->
-<div id="inventory-modal" class="modal">
-    <div class="modal-content inventory-modal-content">
-        <div class="inv-header">
-            <h2 data-lang-key="inventory">📦 Inventory</h2>
-            <div style="display:flex; gap:10px; align-items:center;">
-                <button class="user-btn logout-btn" onclick="logout()" data-lang-key="exit">Exit</button>
-                <span class="close-btn" style="font-size:24px;" onclick="closeModal('inventory-modal')">&times;</span>
-            </div>
-        </div>
-        <div class="inv-body">
-            <div class="inv-grid" id="inv-grid"></div>
-            <div class="inv-details" id="inv-details">
-                <p class="inv-empty-msg" data-lang-key="select_item">Select an item</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="rules-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('rules-modal')">&times;</span>
-        <h2 data-lang-key="rules_title">⚖️ Server Rules</h2>
-        <div style="line-height:1.8;">
-            <p>🚫 <span data-lang-key="r1">No Hacking</span></p>
-            <p>🗣️ <span data-lang-key="r2">Respect All</span></p>
-            <p>🏗️ <span data-lang-key="r3">No Griefing</span></p>
-            <p>📢 <span data-lang-key="r4">No Ads</span></p>
-        </div>
-    </div>
-</div>
-
+<div class="bg"></div><div id="tc"></div>
+<div class="hdr"><div class="logo" onclick="gh()">STORE 4AIKRO</div><div class="acts"><div class="lang">🌐<select id="ls" onchange="cl(this.value)"><option value="ar">العربية</option><option value="en">English</option><option value="jp">日本語</option></select></div><div id="ac"></div></div></div>
+<button id="mb" class="bk" onclick="gh()">⬅ Back</button>
+<div id="lp"><img src="newlogosite.gif" alt="L" class="ll sh" onload="cr(this)"><h1 class="lt" data-k="lt">Choose Your Path</h1><p class="ls" data-k="ls">Exclusive content for elite players.</p><div class="cc"><div class="crd" onclick="sp('roblox')"><img src="logoroblox.png" alt="R" class="sh" loading="lazy" onload="cr(this)"><h2>ROBLOX</h2><p data-k="rd">Endless possibilities.</p></div><div class="crd" onclick="sp('minecraft')"><img src="logominecraft.png" alt="M" class="sh" loading="lazy" onload="cr(this)"><h2>MINECRAFT</h2><p data-k="md">Official Java Servers.</p></div></div></div>
+<div id="rp"><div class="ct"><header><h1>ROBLOX</h1><p data-k="cs">Coming Soon</p></header></div></div>
+<div id="mp"><div class="ct"><header><img src="standard_1.gif" alt="G" class="ag sh" onload="cr(this)"><div class="ht"><h1>⚔️ 4AIKRO_S4 ⚔️</h1><p>UPDATE: 1</p></div></header><div class="st"><div class="stxt" id="st" data-k="ch">Checking...</div><span id="sd"></span><div class="si"><div id="pc"></div><div id="sv"></div></div><div class="ip" onclick="cip()"><strong>IP:</strong> <span id="si">cities-declare.gl.joinmc.link</span> 📋</div></div><div style="display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:20px"><a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="bt" style="background:#5865F2">Discord</a><a href="https://www.mediafire.com/file/eyavtrl589c7s5x/mods_serveur_4AIKRO_S4.rar/file" class="bt" target="_blank" data-k="dm">Download Mods</a><button class="bt rl" onclick="om('rum')" data-k="rb">⚖️ Rules</button></div><div class="sec"><h2 data-k="rg">💎 Ranks & Gifts</h2><div class="cg"><div class="cd"><div><img src="gift.png" alt="D" class="ri sh" loading="lazy" onload="cr(this)"><h3 data-k="dg">Daily Gift</h3><p data-k="dd">Free gift every 24h.</p><div class="bl" id="kbb" style="display:none"><span data-k="ba">Balance:</span><span class="bc" id="kbn">0</span></div></div><div><div id="kda" style="display:none;margin-bottom:10px"><div>⏳ <span id="td">00:00:00</span></div></div><button id="ckb" class="bt br" onclick="ck()" data-k="ck">🔑 Claim Key</button></div></div><div class="cd"><div><img src="vip.jpg" alt="V" class="ri sh" loading="lazy" onload="cr(this)"><h3 data-k="vr">VIP Rank</h3><p data-k="vd">Extra perks.</p></div><div class="pr">$2.00</div><a href="#" class="bt" data-k="bu">Buy</a></div><div class="cd"><div><img src="mvp.jpg" alt="M" class="ri sh" loading="lazy" onload="cr(this)"><h3 data-k="mr">MVP Rank</h3><p data-k="md">Full permissions.</p></div><div class="pr">$5.00</div><a href="#" class="bt" data-k="bu">Buy</a></div></div></div><div class="sec"><h2 data-k="sh">🛒 Item Shop</h2><div class="cg"><div class="cd"><img src="100coin.jpg" class="ri sh" loading="lazy" onload="cr(this)"><h3>100 COIN</h3><div class="pr">$1.00</div><a href="#" class="bt" data-k="bu">Buy</a></div><div class="cd"><img src="500coin.jpg" class="ri sh" loading="lazy" onload="cr(this)"><h3>500 COIN</h3><div class="pr">$3.00</div><a href="#" class="bt" data-k="bu">Buy</a></div><div class="cd"><img src="1000coin.jpg" class="ri sh" loading="lazy" onload="cr(this)"><h3>1000 COIN</h3><div class="pr">$5.00</div><a href="#" class="bt" data-k="bu">Buy</a></div></div></div></div></div>
+<div id="lim" class="md"><div class="mc"><span class="cls" onclick="cm('lim')">&times;</span><h2 data-k="lit">Login</h2><input type="text" id="lin" data-p="un" placeholder="Username"><input type="password" id="lic" data-p="sc" placeholder="Secret Code"><button class="bt" onclick="hl()" style="width:100%" data-k="en">Enter</button><span class="ml" onclick="ofm()" data-k="fc">Forgot Code?</span></div></div>
+<div id="fom" class="md"><div class="mc"><span class="cls" onclick="cm('fom')">&times;</span><h2 data-k="re">Recovery</h2><p style="font-size:0.9em;color:#666;margin-bottom:15px" data-k="rd">Enter your email.</p><input type="email" id="foe" data-p="em" placeholder="Email"><button class="bt" onclick="hf()" style="width:100%" data-k="se">Search</button><span class="ml" onclick="cm('fom');om('lim')" data-k="bl">Back to Login</span></div></div>
+<div id="rem" class="md"><div class="mc"><span class="cls" onclick="cm('rem')">&times;</span><div style="font-size:3em;margin-bottom:10px">📝</div><h2 data-k="rat">Create Account</h2><input type="text" id="ren" data-p="un" placeholder="Username"><input type="password" id="rec" data-p="sc" placeholder="Secret Code"><input type="email" id="ree" data-p="em" placeholder="Email"><button class="bt" onclick="hr()" style="width:100%" data-k="cr">Create</button></div></div>
+<div id="inm" class="md"><div class="mc imc"><div class="ih"><h2 data-k="inv">📦 Inventory</h2><div style="display:flex;gap:10px;align-items:center"><button class="btn out" onclick="lo()" data-k="ex">Exit</button><span class="cls" style="font-size:24px" onclick="cm('inm')">&times;</span></div></div><div class="ib"><div class="ig" id="igr"></div><div class="id" id="idt"><p class="em" data-k="si">Select an item</p></div></div></div></div>
+<div id="rum" class="md"><div class="mc"><span class="cls" onclick="cm('rum')">&times;</span><h2 data-k="rt">⚖️ Server Rules</h2><div style="line-height:1.8"><p>🚫 <span data-k="r1">No Hacking</span></p><p>🗣️ <span data-k="r2">Respect All</span></p><p>🏗️ <span data-k="r3">No Griefing</span></p><p>📢 <span data-k="r4">No Ads</span></p></div></div></div>
 <script>
-    // === 1. TRANSLATION ENGINE ===
-    const translations = {
-        ar: {
-            brand_name: "STORE 4AIKRO",
-            landing_title: "اختر مسارك",
-            landing_subtitle: "محتوى حصري للاعبين النخبة.",
-            roblox_desc: "إمكانيات لا نهائية.",
-            mc_desc: "سيرفرات جافا الرسمية.",
-            coming_soon: "قريباً",
-            checking: "جارٍ التحقق...",
-            online: "أونلاين",
-            offline: "أوفلاين",
-            players: "اللاعبين",
-            version: "الإصدار",
-            download_mods: "تحميل المودات",
-            rules_btn: "⚖️ القوانين",
-            ranks_gifts: "💎 الرتب والهدايا",
-            daily_gift: "الهدية اليومية",
-            daily_gift_desc: "هدية مجانية كل 24 ساعة.",
-            balance: "الرصيد:",
-            claim_key: "🔑 احصل على مفتاحك",
-            vip_rank: "رتبة VIP",
-            vip_desc: "مزايا إضافية.",
-            mvp_rank: "رتبة MVP",
-            mvp_desc: "صلاحيات كاملة.",
-            buy: "شراء",
-            shop: "🛒 متجر الآيتمات",
-            login_title: "تسجيل الدخول",
-            username: "اسم المستخدم",
-            secret_code: "الكود السري",
-            enter: "دخول",
-            forgot_code: "نسيت الكود؟",
-            recovery: "استرجاع الحساب",
-            recovery_desc: "أدخل بريدك الإلكتروني للبحث عن كودك.",
-            email: "البريد الإلكتروني",
-            search: "بحث",
-            back_login: "العودة لتسجيل الدخول",
-            register_title: "إنشاء حساب",
-            create: "إنشاء",
-            inventory: "📦 المخزون",
-            exit: "خروج",
-            select_item: "اختر عنصراً",
-            invite_title: "🔗 دعوة الأصدقاء",
-            invite_link: "رابط الدعوة",
-            invite_desc: "احصل على مفتاح مجاني لكل شخص جديد! (الحد 5 يومياً)",
-            copy: "نسخ",
-            back_btn: "⬅ رجوع",
-            login_btn: "🔑 دخول",
-            register_btn: "📝 حساب جديد",
-            profile_exit: "خروج",
-            toast_welcome: "مرحباً، {name} 👋",
-            toast_created: "تم إنشاء الحساب!",
-            toast_logout: "تم تسجيل الخروج",
-            toast_copied: "تم النسخ!",
-            toast_added: "🎉 تمت الإضافة!",
-            toast_found: "✅ تم العثور! الكود: ",
-            toast_wrong: "خطأ في البيانات",
-            copper_key: "مفتاح نحاسي",
-            copper_key_desc: "مفتاح نحاسي أساسي يومي.",
-            wait: "انتظر",
-            max_stack: "وصلت للحد الأقصى"
-        },
-        en: {
-            brand_name: "STORE 4AIKRO",
-            landing_title: "Choose Your Path",
-            landing_subtitle: "Exclusive content for elite players.",
-            roblox_desc: "Endless possibilities.",
-            mc_desc: "Official Java Servers.",
-            coming_soon: "Coming Soon",
-            checking: "Checking...",
-            online: "Online",
-            offline: "Offline",
-            players: "Players",
-            version: "Version",
-            download_mods: "Download Mods",
-            rules_btn: "⚖️ Rules",
-            ranks_gifts: "💎 Ranks & Gifts",
-            daily_gift: "Daily Gift",
-            daily_gift_desc: "Free gift every 24h.",
-            balance: "Balance:",
-            claim_key: "🔑 Claim Key",
-            vip_rank: "VIP Rank",
-            vip_desc: "Extra perks.",
-            mvp_rank: "MVP Rank",
-            mvp_desc: "Full permissions.",
-            buy: "Buy",
-            shop: "🛒 Item Shop",
-            login_title: "Login",
-            username: "Username",
-            secret_code: "Secret Code",
-            enter: "Enter",
-            forgot_code: "Forgot Code?",
-            recovery: "Recovery",
-            recovery_desc: "Enter your email to find your code.",
-            email: "Email",
-            search: "Search",
-            back_login: "Back to Login",
-            register_title: "Create Account",
-            create: "Create",
-            inventory: "📦 Inventory",
-            exit: "Exit",
-            select_item: "Select an item",
-            invite_title: "🔗 Invite Friends",
-            invite_link: "Invite Link",
-            invite_desc: "Get a free key for every new friend! (Max 5/day)",
-            copy: "Copy",
-            back_btn: "⬅ Back",
-            login_btn: "🔑 Login",
-            register_btn: "📝 Register",
-            profile_exit: "Exit",
-            toast_welcome: "Welcome, {name} 👋",
-            toast_created: "Account Created!",
-            toast_logout: "Logged out",
-            toast_copied: "Copied!",
-            toast_added: "🎉 Item added!",
-            toast_found: "✅ Found! Code: ",
-            toast_wrong: "Wrong details",
-            copper_key: "Copper Key",
-            copper_key_desc: "A basic daily copper key.",
-            wait: "Wait",
-            max_stack: "Max stack reached"
-        },
-        jp: {
-            brand_name: "STORE 4AIKRO",
-            landing_title: "パスを選択",
-            landing_subtitle: "エリートプレイヤーのための限定コンテンツ。",
-            roblox_desc: "無限の可能性。",
-            mc_desc: "公式Javaサーバー。",
-            coming_soon: "近日公開",
-            checking: "確認中...",
-            online: "オンライン",
-            offline: "オフライン",
-            players: "プレイヤー",
-            version: "バージョン",
-            download_mods: "Modをダウンロード",
-            rules_btn: "⚖️ ルール",
-            ranks_gifts: "💎 ランクとギフト",
-            daily_gift: "毎日のギフト",
-            daily_gift_desc: "24時間ごとの無料ギフト。",
-            balance: "残高:",
-            claim_key: "🔑 鍵を受け取る",
-            vip_rank: "VIP ランク",
-            vip_desc: "特別な特典。",
-            mvp_rank: "MVP ランク",
-            mvp_desc: "完全な権限。",
-            buy: "購入",
-            shop: "🛒 アイテムショップ",
-            login_title: "ログイン",
-            username: "ユーザー名",
-            secret_code: "シークレットコード",
-            enter: "入る",
-            forgot_code: "コードをお忘れですか？",
-            recovery: "復旧",
-            recovery_desc: "コードを見つけるためにメールを入力してください。",
-            email: "メール",
-            search: "検索",
-            back_login: "ログインに戻る",
-            register_title: "アカウント作成",
-            create: "作成",
-            inventory: "📦 インベントリ",
-            exit: "出口",
-            select_item: "アイテムを選択",
-            invite_title: "🔗 招待",
-            invite_link: "招待リンク",
-            invite_desc: "新しい友人ごとに無料の鍵を入手！（1日最大5個）",
-            copy: "コピー",
-            back_btn: "⬅ 戻る",
-            login_btn: "🔑 ログイン",
-            register_btn: "📝 登録",
-            profile_exit: "終了",
-            toast_welcome: "ようこそ、{name} さん 👋",
-            toast_created: "アカウントが作成されました！",
-            toast_logout: "ログアウトしました",
-            toast_copied: "コピーしました！",
-            toast_added: "🎉 アイテムが追加されました！",
-            toast_found: "✅ 発見！コード: ",
-            toast_wrong: "詳細が間違っています",
-            copper_key: "銅の鍵",
-            copper_key_desc: "基本的な毎日の銅の鍵。",
-            wait: "待って",
-            max_stack: "最大スタックに達しました"
-        }
-    };
-
-    // === 2. SYSTEM LOGIC ===
-    const GAME_ITEMS = {
-        bronze_key: { id: 'bronze_key', image: 'COPPERKEY.png', rarity: 'common', max_stack: 25000 }
-    };
-    const MAX_DAILY_REFERRALS = 5;
-    let isProcessingReferral = false; 
-
-    document.body.onload = function() { 
-        initLang();
-        initApp(); 
-    };
-
-    // === Language Functions ===
-    function initLang() {
-        const savedLang = localStorage.getItem('4aikro_lang') || 'ar';
-        applyLanguage(savedLang);
-        document.getElementById('lang-select').value = savedLang;
-    }
-
-    function changeLanguage(lang) {
-        localStorage.setItem('4aikro_lang', lang);
-        applyLanguage(lang);
-    }
-
-    function applyLanguage(lang) {
-        const html = document.documentElement;
-        const body = document.body;
-
-        // Set Direction and Font Class
-        if (lang === 'ar') {
-            html.setAttribute('dir', 'rtl');
-            html.setAttribute('lang', 'ar');
-            body.classList.remove('lang-en', 'lang-jp');
-        } else {
-            html.setAttribute('dir', 'ltr');
-            html.setAttribute('lang', lang);
-            body.classList.add(`lang-${lang}`);
-        }
-
-        // Update all text elements
-        document.querySelectorAll('[data-lang-key]').forEach(el => {
-            const key = el.getAttribute('data-lang-key');
-            if (translations[lang][key]) {
-                el.textContent = translations[lang][key];
-            }
-        });
-
-        // Update Placeholders
-        document.querySelectorAll('[data-lang-placeholder]').forEach(el => {
-            const key = el.getAttribute('data-lang-placeholder');
-            if (translations[lang][key]) {
-                el.placeholder = translations[lang][key];
-            }
-        });
-        
-        // Re-render dynamic parts that need text
-        updateAuthUI();
-    }
-
-    function t(key, replacements = {}) {
-        const lang = localStorage.getItem('4aikro_lang') || 'ar';
-        let text = translations[lang][key] || translations['en'][key] || key;
-        for (const k in replacements) {
-            text = text.replace(`{${k}}`, replacements[k]);
-        }
-        return text;
-    }
-
-    function initApp() { updateAuthUI(); checkReferralSystem(); }
-
-    // === Referral Logic ===
-    function checkReferralSystem() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const referrer = urlParams.get('ref');
-
-        if (referrer && !isProcessingReferral) {
-            isProcessingReferral = true;
-            const hasVisited = localStorage.getItem('visitor_counted');
-            if (hasVisited) return; 
-
-            const currentLoggedIn = getCurrentUser();
-            if (referrer === currentLoggedIn) return;
-
-            let db = getDB();
-            if (!db[referrer]) return;
-
-            const today = new Date().toISOString().split('T')[0];
-            if (!db[referrer].referrals || db[referrer].referrals.date !== today) {
-                db[referrer].referrals = { date: today, count: 0 };
-            }
-
-            if (db[referrer].referrals.count >= MAX_DAILY_REFERRALS) return;
-
-            if (!db[referrer].inventory) db[referrer].inventory = [];
-            let itemEntry = db[referrer].inventory.find(i => i.id === 'bronze_key');
-            if (itemEntry) itemEntry.count++;
-            else db[referrer].inventory.push({ id: 'bronze_key', count: 1 });
-
-            db[referrer].referrals.count++;
-            localStorage.setItem('visitor_counted', 'true');
-            saveDB(db);
-
-            if (getCurrentUser() === referrer) {
-                showToast(t('toast_added'), 'success');
-                updateAuthUI();
-                renderInventoryGrid();
-            }
-        }
-    }
-
-    // === Database ===
-    function getDB() { try { return JSON.parse(localStorage.getItem('4aikro_db')) || {}; } catch (e) { return {}; } }
-    function saveDB(db) { localStorage.setItem('4aikro_db', JSON.stringify(db)); }
-    function getCurrentUser() { return localStorage.getItem('4aikro_session'); }
-    function setCurrentUser(username) { localStorage.setItem('4aikro_session', username); }
-
-    function showToast(message, type = 'success') {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        toast.innerHTML = message;
-        container.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-    }
-
-    // === Auth UI ===
-    function updateAuthUI() {
-        const container = document.getElementById('auth-btn-container');
-        const username = getCurrentUser();
-        const isLandingVisible = document.getElementById('landing-page').style.display !== 'none';
-        
-        if (username) {
-            const db = getDB();
-            const userObj = db[username] || {};
-            const oldKeys = userObj.mc_keys ? userObj.mc_keys.length : 0;
-            const newItems = userObj.inventory ? userObj.inventory.reduce((sum, item) => sum + item.count, 0) : 0;
-            const totalCount = oldKeys + newItems;
-
-            container.innerHTML = `
-                <div class="user-btn profile-btn" onclick="openInventoryModal()">
-                    👤 ${username}
-                    <span class="key-badge">🎒 ${totalCount}</span>
-                </div>
-                <button class="user-btn logout-btn" onclick="logout()">${t('profile_exit')}</button>
-            `;
-
-            const balanceNum = document.getElementById('key-balance-num');
-            const balanceBox = document.getElementById('key-balance-box');
-            if(balanceNum) balanceNum.innerText = totalCount;
-            if(balanceBox) balanceBox.style.display = 'inline-flex';
-            updateReferralUI(username);
-
-        } else {
-            if (isLandingVisible) {
-                container.innerHTML = `<button class="user-btn" onclick="openModal('login-modal')">${t('login_btn')}</button><button class="user-btn" onclick="openModal('register-modal')" style="border-color:#cd7f32;">${t('register_btn')}</button>`;
-            } else { container.innerHTML = ''; }
-            const balanceBox = document.getElementById('key-balance-box');
-            if(balanceBox) balanceBox.style.display = 'none';
-        }
-    }
-    
-    function updateReferralUI(username) {
-        const refLinkInput = document.getElementById('ref-link-display');
-        const refStats = document.getElementById('ref-stats-display');
-        
-        if(refLinkInput) {
-            const path = window.location.origin + window.location.pathname;
-            refLinkInput.value = `${path}?ref=${encodeURIComponent(username)}`;
-        }
-        
-        const db = getDB();
-        const today = new Date().toISOString().split('T')[0];
-        let count = 0;
-        if (db[username] && db[username].referrals && db[username].referrals.date === today) {
-            count = db[username].referrals.count;
-        }
-        if(refStats) refStats.innerHTML = `${t('invite_desc').split('(')[0]} <span>${count}/${MAX_DAILY_REFERRALS}</span>`;
-    }
-
-    function openModal(id) { document.getElementById(id).style.display = 'block'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function openForgotModal() { closeModal('login-modal'); openModal('forgot-modal'); }
-
-    function handleForgot() {
-        const email = document.getElementById('forgot-email').value.trim();
-        if(!email) { showToast(t('toast_wrong'), "error"); return; }
-        let db = getDB();
-        let foundUser = null;
-        for(let user in db) { if(db[user].email === email) { foundUser = user; break; } }
-        if(foundUser) {
-            showToast(t('toast_found') + `<b style='color:var(--primary-color)'>${db[foundUser].code}</b>`, 'success');
-            closeModal('forgot-modal');
-        } else { showToast(t('toast_wrong'), "error"); }
-    }
-
-    function handleLogin() {
-        const name = document.getElementById('login-name').value.trim();
-        const code = document.getElementById('login-code').value.trim();
-        if (!name || !code) { showToast(t('toast_wrong'), "error"); return; }
-        let db = getDB();
-        if (db[name] && db[name].code === code) {
-            setCurrentUser(name); closeModal('login-modal'); updateAuthUI(); initKeyLogic();
-            showToast(t('toast_welcome', {name: name}), 'success');
-        } else { showToast(t('toast_wrong'), "error"); }
-    }
-
-    function handleRegister() {
-        const name = document.getElementById('reg-name').value.trim();
-        const code = document.getElementById('reg-code').value.trim();
-        const email = document.getElementById('reg-email').value.trim();
-        if (!name || !code || !email) { showToast(t('toast_wrong'), "error"); return; }
-        let db = getDB();
-        if (db[name]) { showToast(t('toast_wrong'), "error"); return; }
-        db[name] = { code: code, email: email, inventory: [], referrals: { date: '', count: 0 } };
-        saveDB(db);
-        setCurrentUser(name); closeModal('register-modal'); updateAuthUI(); initKeyLogic();
-        showToast(t('toast_created'));
-    }
-
-    function logout() { localStorage.removeItem('4aikro_session'); updateAuthUI(); initKeyLogic(); closeModal('inventory-modal'); showToast(t('toast_logout')); }
-
-    // === Inventory ===
-    function openInventoryModal() {
-        const username = getCurrentUser();
-        if (!username) return;
-        let db = getDB();
-        if (!db[username]) db[username] = {};
-        if (!db[username].inventory) db[username].inventory = [];
-        if (db[username].mc_keys && db[username].mc_keys.length > 0) {
-            db[username].mc_keys.forEach(() => addItemToInventory('bronze_key', false, false));
-            delete db[username].mc_keys; saveDB(db); updateAuthUI();
-        }
-        renderInventoryGrid(); updateReferralUI(username); openModal('inventory-modal');
-    }
-
-    function addItemToInventory(itemId, alertUser = true, checkMaxStack = true) {
-        const username = getCurrentUser();
-        let db = getDB();
-        if (!db[username]) db[username] = {};
-        if (!db[username].inventory) db[username].inventory = [];
-        let itemEntry = db[username].inventory.find(i => i.id === itemId);
-        const itemData = GAME_ITEMS[itemId];
-        const maxStack = itemData ? itemData.max_stack : 64;
-        if (itemEntry) {
-            if (checkMaxStack && itemEntry.count >= maxStack) {
-                if(alertUser) showToast(t('max_stack'), 'error'); return;
-            }
-            itemEntry.count++;
-        } else { db[username].inventory.push({ id: itemId, count: 1 }); }
-        saveDB(db); updateAuthUI();
-        if(alertUser) showToast(t('toast_added'));
-    }
-
-    function renderInventoryGrid() {
-        const username = getCurrentUser();
-        const db = getDB();
-        let inventory = db[username]?.inventory || [];
-        inventory.sort((a, b) => {
-            const itemA = GAME_ITEMS[a.id]; const itemB = GAME_ITEMS[b.id];
-            if(itemA.rarity !== itemB.rarity) return itemA.rarity === 'rare' ? -1 : 1;
-            return b.count - a.count;
-        });
-
-        const grid = document.getElementById('inv-grid');
-        const details = document.getElementById('inv-details');
-        
-        details.innerHTML = `
-            <div class="inv-details-content"><p class="inv-empty-msg">${t('select_item')}</p></div>
-            <div class="referral-box">
-                <span class="referral-title">${t('invite_title')}</span>
-                <span class="referral-stats" id="ref-stats-display">...</span>
-                <div class="referral-link-display">
-                    <input type="text" id="ref-link-display" class="referral-link-input" readonly>
-                    <button class="referral-copy-btn" onclick="copyRefLink()">${t('copy')}</button>
-                </div>
-            </div>
-        `;
-        updateReferralUI(username);
-
-        if (inventory.length === 0) {
-            grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#333; padding:20px;">Empty</p>';
-            return;
-        }
-
-        grid.innerHTML = inventory.map((entry, index) => {
-            const itemData = GAME_ITEMS[entry.id];
-            if(!itemData) return '';
-            return `
-            <div class="inv-slot rarity-${itemData.rarity}" onclick="showItemDetails(${index})">
-                <img src="${itemData.image}" alt="Item">
-                ${entry.count > 1 ? `<span class="item-count">x${entry.count}</span>` : ''}
-            </div>`;
-        }).join('');
-    }
-
-    function showItemDetails(index) {
-        const username = getCurrentUser();
-        const db = getDB();
-        let inventory = db[username].inventory || [];
-        inventory.sort((a, b) => {
-            const itemA = GAME_ITEMS[a.id]; const itemB = GAME_ITEMS[b.id];
-            if(itemA.rarity !== itemB.rarity) return itemA.rarity === 'rare' ? -1 : 1;
-            return b.count - a.count;
-        });
-
-        const entry = inventory[index];
-        const itemData = GAME_ITEMS[entry.id];
-        
-        document.querySelectorAll('.inv-slot').forEach(el => el.classList.remove('selected'));
-        document.querySelectorAll('.inv-slot')[index].classList.add('selected');
-
-        const details = document.getElementById('inv-details');
-        let color = '#fff'; let name = 'COMMON';
-        if(itemData.rarity === 'rare') { color = '#5555ff'; name = 'RARE'; }
-
-        details.innerHTML = `
-            <div class="inv-details-content">
-                <img src="${itemData.image}" style="filter: drop-shadow(0 5px 15px ${color});">
-                <h3 style="color:${color};">${t('copper_key')}</h3>
-                <div class="rarity-text" style="color:${color};">${name}</div>
-                <p>${t('copper_key_desc')}</p>
-                <div style="font-size:0.9em; color:#555;">Amount: ${entry.count} / ${itemData.max_stack}</div>
-            </div>
-            <div class="referral-box">
-                <span class="referral-title">${t('invite_link')}</span>
-                <span class="referral-stats" id="ref-stats-display"></span>
-                <div class="referral-link-display">
-                    <input type="text" id="ref-link-display" class="referral-link-input" readonly>
-                    <button class="referral-copy-btn" onclick="copyRefLink()">${t('copy')}</button>
-                </div>
-            </div>
-        `;
-        updateReferralUI(username);
-    }
-    
-    function copyRefLink() {
-        const input = document.getElementById('ref-link-display');
-        if(input && input.value) {
-            navigator.clipboard.writeText(input.value);
-            showToast(t('toast_copied'), 'success');
-        }
-    }
-
-    function openRulesModal() { openModal('rules-modal'); }
-
-    function showPage(pageName) {
-        document.getElementById('landing-page').style.display = 'none';
-        document.getElementById('minecraft-page').style.display = 'none';
-        document.getElementById('roblox-page').style.display = 'none';
-
-        const backBtn = document.getElementById('main-back-btn');
-        backBtn.style.display = 'block';
-
-        if (pageName === 'minecraft') {
-            document.getElementById('minecraft-page').style.display = 'block';
-            checkServerStatus(); initKeyLogic(); updateAuthUI();
-        } else if (pageName === 'roblox') { 
-            document.getElementById('roblox-page').style.display = 'block'; updateAuthUI(); 
-        }
-    }
-    
-    function goHome() { 
-        document.getElementById('landing-page').style.display = 'flex';
-        document.getElementById('minecraft-page').style.display = 'none';
-        document.getElementById('roblox-page').style.display = 'none';
-        const backBtn = document.getElementById('main-back-btn');
-        backBtn.style.display = 'none';
-        updateAuthUI();
-    }
-
-    const COOLDOWN_TIME = 24 * 60 * 60 * 1000; 
-    let timerInterval;
-
-    function initKeyLogic() {
-        const claimBtn = document.getElementById('claim-key-btn');
-        const displayArea = document.getElementById('key-display-area');
-        if(!claimBtn) return;
-        const username = getCurrentUser();
-        if (!username) { claimBtn.disabled = false; claimBtn.innerText = "🔑 Login"; claimBtn.onclick = () => openModal('login-modal'); displayArea.style.display = 'none'; return; }
-        const lastClaim = localStorage.getItem(`mc_keyTime_${username}`);
-        if (lastClaim) {
-            const nextClaimTime = parseInt(lastClaim) + COOLDOWN_TIME;
-            const now = new Date().getTime();
-            if (now < nextClaimTime) { claimBtn.disabled = true; claimBtn.innerText = `⏳ ${t('wait')}`; displayArea.style.display = 'block'; startCountdown(nextClaimTime); } else { setupClaimable(); }
-        } else { setupClaimable(); }
-    }
-
-    function setupClaimable() { const claimBtn = document.getElementById('claim-key-btn'); if(!claimBtn) return; claimBtn.disabled = false; claimBtn.innerText = t('claim_key'); claimBtn.onclick = claimBronzeKey; document.getElementById('key-display-area').style.display = 'none'; }
-    function claimBronzeKey() { const username = getCurrentUser(); if(!username) return; addItemToInventory('bronze_key'); localStorage.setItem(`mc_keyTime_${username}`, new Date().getTime()); initKeyLogic(); }
-    function startCountdown(endTime) { clearInterval(timerInterval); const timerDisplay = document.getElementById('timer-display'); function updateTimer() { const now = new Date().getTime(); const distance = endTime - now; if (distance < 0) { clearInterval(timerInterval); setupClaimable(); } else { const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)); const seconds = Math.floor((distance % (1000 * 60)) / 1000); if(timerDisplay) timerDisplay.innerHTML = `${hours}h ${minutes}m ${seconds}s`; } } updateTimer(); timerInterval = setInterval(updateTimer, 1000); }
-
-    function copyIP() { navigator.clipboard.writeText(document.getElementById("server-ip").innerText); showToast(t('toast_copied'), 'success'); }
-    function checkServerStatus() {
-        const statusText = document.getElementById("status-text");
-        const playerElement = document.getElementById("player-count");
-        const versionElement = document.getElementById("server-version");
-        statusText.innerText = t('checking');
-        playerElement.innerText = "";
-        versionElement.innerText = "";
-
-        fetch("https://api.mcstatus.io/v2/status/java/cities-declare.gl.joinmc.link")
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.online === true) {
-                    statusText.innerText = "🟢 " + t('online');
-                    statusText.classList.add("status-online");
-                    playerElement.innerText = t('players') + ": " + data.players.online + " / " + data.players.max;
-                    versionElement.innerText = t('version') + ": " + data.version.name_clean;
-                } else { statusText.innerText = "🔴 " + t('offline'); statusText.classList.add("status-offline"); }
-            })
-            .catch(error => { statusText.innerText = "⚠️ Error"; statusText.classList.add("status-offline"); });
-    }
+const TR={ar:{bn:"STORE 4AIKRO",lt:"اختر مسارك",ls:"محتوى حصري للاعبين النخبة.",rd:"إمكانيات لا نهائية.",md:"سيرفرات جافا الرسمية.",cs:"قريباً",ch:"جارٍ التحقق...",on:"أونلاين",of:"أوفلاين",pl:"اللاعبين",vr:"الإصدار",dm:"تحميل المودات",rb:"⚖️ القوانين",rg:"💎 الرتب والهدايا",dg:"الهدية اليومية",dd:"هدية مجانية كل 24 ساعة.",ba:"الرصيد:",ck:"🔑 احصل على مفتاحك",vr:"رتبة VIP",vd:"مزايا إضافية.",mr:"رتبة MVP",md:"صلاحيات كاملة.",bu:"شراء",sh:"🛒 متجر الآيتمات",lit:"تسجيل الدخول",un:"اسم المستخدم",sc:"الكود السري",en:"دخول",fc:"نسيت الكود؟",re:"استرجاع الحساب",rd:"أدخل بريدك الإلكتروني للبحث عن كودك.",em:"البريد الإلكتروني",se:"بحث",bl:"العودة لتسجيل الدخول",rat:"إنشاء حساب",cr:"إنشاء",inv:"📦 المخزون",ex:"خروج",si:"اختر عنصراً",it:"🔗 دعوة الأصدقاء",il:"رابط الدعوة",id:"احصل على مفتاح مجاني لكل شخص جديد! (الحد 5 يومياً)",cp:"نسخ",bb:"⬅ رجوع",lbt:"🔑 دخول",rgt:"📝 حساب جديد",pex:"خروج",tw:"مرحباً، {n} 👋",tcr:"تم إنشاء الحساب!",tlo:"تم تسجيل الخروج",tco:"تم النسخ!",tad:"🎉 تمت الإضافة!",tfo:"✅ تم العثور! الكود: ",twr:"خطأ في البيانات",ckk:"مفتاح نحاسي",ckd:"مفتاح نحاسي أساسي يومي.",wt:"انتظر",ms:"وصلت للحد الأقصى"},en:{bn:"STORE 4AIKRO",lt:"Choose Your Path",ls:"Exclusive content for elite players.",rd:"Endless possibilities.",md:"Official Java Servers.",cs:"Coming Soon",ch:"Checking...",on:"Online",of:"Offline",pl:"Players",vr:"Version",dm:"Download Mods",rb:"⚖️ Rules",rg:"💎 Ranks & Gifts",dg:"Daily Gift",dd:"Free gift every 24h.",ba:"Balance:",ck:"🔑 Claim Key",vr:"VIP Rank",vd:"Extra perks.",mr:"MVP Rank",md:"Full permissions.",bu:"Buy",sh:"🛒 Item Shop",lit:"Login",un:"Username",sc:"Secret Code",en:"Enter",fc:"Forgot Code?",re:"Recovery",rd:"Enter your email to find your code.",em:"Email",se:"Search",bl:"Back to Login",rat:"Create Account",cr:"Create",inv:"📦 Inventory",ex:"Exit",si:"Select an item",it:"🔗 Invite Friends",il:"Invite Link",id:"Get a free key for every new friend! (Max 5/day)",cp:"Copy",bb:"⬅ Back",lbt:"🔑 Login",rgt:"📝 Register",pex:"Exit",tw:"Welcome, {n} 👋",tcr:"Account Created!",tlo:"Logged out",tco:"Copied!",tad:"🎉 Item added!",tfo:"✅ Found! Code: ",twr:"Wrong details",ckk:"Copper Key",ckd:"A basic daily copper key.",wt:"Wait",ms:"Max stack reached"},jp:{bn:"STORE 4AIKRO",lt:"パスを選択",ls:"エリートプレイヤーのための限定コンテンツ。",rd:"無限の可能性。",md:"公式Javaサーバー。",cs:"近日公開",ch:"確認中...",on:"オンライン",of:"オフライン",pl:"プレイヤー",vr:"バージョン",dm:"Modをダウンロード",rb:"⚖️ ルール",rg:"💎 ランクとギフト",dg:"毎日のギフト",dd:"24時間ごとの無料ギフト。",ba:"残高:",ck:"🔑 鍵を受け取る",vr:"VIP ランク",vd:"特別な特典。",mr:"MVP ランク",md:"完全な権限。",bu:"購入",sh:"🛒 アイテムショップ",lit:"ログイン",un:"ユーザー名",sc:"シークレットコード",en:"入る",fc:"コードをお忘れですか？",re:"復旧",rd:"コードを見つけるためにメールを入力してください。",em:"メール",se:"検索",bl:"ログインに戻る",rat:"アカウント作成",cr:"作成",inv:"📦 インベントリ",ex:"出口",si:"アイテムを選択",it:"🔗 招待",il:"招待リンク",id:"新しい友人ごとに無料の鍵を入手！（1日最大5個）",cp:"コピー",bb:"⬅ 戻る",lbt:"🔑 ログイン",rgt:"📝 登録",pex:"終了",tw:"ようこそ、{n} さん 👋",tcr:"アカウントが作成されました！",tlo:"ログアウトしました",tco:"コピーしました！",tad:"🎉 アイテムが追加されました！",tfo:"✅ 発見！コード: ",twr:"詳細が間違っています",ckk:"銅の鍵",ckd:"基本的な毎日の銅の鍵。",wt:"待って",ms:"最大スタックに達しました"}},GI={bk:{id:'bk',im:'COPPERKEY.png',ra:'c',ms:25000}},MDR=5,IPR=false;
+onload=()=>{il();ia()};
+il=()=>{const sl=localStorage.getItem('4l')||'ar';al(sl);document.getElementById('ls').value=sl}
+cl=l=>{localStorage.setItem('4l',l);al(l)}
+al=l=>{const h=document.documentElement,b=document.body;l==='ar'?(h.setAttribute('dir','rtl'),h.setAttribute('lang','ar'),b.classList.remove('len','ljp')):(h.setAttribute('dir','ltr'),h.setAttribute('lang',l),b.classList.add(`l${l}`));document.querySelectorAll('[data-k]').forEach(e=>{const k=e.getAttribute('data-k');if(TR[l][k])e.textContent=TR[l][k]});document.querySelectorAll('[data-p]').forEach(e=>{const k=e.getAttribute('data-p');if(TR[l][k])e.placeholder=TR[l][k]});ua()}
+t=(k,r={})=>{const l=localStorage.getItem('4l')||'ar';let x=TR[l][k]||TR['en'][k]||k;for(const n in r)x=x.replace(`{${n}}`,r[n]);return x}
+ia=()=>{ua();crs()}
+crs=()=>{const p=new URLSearchParams(location.search),rf=p.get('ref');if(rf&&!IPR){IPR=true;const hv=localStorage.getItem('vc');if(hv)return;const cu=gu();if(rf===cu)return;let db=gd();if(!db[rf])return;const td=new Date().toISOString().split('T')[0];if(!db[rf].ref||db[rf].ref.d!==td)db[rf].ref={d:td,c:0};if(db[rf].ref.c>=MDR)return;if(!db[rf].inv)db[rf].inv=[];let ie=db[rf].inv.find(i=>i.id==='bk');ie?ie.c++:db[rf].inv.push({id:'bk',c:1});db[rf].ref.c++;localStorage.setItem('vc','1');sd(db);if(gu()===rf){sh(t('tad'),'s');ua();rig()}}}
+gd=()=>{try{return JSON.parse(localStorage.getItem('4db'))||{}}catch(e){return{}}}
+sd=d=>localStorage.setItem('4db',JSON.stringify(d))
+gu=()=>localStorage.getItem('4ss')
+su=u=>localStorage.setItem('4ss',u)
+sh=(m,y='s')=>{const c=document.getElementById('tc'),t=document.createElement('div');t.className=`t ${y}`;t.innerHTML=m;c.appendChild(t);setTimeout(()=>t.remove(),3000)}
+ua=()=>{const c=document.getElementById('ac'),u=gu(),lv=document.getElementById('lp').style.display!=='none';if(u){const db=gd(),o=db[u]?.mk?.length||0,n=db[u]?.inv?.reduce((s,i)=>s+i.c,0)||0,tc=o+n;c.innerHTML=`<div class="btn p" onclick="oim()">👤 ${u}<span class="badge">🎒 ${tc}</span></div><button class="btn out" onclick="lo()">${t('pex')}</button>`;const bn=document.getElementById('kbn'),bb=document.getElementById('kbb');if(bn)bn.innerText=tc;if(bb)bb.style.display='inline-flex';uri(u)}else{if(lv)c.innerHTML=`<button class="btn" onclick="om('lim')">${t('lbt')}</button><button class="btn" onclick="om('rem')" style="border-color:#cd7f32;">${t('rgt')}</button>`;else c.innerHTML='';const bb=document.getElementById('kbb');if(bb)bb.style.display='none'}}
+uri=u=>{const ri=document.getElementById('ri'),rs=document.getElementById('rs');if(ri){const p=location.origin+location.pathname;ri.value=`${p}?ref=${encodeURIComponent(u)}`}const db=gd(),td=new Date().toISOString().split('T')[0];let c=0;if(db[u]?.ref?.d===td)c=db[u].ref.c;if(rs)rs.innerHTML=`${t('id').split('(')[0]} <span>${c}/${MDR}</span>`}
+om=i=>document.getElementById(i).style.display='block'
+cm=i=>document.getElementById(i).style.display='none'
+ofm=()=>{cm('lim');om('fom')}
+hf=()=>{const e=document.getElementById('foe').value.trim();if(!e){sh(t('twr'),'e');return}let db=gd(),fu=null;for(let u in db)if(db[u].em===e){fu=u;break}fu?(sh(t('tfo')+`<b style='color:var(--p)'>${db[fu].cd}</b>`,'s'),cm('fom')):sh(t('twr'),'e')}
+hl=()=>{const n=document.getElementById('lin').value.trim(),c=document.getElementById('lic').value.trim();if(!n||!c){sh(t('twr'),'e');return}let db=gd();if(db[n]&&db[n].cd===c){su(n);cm('lim');ua();ik();sh(t('tw',{n:n}),'s')}else sh(t('twr'),'e')}
+hr=()=>{const n=document.getElementById('ren').value.trim(),c=document.getElementById('rec').value.trim(),e=document.getElementById('ree').value.trim();if(!n||!c||!e){sh(t('twr'),'e');return}let db=gd();if(db[n]){sh(t('twr'),'e');return}db[n]={cd:c,em:e,inv:[],ref:{d:'',c:0}};sd(db);su(n);cm('rem');ua();ik();sh(t('tcr'))}
+lo=()=>{localStorage.removeItem('4ss');ua();ik();cm('inm');sh(t('tlo'))}
+oim=()=>{const u=gu();if(!u)return;let db=gd();if(!db[u])db[u]={};if(!db[u].inv)db[u].inv=[];if(db[u].mk&&db[u].mk.length>0){db[u].mk.forEach(()=>aii('bk',false,false));delete db[u].mk;sd(db);ua()}rig();uri(u);om('inm')}
+aii=(id,au=true,cm=true)=>{const u=gu();let db=gd();if(!db[u])db[u]={};if(!db[u].inv)db[u].inv=[];let ie=db[u].inv.find(i=>i.id===id);const id=GI[id],ms=id?id.ms:64;if(ie){if(cm&&ie.c>=ms){if(au)sh(t('ms'),'e');return}ie.c++}else db[u].inv.push({id:id,c:1});sd(db);ua();if(au)sh(t('tad'))}
+rig=()=>{const u=gu(),db=gd(),inv=db[u]?.inv||[];inv.sort((a,b)=>{const ia=GI[a.id],ib=GI[b.id];return ia.ra!==ib.ra?ia.ra==='rare'?-1:1:b.c-a.c});const g=document.getElementById('igr'),d=document.getElementById('idt');d.innerHTML=`<div style="flex-grow:1;display:flex;align-items:center;justify-content:center"><p class="em">${t('si')}</p></div><div class="rf"><span class="rt">${t('it')}</span><span class="rs" id="rs">...</span><div class="rl"><input type="text" id="ri" class="ri" readonly><button class="rcp" onclick="crl()">${t('cp')}</button></div></div>`;uri(u);if(inv.length===0){g.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#333;padding:20px">Empty</p>';return}g.innerHTML=inv.map((e,i)=>{const id=GI[e.id];if(!id)return'';return`<div class="is r-${id.ra}" onclick="sid(${i})"><img src="${id.im}" alt="Item" class="sh" loading="lazy" onload="cr(this)">${e.c>1?`<span class="ic">x${e.c}</span>`:''}</div>`}).join('')}
+sid=i=>{const u=gu(),db=gd(),inv=db[u].inv||[];inv.sort((a,b)=>{const ia=GI[a.id],ib=GI[b.id];return ia.ra!==ib.ra?ia.ra==='rare'?-1:1:b.c-a.c});const e=inv[i],id=GI[e.id];document.querySelectorAll('.is').forEach(el=>el.classList.remove('sel'));document.querySelectorAll('.is')[i].classList.add('sel');const d=document.getElementById('idt');let c='#fff',n='COMMON';if(id.ra==='rare'){c='#55f';n='RARE'}d.innerHTML=`<div style="flex-grow:1"><img src="${id.im}" style="filter:drop-shadow(0 5px 15px ${c});background:#111;border-radius:8px;width:100px;height:100px;margin-bottom:15px" class="sh" onload="cr(this)"><h3 style="color:${c}">${t('ckk')}</h3><div style="font-size:0.9em;font-weight:bold;margin-bottom:15px;text-transform:uppercase;color:${c}">${n}</div><p>${t('ckd')}</p><div style="font-size:0.9em;color:#555">Amount: ${e.c} / ${id.ms}</div></div><div class="rf"><span class="rt">${t('il')}</span><span class="rs" id="rs"></span><div class="rl"><input type="text" id="ri" class="ri" readonly><button class="rcp" onclick="crl()">${t('cp')}</button></div></div>`;uri(u)}
+crl=()=>{const i=document.getElementById('ri');if(i&&i.value){navigator.clipboard.writeText(i.value);sh(t('tco'),'s')}}
+sp=p=>{document.getElementById('lp').style.display='none';document.getElementById('mp').style.display='none';document.getElementById('rp').style.display='none';const mb=document.getElementById('mb');mb.style.display='block';if(p==='minecraft'){document.getElementById('mp').style.display='block';css();ik();ua()}else if(p==='roblox'){document.getElementById('rp').style.display='block';ua()}}
+gh=()=>{document.getElementById('lp').style.display='flex';document.getElementById('mp').style.display='none';document.getElementById('rp').style.display='none';document.getElementById('mb').style.display='none';ua()}
+const CT=24*60*60*1000;let ti;
+ik=()=>{const cb=document.getElementById('ckb'),da=document.getElementById('kda');if(!cb)return;const u=gu();if(!u){cb.disabled=false;cb.innerText="🔑 Login";cb.onclick=()=>om('lim');da.style.display='none';return}const lc=localStorage.getItem(`mkt${u}`);if(lc){const nt=parseInt(lc)+CT,nw=Date.now();if(nw<nt){cb.disabled=true;cb.innerText=`⏳ ${t('wt')}`;da.style.display='block';sct(nt)}else scl()}else scl()}
+scl=()=>{const cb=document.getElementById('ckb');if(!cb)return;cb.disabled=false;cb.innerText=t('ck');cb.onclick=ck;document.getElementById('kda').style.display='none'}
+ck=()=>{const u=gu();if(!u)return;aii('bk');localStorage.setItem(`mkt${u}`,Date.now());ik()}
+sct=et=>{clearInterval(ti);const td=document.getElementById('td');const ut=()=>{const nw=Date.now(),ds=et-nw;if(ds<0){clearInterval(ti);scl()}else{const h=Math.floor((ds%(1000*60*60*24))/(1000*60*60)),m=Math.floor((ds%(1000*60*60))/(1000*60)),s=Math.floor((ds%(1000*60))/1000);if(td)td.innerHTML=`${h}h ${m}m ${s}s`}};ut();ti=setInterval(ut,1000)}
+cip=()=>{navigator.clipboard.writeText(document.getElementById("si").innerText);sh(t('tco'),'s')}
+css=()=>{const st=document.getElementById("st"),pc=document.getElementById("pc"),sv=document.getElementById("sv");st.innerText=t('ch');pc.innerText="";sv.innerText="";fetch("https://api.mcstatus.io/v2/status/java/cities-declare.gl.joinmc.link").then(r=>r.json()).then(d=>{if(d&&d.online){st.innerText="🟢 "+t('on');st.classList.add("son");pc.innerText=t('pl')+": "+d.players.online+" / "+d.players.max;sv.innerText=t('vr')+": "+d.version.name_clean}else{st.innerText="🔴 "+t('of');st.classList.add("sof")}}).catch(()=>{st.innerText="⚠️ Error";st.classList.add("sof")})}
+cr=e=>e.classList.remove('sh')
 </script>
 </body>
 </html>
