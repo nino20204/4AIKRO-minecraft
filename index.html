@@ -7,14 +7,9 @@
 <link rel="preload" href="newlogosite.gif" as="image">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@500;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1P984G5247"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-1P984G5247');
-</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-1P984G5247');</script>
 <style>
-:root{--p:#00e676;--s:#4CAF50;--b:#050505;--br:#cd7f32;--gb:rgba(255,255,255,0.08);--on:#22c55e;--off:#ef4444}
+:root{--p:#00e676;--s:#4CAF50;--b:#050505;--br:#cd7f32;--g:rgba(255,255,255,0.03);--gb:rgba(255,255,255,0.08);--on:#22c55e;--off:#ef4444}
 *{box-sizing:border-box}
 body{font-family:'Cairo',sans-serif;margin:0;padding:0;background-color:var(--b);color:#fff;overflow-x:hidden;min-height:100vh}
 html[dir="ltr"] body{direction:ltr;text-align:left}
@@ -25,7 +20,7 @@ html[dir="ltr"] .close-btn{left:auto;right:15px}
 @keyframes rot{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 ::-webkit-scrollbar{width:8px}
 ::-webkit-scrollbar-thumb{background:#333;border-radius:4px}
-.hdr{position:fixed;top:0;left:0;width:100%;background:rgba(5,5,5,0.9);backdrop-filter:blur(20px);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;z-index:1000;border-bottom:1px solid var(--gb)}
+.hdr{position:fixed;top:0;left:0;width:100%;background:rgba(5,5,5,0.85);backdrop-filter:blur(20px);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;z-index:1000;border-bottom:1px solid var(--gb)}
 .logo{font-family:'Tajawal',sans-serif;font-size:1.8em;font-weight:900;background:linear-gradient(to right,#fff,var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer}
 .acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .btn{background:rgba(255,255,255,0.05);color:#fff;border:1px solid var(--gb);padding:8px 20px;border-radius:12px;cursor:pointer;font-family:inherit;font-weight:700;font-size:0.9em;text-decoration:none;display:flex;align-items:center;gap:8px;transition:0.3s}
@@ -36,7 +31,7 @@ html[dir="ltr"] .close-btn{left:auto;right:15px}
 .lang{background:rgba(255,255,255,0.05);border:1px solid var(--gb);color:#fff;padding:8px 12px;border-radius:12px;cursor:pointer;font-family:inherit;font-weight:bold;font-size:0.85em;display:flex;align-items:center;gap:6px}
 .lang select{background:transparent;border:0;color:#fff;font-weight:bold;cursor:pointer;outline:0}
 .lang option{background:#000}
-.shimmer{background:linear-gradient(90deg,#1a1a1a 0%,#2a2a2a 50%,#1a1a1a 100%);background-size:200% 100%;animation:sh 1.5s infinite;min-height:50px}
+.sh{background:linear-gradient(90deg,#1a1a1a 0%,#2a2a2a 50%,#1a1a1a 100%);background-size:200% 100%;animation:sh 1.5s infinite;min-height:50px}
 @keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
 #lp{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:100px 20px 50px}
 .ll{width:150px;height:150px;border-radius:50%;border:3px solid rgba(0,230,118,0.3);box-shadow:0 0 50px rgba(0,230,118,0.3);margin-bottom:25px;animation:pl 4s infinite;background:#111}
@@ -88,18 +83,19 @@ html[dir="ltr"] .close-btn{left:auto;right:15px}
 .ih h2{margin:0;font-size:1.4em}
 .ib{display:flex;flex:1;overflow:hidden}
 .ig{flex:2;padding:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:15px;overflow-y:auto;background:#050505;border-left:1px solid #111;align-content:start}
-.is{aspect-ratio:1;background:#0a0a0a;border:1px solid #222;border-radius:12px;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;padding:5px;transition:0.2s}
+.is{aspect-ratio:1;background:#0a0a0a;border:1px solid #222;border-radius:12px;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;padding:5px}
 .is:hover{border-color:#444;transform:scale(1.05)}
-.is.selected{border-color:var(--p);box-shadow:0 0 20px rgba(0,230,118,0.2)}
+.is.sel{border-color:var(--p);box-shadow:0 0 20px rgba(0,230,118,0.2)}
 .is img{width:100%;height:100%;object-fit:contain}
-.ic{position:absolute;bottom:4px;left:4px;background:#000;font-size:0.75em;padding:2px 6px;border-radius:6px;font-weight:bold;border:1px solid #222}
+/* تعديل ليظهر الرقم دائماً بوضوح */
+.ic{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,0.85);font-size:0.75em;padding:2px 6px;border-radius:6px;font-weight:bold;border:1px solid #444;color:#fff}
 .rc{border-color:#333}
 .rr{border-color:#55f;box-shadow:inset 0 0 15px rgba(85,85,255,0.2)}
 .id{flex:1;padding:30px 25px;background:#080808;display:flex;flex-direction:column;align-items:center;text-align:center;overflow-y:auto;justify-content:space-between;gap:20px}
 .id img{width:100px;height:100px;object-fit:contain;margin-bottom:15px;background:#111;border-radius:8px}
 .id h3{margin:0 0 5px 0;font-size:1.3em}
 .em{color:#333;text-align:center;margin-top:50%;font-size:1em}
-.rf{margin-top:0;padding:20px;background:#0a0a0a;border-radius:15px;border:1px solid #222;width:100%;box-sizing:border-box;border-top:3px solid var(--p)}
+.rf{margin-top:0;padding:20px;background:#0a0a0a;border-radius:15px;border:1px solid #222;width:100%;border-top:3px solid var(--p)}
 .rt{font-size:1em;color:#fff;margin-bottom:8px;display:flex;align-items:center;gap:8px;font-weight:900}
 .rs{font-size:0.9em;color:#888;margin-bottom:15px;display:block;background:#111;padding:8px;border-radius:8px}
 .rs span{color:var(--p);font-weight:900;font-size:1.1em}
@@ -107,7 +103,7 @@ html[dir="ltr"] .close-btn{left:auto;right:15px}
 .rii{flex:1;background:#000;border:1px solid #222;padding:10px;border-radius:8px;color:#ccc;font-size:0.85em;text-align:center;pointer-events:none;font-family:monospace}
 .rcp{background:var(--s);border:0;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:0.9em;color:#fff;font-family:inherit}
 #tc{position:fixed;bottom:30px;right:30px;z-index:9999;display:flex;flex-direction:column;gap:15px}
-.t{background:#111;color:#fff;padding:16px 24px;border-radius:12px;border-right:4px solid var(--p);box-shadow:0 10px 30px rgba(0,0,0,0.5);animation:sl 0.4s,fo 0.5s ease 3.0s forwards;display:flex;align-items:center;gap:12px;font-size:1em;max-width:350px;border:1px solid #222}
+.t{background:#111;color:#fff;padding:16px 24px;border-radius:12px;border-right:4px solid var(--p);box-shadow:0 10px 30px rgba(0,0,0,0.5);animation:sl 0.4s,fo 0.5s ease 3s forwards;display:flex;align-items:center;gap:12px;font-size:1em;max-width:350px;border:1px solid #222}
 .t.s{border-color:var(--p)}
 @keyframes sl{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes fo{to{opacity:0;transform:translateX(100%)}}
@@ -116,448 +112,103 @@ html[dir="ltr"] .close-btn{left:auto;right:15px}
 </head>
 <body>
 <div class="bg"></div><div id="tc"></div>
-<div class="hdr"><div class="logo" onclick="goHome()">STORE 4AIKRO</div><div class="acts"><div class="lang">🌐<select id="lang-select" onchange="changeLanguage(this.value)"><option value="ar">العربية</option><option value="en">English</option><option value="jp">日本語</option></select></div><div id="auth-btn-container"></div></div></div>
-<button id="mb" class="bk" onclick="goHome()">⬅ Back</button>
-
-<div id="lp"><img src="newlogosite.gif" alt="L" class="ll shimmer" onload="this.classList.remove('shimmer')"><h1 class="lt">Choose Your Path</h1><p class="ls">Exclusive content for elite players.</p><div class="cc"><div class="crd" onclick="showPage('roblox')"><img src="logoroblox.png" alt="R" class="shimmer" loading="lazy" onload="this.classList.remove('shimmer')"><h2>ROBLOX</h2><p>Endless possibilities.</p></div><div class="crd" onclick="showPage('minecraft')"><img src="logominecraft.png" alt="M" class="shimmer" loading="lazy" onload="this.classList.remove('shimmer')"><h2>MINECRAFT</h2><p>Official Java Servers.</p></div></div></div>
-
-<div id="rp"><div class="ct"><header><h1>ROBLOX</h1><p>Coming Soon</p></header></div></div>
-
-<div id="mp"><div class="ct"><header><img src="standard_1.gif" alt="G" class="ag shimmer" onload="this.classList.remove('shimmer')"><div class="ht"><h1>⚔️ 4AIKRO_S4 ⚔️</h1><p>UPDATE: 1</p></div></header><div class="st"><div class="stxt" id="st">Checking...</div><span id="sd"></span><div class="si"><div id="pc"></div><div id="sv"></div></div><div class="ip" onclick="copyIP()"><strong>IP:</strong> <span id="si">cities-declare.gl.joinmc.link</span> 📋</div></div><div style="display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:20px"><a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="bt" style="background:#5865F2">Discord</a><a href="https://www.mediafire.com/file/eyavtrl589c7s5x/mods_serveur_4AIKRO_S4.rar/file" class="bt" target="_blank">Download Mods</a><button class="bt rl" onclick="openModal('rum')">⚖️ Rules</button></div><div class="sec"><h2>💎 Ranks & Gifts</h2><div class="cg"><div class="cd"><div><img src="gift.png" alt="D" class="ri shimmer" loading="lazy" onload="this.classList.remove('shimmer')"><h3>Daily Gift</h3><p>Free gift every 24h.</p><div class="bl" id="kbb" style="display:none"><span>Balance:</span><span class="bc" id="kbn">0</span></div></div><div><div id="kda" style="display:none;margin-bottom:10px"><div>⏳ <span id="td">00:00:00</span></div></div><button id="ckb" class="bt br" onclick="claimKey()">🔑 Claim Key</button></div></div><div class="cd"><div><img src="vip.jpg" alt="V" class="ri shimmer" loading="lazy" onload="this.classList.remove('shimmer')"><h3>VIP Rank</h3><p>Extra perks.</p></div><div class="price">$2.00</div><a href="#" class="btn">Buy</a></div><div class="cd"><div><img src="mvp.jpg" alt="M" class="ri shimmer" loading="lazy" onload="this.classList.remove('shimmer')"><h3>MVP Rank</h3><p>Full permissions.</p></div><div class="price">$5.00</div><a href="#" class="btn">Buy</a></div></div></div><div class="sec"><h2>🛒 Item Shop</h2><div class="cg"><div class="cd"><img src="100coin.jpg" class="ri shimmer" loading="lazy" onload="this.classList.remove('shimmer')"><h3>100 COIN</h3><div class="price">$1.00</div><a href="#" class="btn">Buy</a></div><div class="cd"><img src="500coin.jpg" class="ri shimmer" loading="lazy" onload="this.classList.remove('shimmer')"><h3>500 COIN</h3><div class="price">$3.00</div><a href="#" class="btn">Buy</a></div><div class="cd"><img src="1000coin.jpg" class="ri shimmer" loading="lazy" onload="this.classList.remove('shimmer')"><h3>1000 COIN</h3><div class="price">$5.00</div><a href="#" class="btn">Buy</a></div></div></div></div></div>
-
-<!-- Modals -->
-<div id="lim" class="md"><div class="mc"><span class="cls" onclick="closeModal('lim')">&times;</span><h2>Login</h2><input type="text" id="lin" placeholder="Username"><input type="password" id="lic" placeholder="Secret Code"><button class="bt" onclick="handleLogin()" style="width:100%">Enter</button><span class="ml" onclick="openForgotModal()">Forgot Code?</span></div></div>
-<div id="fom" class="md"><div class="mc"><span class="cls" onclick="closeModal('fom')">&times;</span><h2>Recovery</h2><p style="font-size:0.9em;color:#666;margin-bottom:15px">Enter your email.</p><input type="email" id="foe" placeholder="Email"><button class="bt" onclick="handleForgot()" style="width:100%">Search</button><span class="ml" onclick="closeModal('fom');openModal('lim')">Back to Login</span></div></div>
-<div id="rem" class="md"><div class="mc"><span class="cls" onclick="closeModal('rem')">&times;</span><div style="font-size:3em;margin-bottom:10px">📝</div><h2>Create Account</h2><input type="text" id="ren" placeholder="Username"><input type="password" id="rec" placeholder="Secret Code"><input type="email" id="ree" placeholder="Email"><button class="bt" onclick="handleRegister()" style="width:100%">Create</button></div></div>
-<div id="inm" class="md"><div class="mc imc"><div class="ih"><h2>📦 Inventory</h2><span class="cls" style="font-size:24px;position:relative;top:0;left:0" onclick="closeModal('inm')">&times;</span></div><div class="ib"><div class="ig" id="igr"></div><div class="id" id="idt"><p class="em">Select an item</p></div></div></div></div>
-<div id="rum" class="md"><div class="mc"><span class="cls" onclick="closeModal('rum')">&times;</span><h2>⚖️ Server Rules</h2><div style="line-height:1.8"><p>🚫 No Hacking</p><p>🗣️ Respect All</p><p>🏗️ No Griefing</p><p>📢 No Ads</p></div></div></div>
-
+<div class="hdr"><div class="logo" onclick="gh()">STORE 4AIKRO</div><div class="acts"><div class="lang">🌐<select id="ls" onchange="cl(this.value)"><option value="ar">العربية</option><option value="en">English</option><option value="jp">日本語</option></select></div><div id="ac"></div></div></div>
+<button id="mb" class="bk" onclick="gh()">⬅ Back</button>
+<div id="lp"><img src="newlogosite.gif" alt="L" class="ll sh" onload="cr(this)"><h1 class="lt" data-k="lt">Choose Your Path</h1><p class="ls" data-k="ls">Exclusive content for elite players.</p><div class="cc"><div class="crd" onclick="sp('roblox')"><img src="logoroblox.png" alt="R" class="sh" loading="lazy" onload="cr(this)"><h2>ROBLOX</h2><p data-k="rd">Endless possibilities.</p></div><div class="crd" onclick="sp('minecraft')"><img src="logominecraft.png" alt="M" class="sh" loading="lazy" onload="cr(this)"><h2>MINECRAFT</h2><p data-k="md">Official Java Servers.</p></div></div></div>
+<div id="rp"><div class="ct"><header><h1>ROBLOX</h1><p data-k="cs">Coming Soon</p></header></div></div>
+<div id="mp"><div class="ct"><header><img src="standard_1.gif" alt="G" class="ag sh" onload="cr(this)"><div class="ht"><h1>⚔️ 4AIKRO_S4 ⚔️</h1><p>UPDATE: 1</p></div></header><div class="st"><div class="stxt" id="st" data-k="ch">Checking...</div><span id="sd"></span><div class="si"><div id="pc"></div><div id="sv"></div></div><div class="ip" onclick="cip()"><strong>IP:</strong> <span id="si">cities-declare.gl.joinmc.link</span> 📋</div></div><div style="display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:20px"><a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="bt" style="background:#5865F2">Discord</a><a href="https://www.mediafire.com/file/eyavtrl589c7s5x/mods_serveur_4AIKRO_S4.rar/file" class="bt" target="_blank" data-k="dm">Download Mods</a><button class="bt rl" onclick="om('rum')" data-k="rb">⚖️ Rules</button></div><div class="sec"><h2 data-k="rg">💎 Ranks & Gifts</h2><div class="cg"><div class="cd"><div><img src="gift.png" alt="D" class="ri sh" loading="lazy" onload="cr(this)"><h3 data-k="dg">Daily Gift</h3><p data-k="dd">Free gift every 24h.</p><div class="bl" id="kbb" style="display:none"><span data-k="ba">Balance:</span><span class="bc" id="kbn">0</span></div></div><div><div id="kda" style="display:none;margin-bottom:10px"><div>⏳ <span id="td">00:00:00</span></div></div><button id="ckb" class="bt br" onclick="ck()" data-k="ck">🔑 Claim Key</button></div></div><div class="cd"><div><img src="vip.jpg" alt="V" class="ri sh" loading="lazy" onload="cr(this)"><h3 data-k="vr">VIP Rank</h3><p data-k="vd">Extra perks.</p></div><div class="pr">$2.00</div><a href="#" class="bt" data-k="bu">Buy</a></div><div class="cd"><div><img src="mvp.jpg" alt="M" class="ri sh" loading="lazy" onload="cr(this)"><h3 data-k="mr">MVP Rank</h3><p data-k="md">Full permissions.</p></div><div class="pr">$5.00</div><a href="#" class="bt" data-k="bu">Buy</a></div></div></div><div class="sec"><h2 data-k="sh">🛒 Item Shop</h2><div class="cg"><div class="cd"><img src="100coin.jpg" class="ri sh" loading="lazy" onload="cr(this)"><h3>100 COIN</h3><div class="pr">$1.00</div><a href="#" class="bt" data-k="bu">Buy</a></div><div class="cd"><img src="500coin.jpg" class="ri sh" loading="lazy" onload="cr(this)"><h3>500 COIN</h3><div class="pr">$3.00</div><a href="#" class="bt" data-k="bu">Buy</a></div><div class="cd"><img src="1000coin.jpg" class="ri sh" loading="lazy" onload="cr(this)"><h3>1000 COIN</h3><div class="pr">$5.00</div><a href="#" class="bt" data-k="bu">Buy</a></div></div></div></div></div>
+<div id="lim" class="md"><div class="mc"><span class="cls" onclick="cm('lim')">&times;</span><h2 data-k="lit">Login</h2><input type="text" id="lin" data-p="un" placeholder="Username"><input type="password" id="lic" data-p="sc" placeholder="Secret Code"><button class="bt" onclick="hl()" style="width:100%" data-k="en">Enter</button><span class="ml" onclick="ofm()" data-k="fc">Forgot Code?</span></div></div>
+<div id="fom" class="md"><div class="mc"><span class="cls" onclick="cm('fom')">&times;</span><h2 data-k="re">Recovery</h2><p style="font-size:0.9em;color:#666;margin-bottom:15px" data-k="rd">Enter your email.</p><input type="email" id="foe" data-p="em" placeholder="Email"><button class="bt" onclick="hf()" style="width:100%" data-k="se">Search</button><span class="ml" onclick="cm('fom');om('lim')" data-k="bl">Back to Login</span></div></div>
+<div id="rem" class="md"><div class="mc"><span class="cls" onclick="cm('rem')">&times;</span><div style="font-size:3em;margin-bottom:10px">📝</div><h2 data-k="rat">Create Account</h2><input type="text" id="ren" data-p="un" placeholder="Username"><input type="password" id="rec" data-p="sc" placeholder="Secret Code"><input type="email" id="ree" data-p="em" placeholder="Email"><button class="bt" onclick="hr()" style="width:100%" data-k="cr">Create</button></div></div>
+<div id="inm" class="md"><div class="mc imc"><div class="ih"><h2 data-k="inv">📦 Inventory</h2><span class="cls" style="font-size:24px;position:relative;top:0;left:0" onclick="cm('inm')">&times;</span></div><div class="ib"><div class="ig" id="igr"></div><div class="id" id="idt"><p class="em" data-k="si">Select an item</p></div></div></div></div>
+<div id="rum" class="md"><div class="mc"><span class="cls" onclick="cm('rum')">&times;</span><h2 data-k="rt">⚖️ Server Rules</h2><div style="line-height:1.8"><p>🚫 <span data-k="r1">No Hacking</span></p><p>🗣️ <span data-k="r2">Respect All</span></p><p>🏗️ <span data-k="r3">No Griefing</span></p><p>📢 <span data-k="r4">No Ads</span></p></div></div></div>
 <script>
-// ==========================================
-// CONFIGURATION & STATE
-// ==========================================
-const ITEMS_DATA = {
-    bk: { id: 'bk', name: 'Copper Key', image: 'COPPERKEY.png', rarity: 'common', max_stack: 25000 }
-};
-const MAX_DAILY_REFERRALS = 5;
-
-// ==========================================
-// CORE FUNCTIONS (DATABASE & UTILS)
-// ==========================================
-function getDB() {
-    try {
-        return JSON.parse(localStorage.getItem('4aikro_db')) || {};
-    } catch (e) { return {}; }
-}
-
-function saveDB(db) {
-    localStorage.setItem('4aikro_db', JSON.stringify(db));
-}
-
-function getSession() { return localStorage.getItem('4aikro_session'); }
-function setSession(u) { localStorage.setItem('4aikro_session', u); }
-
-function showToast(msg, type = 's') {
-    const c = document.getElementById('tc');
-    const t = document.createElement('div');
-    t.className = `t ${type}`;
-    t.innerHTML = msg;
-    c.appendChild(t);
-    setTimeout(() => t.remove(), 3000);
-}
-
-// ==========================================
-// DATA MIGRATION & FIXING (CRITICAL FIX)
-// ==========================================
-function migrateAndFixData(u) {
-    let db = getDB();
-    if (!db[u]) db[u] = {};
-    let user = db[u];
-
-    // 1. Ensure inventory array exists
-    if (!user.inventory) user.inventory = [];
-    
-    // 2. Merge old 'inv' array if exists
-    if (user.inv && Array.isArray(user.inv)) {
-        user.inv.forEach(item => {
-            if (!item || !item.id) return;
-            let existing = user.inventory.find(i => i.id === item.id);
-            if (existing) existing.c = (existing.c || 0) + (item.c || 1);
-            else user.inventory.push({ id: item.id, c: item.c || 1 });
-        });
-        delete user.inv; // remove old key
-    }
-
-    // 3. Merge old 'mc_keys' if exists
-    if (user.mk && Array.isArray(user.mk) && user.mk.length > 0) {
-        let count = user.mk.length;
-        let existing = user.inventory.find(i => i.id === 'bk');
-        if (existing) existing.c = (existing.c || 0) + count;
-        else user.inventory.push({ id: 'bk', c: count });
-        delete user.mk; // remove old key
-    }
-
-    // 4. Clean corrupted items
-    user.inventory = user.inventory.filter(i => i && i.id && !isNaN(i.c));
-
-    saveDB(db);
-    return db;
-}
-
-// ==========================================
-// AUTHENTICATION
-// ==========================================
-function updateAuthUI() {
-    const c = document.getElementById('auth-btn-container');
-    const u = getSession();
-    if (u) {
-        // Run migration on UI update just in case
-        migrateAndFixData(u);
-        const db = getDB();
-        const user = db[u];
-        const total = user.inventory.reduce((s, i) => s + (i.c || 0), 0);
-        c.innerHTML = `<div class="btn p" onclick="openInventoryModal()">👤 ${u} <span class="badge">🎒 ${total}</span></div><button class="btn out" onclick="logout()">Exit</button>`;
-        
-        // Update balance display on page
-        const kbn = document.getElementById('kbn');
-        const kbb = document.getElementById('kbb');
-        if(kbn) kbn.innerText = total;
-        if(kbb) kbb.style.display = 'inline-flex';
-        updateReferralUI(u);
-    } else {
-        c.innerHTML = `<button class="btn" onclick="openModal('lim')">🔑 Login</button><button class="btn" onclick="openModal('rem')" style="border-color:#cd7f32">📝 Register</button>`;
-        const kbb = document.getElementById('kbb');
-        if(kbb) kbb.style.display = 'none';
-    }
-}
-
-function handleLogin() {
-    const n = document.getElementById('lin').value.trim();
-    const c = document.getElementById('lic').value.trim();
-    if (!n || !c) return showToast('Missing data', 'error');
-    let db = getDB();
-    if (db[n] && (db[n].code === c || db[n].cd === c)) {
-        setSession(n);
-        closeModal('lim');
-        updateAuthUI();
-        initKeyTimer();
-        showToast(`Welcome, ${n} 👋`);
-    } else showToast('Wrong details', 'error');
-}
-
-function handleRegister() {
-    const n = document.getElementById('ren').value.trim();
-    const c = document.getElementById('rec').value.trim();
-    const e = document.getElementById('ree').value.trim();
-    if (!n || !c || !e) return showToast('Fill all fields', 'error');
-    let db = getDB();
-    if (db[n]) return showToast('Name taken', 'error');
-    db[n] = { code: c, email: e, inventory: [], referrals: { date: '', count: 0 } };
-    saveDB(db);
-    setSession(n);
-    closeModal('rem');
-    updateAuthUI();
-    initKeyTimer();
-    showToast('Account created!');
-}
-
-function logout() {
-    localStorage.removeItem('4aikro_session');
-    updateAuthUI();
-    initKeyTimer();
-    closeModal('inm');
-    showToast('Logged out');
-}
-
-function handleForgot() {
-    const e = document.getElementById('foe').value.trim();
-    if(!e) return showToast('Enter email', 'error');
-    let db = getDB();
-    let found = null;
-    for(let u in db) if(db[u].email === e || db[u].em === e) found = u;
-    if(found) {
-        showToast(`✅ Code: <b>${db[found].code || db[found].cd}</b>`);
-        closeModal('fom');
-    } else showToast('Not found', 'error');
-}
-
-// ==========================================
-// INVENTORY (FIXED INTERACTION)
-// ==========================================
-function openInventoryModal() {
-    const u = getSession();
+const TR={ar:{bn:"STORE 4AIKRO",lt:"اختر مسارك",ls:"محتوى حصري للاعبين النخبة.",rd:"إمكانيات لا نهائية.",md:"سيرفرات جافا الرسمية.",cs:"قريباً",ch:"جارٍ التحقق...",on:"أونلاين",of:"أوفلاين",pl:"اللاعبين",vr:"الإصدار",dm:"تحميل المودات",rb:"⚖️ القوانين",rg:"💎 الرتب والهدايا",dg:"الهدية اليومية",dd:"هدية مجانية كل 24 ساعة.",ba:"الرصيد:",ck:"🔑 احصل على مفتاحك",vr:"رتبة VIP",vd:"مزايا إضافية.",mr:"رتبة MVP",md:"صلاحيات كاملة.",bu:"شراء",sh:"🛒 متجر الآيتمات",lit:"تسجيل الدخول",un:"اسم المستخدم",sc:"الكود السري",en:"دخول",fc:"نسيت الكود؟",re:"استرجاع الحساب",rd:"أدخل بريدك الإلكتروني للبحث عن كودك.",em:"البريد الإلكتروني",se:"بحث",bl:"العودة لتسجيل الدخول",rat:"إنشاء حساب",cr:"إنشاء",inv:"📦 المخزون",ex:"خروج",si:"اختر عنصراً",it:"🔗 دعوة الأصدقاء",il:"رابط الدعوة",id:"احصل على مفتاح مجاني لكل شخص جديد! (الحد 5 يومياً)",cp:"نسخ",bb:"⬅ رجوع",lbt:"🔑 دخول",rgt:"📝 حساب جديد",pex:"خروج",tw:"مرحباً، {n} 👋",tcr:"تم إنشاء الحساب!",tlo:"تم تسجيل الخروج",tco:"تم النسخ!",tad:"🎉 تمت الإضافة!",tfo:"✅ تم العثور! الكود: ",twr:"خطأ في البيانات",ckk:"مفتاح نحاسي",ckd:"مفتاح نحاسي أساسي يومي.",wt:"انتظر",ms:"وصلت للحد الأقصى"},en:{bn:"STORE 4AIKRO",lt:"Choose Your Path",ls:"Exclusive content for elite players.",rd:"Endless possibilities.",md:"Official Java Servers.",cs:"Coming Soon",ch:"Checking...",on:"Online",of:"Offline",pl:"Players",vr:"Version",dm:"Download Mods",rb:"⚖️ Rules",rg:"💎 Ranks & Gifts",dg:"Daily Gift",dd:"Free gift every 24h.",ba:"Balance:",ck:"🔑 Claim Key",vr:"VIP Rank",vd:"Extra perks.",mr:"MVP Rank",md:"Full permissions.",bu:"Buy",sh:"🛒 Item Shop",lit:"Login",un:"Username",sc:"Secret Code",en:"Enter",fc:"Forgot Code?",re:"Recovery",rd:"Enter your email to find your code.",em:"Email",se:"Search",bl:"Back to Login",rat:"Create Account",cr:"Create",inv:"📦 Inventory",ex:"Exit",si:"Select an item",it:"🔗 Invite Friends",il:"Invite Link",id:"Get a free key for every new friend! (Max 5/day)",cp:"Copy",bb:"⬅ Back",lbt:"🔑 Login",rgt:"📝 Register",pex:"Exit",tw:"Welcome, {n} 👋",tcr:"Account Created!",tlo:"Logged out",tco:"Copied!",tad:"🎉 Item added!",tfo:"✅ Found! Code: ",twr:"Wrong details",ckk:"Copper Key",ckd:"A basic daily copper key.",wt:"Wait",ms:"Max stack reached"},jp:{bn:"STORE 4AIKRO",lt:"パスを選択",ls:"エリートプレイヤーのための限定コンテンツ。",rd:"無限の可能性。",md:"公式Javaサーバー。",cs:"近日公開",ch:"確認中...",on:"オンライン",of:"オフライン",pl:"プレイヤー",vr:"バージョン",dm:"Modをダウンロード",rb:"⚖️ ルール",rg:"💎 ランクとギフト",dg:"毎日のギフト",dd:"24時間ごとの無料ギフト。",ba:"残高:",ck:"🔑 鍵を受け取る",vr:"VIP ランク",vd:"特別な特典。",mr:"MVP ランク",md:"完全な権限。",bu:"購入",sh:"🛒 アイテムショップ",lit:"ログイン",un:"ユーザー名",sc:"シークレットコード",en:"入る",fc:"コードをお忘れですか？",re:"復旧",rd:"コードを見つけるためにメールを入力してください。",em:"メール",se:"検索",bl:"ログインに戻る",rat:"アカウント作成",cr:"作成",inv:"📦 インベントリ",ex:"出口",si:"アイテムを選択",it:"🔗 招待",il:"招待リンク",id:"新しい友人ごとに無料の鍵を入手！（1日最大5個）",cp:"コピー",bb:"⬅ 戻る",lbt:"🔑 ログイン",rgt:"📝 登録",pex:"終了",tw:"ようこそ、{n} さん 👋",tcr:"アカウントが作成されました！",tlo:"ログアウトしました",tco:"コピーしました！",tad:"🎉 アイテムが追加されました！",tfo:"✅ 発見！コード: ",twr:"詳細が間違っています",ckk:"銅の鍵",ckd:"基本的な毎日の銅の鍵。",wt:"待って",ms:"最大スタックに達しました"}},GI={bk:{id:'bk',im:'COPPERKEY.png',ra:'c',ms:25000}},MDR=5,IPR=false;
+onload=()=>{il();ia()};
+il=()=>{const sl=localStorage.getItem('4aikro_lang')||'ar';al(sl);document.getElementById('ls').value=sl}
+cl=l=>{localStorage.setItem('4aikro_lang',l);al(l)}
+al=l=>{const h=document.documentElement,b=document.body;l==='ar'?(h.setAttribute('dir','rtl'),h.setAttribute('lang','ar'),b.classList.remove('len','ljp')):(h.setAttribute('dir','ltr'),h.setAttribute('lang',l),b.classList.add(`l${l}`));document.querySelectorAll('[data-k]').forEach(e=>{const k=e.getAttribute('data-k');if(TR[l][k])e.textContent=TR[l][k]});document.querySelectorAll('[data-p]').forEach(e=>{const k=e.getAttribute('data-p');if(TR[l][k])e.placeholder=TR[l][k]});ua()}
+t=(k,r={})=>{const l=localStorage.getItem('4aikro_lang')||'ar';let x=TR[l][k]||TR['en'][k]||k;for(const n in r)x=x.replace(`{${n}}`,r[n]);return x}
+ia=()=>{ua();crs()}
+crs=()=>{const p=new URLSearchParams(location.search),rf=p.get('ref');if(rf&&!IPR){IPR=true;const hv=localStorage.getItem('visitor_counted');if(hv)return;const cu=gu();if(rf===cu)return;let db=gd();if(!db[rf])return;const td=new Date().toISOString().split('T')[0];let rObj=db[rf].referrals||db[rf].ref;if(!rObj||rObj.date!==td)rObj={date:td,count:0};if(rObj.count>=MDR)return;if(!db[rf].inv&&!db[rf].inventory)db[rf].inventory=[];let ie=(db[rf].inv||db[rf].inventory).find(i=>i.id==='bk');ie?ie.c++:(db[rf].inventory||db[rf].inv).push({id:'bk',c:1});rObj.count++;db[rf].referrals=rObj;localStorage.setItem('visitor_counted','1');sd(db);if(gu()===rf){sh(t('tad'),'s');ua();rig()}}}
+gd=()=>{try{return JSON.parse(localStorage.getItem('4aikro_db'))||{}}catch(e){return{}}}
+sd=d=>localStorage.setItem('4aikro_db',JSON.stringify(d))
+gu=()=>localStorage.getItem('4aikro_session')
+su=u=>localStorage.setItem('4aikro_session',u)
+sh=(m,y='s')=>{const c=document.getElementById('tc'),t=document.createElement('div');t.className=`t ${y}`;t.innerHTML=m;c.appendChild(t);setTimeout(()=>t.remove(),3000)}
+ua=()=>{const c=document.getElementById('ac'),u=gu(),lv=document.getElementById('lp').style.display!=='none';if(u){const db=gd();let arr=db[u]?.inv||db[u]?.inventory||[];const o=db[u]?.mk?.length||0;const n=arr.reduce((s,i)=>s+(i.c||0),0);const tc=o+n;c.innerHTML=`<div class="btn p" onclick="oim()">👤 ${u}<span class="badge">🎒 ${tc}</span></div><button class="btn out" onclick="lo()">${t('pex')}</button>`;const bn=document.getElementById('kbn'),bb=document.getElementById('kbb');if(bn)bn.innerText=tc;if(bb)bb.style.display='inline-flex';uri(u)}else{if(lv)c.innerHTML=`<button class="btn" onclick="om('lim')">${t('lbt')}</button><button class="btn" onclick="om('rem')" style="border-color:#cd7f32;">${t('rgt')}</button>`;else c.innerHTML='';const bb=document.getElementById('kbb');if(bb)bb.style.display='none'}}
+uri=u=>{const ri=document.getElementById('ri'),rs=document.getElementById('rs');if(ri){const p=location.origin+location.pathname;ri.value=`${p}?ref=${encodeURIComponent(u)}`}const db=gd(),td=new Date().toISOString().split('T')[0];let rObj=db[u]?.referrals||db[u]?.ref||{};let c=0;if(rObj.date===td)c=rObj.count;if(rs)rs.innerHTML=`${t('id').split('(')[0]} <span>${c}/${MDR}</span>`}
+om=i=>document.getElementById(i).style.display='block'
+cm=i=>document.getElementById(i).style.display='none'
+ofm=()=>{cm('lim');om('fom')}
+hf=()=>{const e=document.getElementById('foe').value.trim();if(!e){sh(t('twr'),'e');return}let db=gd(),fu=null;for(let u in db)if((db[u].em||db[u].email)===e){fu=u;break}fu?(sh(t('tfo')+`<b style='color:var(--p)'>${db[fu].cd||db[fu].code}</b>`,'s'),cm('fom')):sh(t('twr'),'e')}
+hl=()=>{const n=document.getElementById('lin').value.trim(),c=document.getElementById('lic').value.trim();if(!n||!c){sh(t('twr'),'e');return}let db=gd();if(db[n]&&((db[n].cd||db[n].code)===c)){su(n);cm('lim');ua();ik();sh(t('tw',{n:n}),'s')}else sh(t('twr'),'e')}
+hr=()=>{const n=document.getElementById('ren').value.trim(),c=document.getElementById('rec').value.trim(),e=document.getElementById('ree').value.trim();if(!n||!c||!e){sh(t('twr'),'e');return}let db=gd();if(db[n]){sh(t('twr'),'e');return}db[n]={code:c,email:e,inventory:[],referrals:{date:'',count:0}};sd(db);su(n);cm('rem');ua();ik();sh(t('tcr'))}
+lo=()=>{localStorage.removeItem('4aikro_session');ua();ik();cm('inm');sh(t('tlo'))}
+oim=()=>{
+    om('inm'); 
+    const u=gu();
     if(!u) return;
-    openModal('inm');
-    
-    // Fix Data First
-    migrateAndFixData(u);
-    
-    // Render
-    renderInventory();
-    updateReferralUI(u);
-}
-
-function addItem(id, alert = true) {
-    const u = getSession();
-    if(!u) return;
-    let db = getDB();
-    if (!db[u]) db[u] = {inventory: []};
-    if (!db[u].inventory) db[u].inventory = [];
-    
-    let item = db[u].inventory.find(i => i.id === id);
-    const data = ITEMS_DATA[id];
-    const max = data ? data.max_stack : 64;
-
-    if (item) {
-        if (item.c >= max) {
-            if(alert) showToast('Max stack reached', 'error');
-            return;
-        }
-        item.c++;
-    } else {
-        db[u].inventory.push({ id: id, c: 1 });
+    let db=gd();
+    if(!db[u]) db[u] = {inventory:[]};
+    if(!db[u].inventory) db[u].inventory=[];
+    if(db[u].inv && Array.isArray(db[u].inv)) {
+        db[u].inventory = db[u].inventory.concat(db[u].inv);
+        delete db[u].inv;
     }
+    if(db[u].mk && Array.isArray(db[u].mk) && db[u].mk.length > 0){
+        db[u].mk.forEach(()=>aii('bk',false,false));
+        delete db[u].mk;
+    }
+    // تصحيح البيانات: التأكد من أن كل عنصر له رقم (c) وأن الرقم ليس صفر
+    db[u].inventory = db[u].inventory.filter(i => i && i.id).map(i => {
+        i.c = parseInt(i.c) || 1; // إذا لم يوجد رقم، اجعله 1
+        return i;
+    });
     
-    saveDB(db);
-    updateAuthUI();
-    if(alert) showToast('Item added!');
+    sd(db); 
+    rig(); 
+    uri(u);
 }
-
-function renderInventory() {
-    const u = getSession();
-    const g = document.getElementById('igr');
-    const d = document.getElementById('idt');
+aii=(id,au=true,cm=true)=>{const u=gu();let db=gd();if(!db[u])db[u]={inventory:[]};if(!db[u].inventory)db[u].inventory=[];let arr=db[u].inventory;let ie=arr.find(i=>i.id===id);const itm=GI[id],ms=itm?itm.ms:64;if(ie){if(cm&&ie.c>=ms){if(au)sh(t('ms'),'e');return}ie.c++}else arr.push({id:id,c:1});sd(db);ua();if(au)sh(t('tad'))}
+// تم تعديل الدالة rig لتظهر الرقم دائماً (x1, x2, etc)
+rig=()=>{
+    const u=gu(), db=gd();
+    const g=document.getElementById('igr'), d=document.getElementById('idt');
+    d.innerHTML=`<div style="flex-grow:1;display:flex;align-items:center;justify-content:center"><p class="em">${t('si')}</p></div><div class="rf"><span class="rt">${t('it')}</span><span class="rs" id="rs">...</span><div class="rl"><input type="text" id="ri" class="rii" readonly><button class="rcp" onclick="crl()">${t('cp')}</button></div></div>`;
+    uri(u);
     
-    // Default right panel
-    d.innerHTML = `<div style="flex-grow:1;display:flex;align-items:center;justify-content:center"><p class="em">Select an item</p></div>
-    <div class="rf"><span class="rt">🔗 Invite Friends</span><span class="rs" id="rs">...</span><div class="rl"><input type="text" id="ri" class="rii" readonly><button class="rcp" onclick="copyRef()">Copy</button></div></div>`;
+    if(!u || !db[u] || !Array.isArray(db[u].inventory)) return;
     
-    updateReferralUI(u);
-
-    const db = getDB();
-    if(!db[u] || !db[u].inventory) return;
+    db[u].inventory.sort((a,b)=>{
+        const iA=GI[a.id], iB=GI[b.id];
+        if(!iA || !iB) return 0;
+        if(iA.ra !== iB.ra) return iA.ra==='rare'?-1:1;
+        return (b.c||0) - (a.c||0);
+    });
     
-    let inv = db[u].inventory;
+    if(db[u].inventory.length===0){g.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#333;padding:20px">Empty</p>';return}
     
-    // Render Grid
-    g.innerHTML = inv.map((item, index) => {
-        const data = ITEMS_DATA[item.id];
-        if(!data) return '';
-        return `<div class="is rc" onclick="showItem(${index})"><img src="${data.image}">${item.c > 1 ? `<span class="ic">x${item.c}</span>` : ''}</div>`;
+    g.innerHTML=db[u].inventory.map((e,i)=>{
+        const id=GI[e.id];
+        if(!id)return'';
+        // التعديل هنا: إظهار الرقم دائماً
+        const cnt = e.c || 1;
+        return`<div class="is r-${id.ra}" onclick="sid(${i})"><img src="${id.im}" alt="Item" class="sh" loading="lazy" onload="cr(this)"><span class="ic">x${cnt}</span></div>`;
     }).join('');
 }
-
-function showItem(index) {
-    const u = getSession();
-    const db = getDB();
-    const item = db[u].inventory[index];
-    if(!item) return;
-    
-    const data = ITEMS_DATA[item.id];
-    
-    // Highlight selected
-    document.querySelectorAll('.is').forEach((el, i) => {
-        if(i === index) el.classList.add('selected');
-        else el.classList.remove('selected');
-    });
-
-    const d = document.getElementById('idt');
-    d.innerHTML = `
-    <div style="flex-grow:1">
-        <img src="${data.image}" style="width:80px;height:80px;margin-bottom:10px">
-        <h3>${data.name}</h3>
-        <p style="font-size:0.8em;color:#aaa">${data.name} (x${item.c})</p>
-    </div>
-    <div class="rf">
-        <span class="rt">🔗 Invite Link</span>
-        <span class="rs" id="rs">...</span>
-        <div class="rl"><input type="text" id="ri" class="rii" readonly><button class="rcp" onclick="copyRef()">Copy</button></div>
-    </div>`;
-    
-    updateReferralUI(u);
-}
-
-// ==========================================
-// REFERRAL SYSTEM
-// ==========================================
-function checkReferral() {
-    const params = new URLSearchParams(window.location.search);
-    const ref = params.get('ref');
-    if(!ref) return;
-    if(localStorage.getItem('vc')) return; // already counted
-    
-    const u = getSession();
-    if(ref === u) return; // self referral
-    
-    let db = getDB();
-    if(!db[ref]) return;
-    
-    const td = new Date().toISOString().split('T')[0];
-    if(!db[ref].referrals || db[ref].referrals.date !== td) db[ref].referrals = {date:td, count:0};
-    if(db[ref].referrals.count >= MAX_DAILY_REFERRALS) return;
-    
-    // Add item
-    if(!db[ref].inventory) db[ref].inventory = [];
-    let it = db[ref].inventory.find(i => i.id === 'bk');
-    if(it) it.c++;
-    else db[ref].inventory.push({id:'bk', c:1});
-    
-    db[ref].referrals.count++;
-    localStorage.setItem('vc', '1');
-    saveDB(db);
-    
-    if(getSession() === ref) {
-        showToast('🎉 Reward received!', 's');
-        updateAuthUI();
-    }
-}
-
-function updateReferralUI(u) {
-    const ri = document.getElementById('ri');
-    const rs = document.getElementById('rs');
-    if(ri) ri.value = `${location.origin}${location.pathname}?ref=${u}`;
-    
-    const db = getDB();
-    const td = new Date().toISOString().split('T')[0];
-    let cnt = 0;
-    if(db[u] && db[u].referrals && db[u].referrals.date === td) cnt = db[u].referrals.count;
-    if(rs) rs.innerHTML = `Today: <span>${cnt}/${MAX_DAILY_REFERRALS}</span>`;
-}
-
-function copyRef() {
-    const i = document.getElementById('ri');
-    if(i) {
-        navigator.clipboard.writeText(i.value);
-        showToast('Link copied!');
-    }
-}
-
-// ==========================================
-// KEY LOGIC
-// ==========================================
-const COOLDOWN = 24*60*60*1000;
-let keyTimer;
-
-function claimKey() {
-    const u = getSession();
-    if(!u) return;
-    addItem('bk');
-    localStorage.setItem('mc_keyTime_'+u, Date.now());
-    initKeyTimer();
-}
-
-function initKeyTimer() {
-    const btn = document.getElementById('ckb');
-    const da = document.getElementById('kda');
-    if(!btn) return;
-    const u = getSession();
-    if(!u) {
-        btn.disabled = false; btn.innerText = "🔑 Login"; btn.onclick = () => openModal('lim');
-        da.style.display = 'none';
-        return;
-    }
-    
-    const last = localStorage.getItem('mc_keyTime_'+u);
-    if(last) {
-        const end = parseInt(last) + COOLDOWN;
-        if(Date.now() < end) {
-            btn.disabled = true; btn.innerText = "⏳ Wait";
-            da.style.display = 'block';
-            startTimer(end);
-            return;
-        }
-    }
-    btn.disabled = false; btn.innerText = "🔑 Claim Key"; btn.onclick = claimKey;
-    da.style.display = 'none';
-}
-
-function startTimer(end) {
-    clearInterval(keyTimer);
-    const td = document.getElementById('td');
-    function tick() {
-        const diff = end - Date.now();
-        if(diff <= 0) {
-            clearInterval(keyTimer);
-            initKeyTimer();
-        } else {
-            const h = Math.floor(diff/3600000);
-            const m = Math.floor((diff%3600000)/60000);
-            const s = Math.floor((diff%60000)/1000);
-            if(td) td.innerText = `${h}h ${m}m ${s}s`;
-        }
-    }
-    tick();
-    keyTimer = setInterval(tick, 1000);
-}
-
-// ==========================================
-// GLOBAL UTILS
-// ==========================================
-function openModal(id) { document.getElementById(id).style.display = 'block'; }
-function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-function openForgotModal() { closeModal('lim'); openModal('fom'); }
-
-function showPage(p) {
-    document.getElementById('lp').style.display = 'none';
-    document.getElementById('mp').style.display = 'none';
-    document.getElementById('rp').style.display = 'none';
-    document.getElementById('mb').style.display = 'block';
-    
-    if(p === 'minecraft') {
-        document.getElementById('mp').style.display = 'block';
-        checkStatus();
-        initKeyTimer();
-        updateAuthUI();
-    } else if(p === 'roblox') {
-        document.getElementById('rp').style.display = 'block';
-    }
-}
-
-function goHome() {
-    document.getElementById('lp').style.display = 'flex';
-    document.getElementById('mp').style.display = 'none';
-    document.getElementById('rp').style.display = 'none';
-    document.getElementById('mb').style.display = 'none';
-}
-
-function copyIP() {
-    navigator.clipboard.writeText(document.getElementById('si').innerText);
-    showToast('IP Copied!');
-}
-
-function checkStatus() {
-    const st = document.getElementById('st');
-    const pc = document.getElementById('pc');
-    const sv = document.getElementById('sv');
-    st.innerText = 'Checking...';
-    st.className = 'stxt';
-    pc.innerText = ''; sv.innerText = '';
-    
-    fetch('https://api.mcstatus.io/v2/status/java/cities-declare.gl.joinmc.link')
-    .then(r => r.json())
-    .then(d => {
-        if(d.online) {
-            st.innerText = '🟢 Online'; st.classList.add('son');
-            pc.innerText = `Players: ${d.players.online} / ${d.players.max}`;
-            sv.innerText = `Version: ${d.version.name_clean}`;
-        } else {
-            st.innerText = '🔴 Offline'; st.classList.add('soff');
-        }
-    }).catch(() => {
-        st.innerText = '⚠️ Error'; st.classList.add('soff');
-    });
-}
-
-function changeLanguage(l) {
-    localStorage.setItem('4aikro_lang', l);
-    location.reload(); // Simple reload for full translation application
-}
-
-// Init
-onload = () => {
-    updateAuthUI();
-    checkReferral();
-};
+sid=i=>{const u=gu(),db=gd(),inv=db[u].inventory||[];inv.sort((a,b)=>{const ia=GI[a.id],ib=GI[b.id];if(!ia||!ib)return 0;if(ia.ra!==ib.ra)return ia.ra==='rare'?-1:1;return(b.c||0)-(a.c||0)});const e=inv[i],id=GI[e.id];document.querySelectorAll('.is').forEach(el=>el.classList.remove('sel'));document.querySelectorAll('.is')[i].classList.add('sel');const d=document.getElementById('idt');let c='#fff',n='COMMON';if(id.ra==='rare'){c='#55f';n='RARE'}d.innerHTML=`<div style="flex-grow:1"><img src="${id.im}" style="filter:drop-shadow(0 5px 15px ${c});background:#111;border-radius:8px;width:100px;height:100px;margin-bottom:15px" class="sh" onload="cr(this)"><h3 style="color:${c}">${t('ckk')}</h3><div style="font-size:0.9em;font-weight:bold;margin-bottom:15px;text-transform:uppercase;color:${c}">${n}</div><p>${t('ckd')}</p><div style="font-size:0.9em;color:#555">Amount: ${e.c} / ${id.ms}</div></div><div class="rf"><span class="rt">${t('il')}</span><span class="rs" id="rs"></span><div class="rl"><input type="text" id="ri" class="rii" readonly><button class="rcp" onclick="crl()">${t('cp')}</button></div></div>`;uri(u)}
+crl=()=>{const i=document.getElementById('ri');if(i&&i.value){navigator.clipboard.writeText(i.value);sh(t('tco'),'s')}}
+sp=p=>{document.getElementById('lp').style.display='none';document.getElementById('mp').style.display='none';document.getElementById('rp').style.display='none';const mb=document.getElementById('mb');mb.style.display='block';if(p==='minecraft'){document.getElementById('mp').style.display='block';css();ik();ua()}else if(p==='roblox'){document.getElementById('rp').style.display='block';ua()}}
+gh=()=>{document.getElementById('lp').style.display='flex';document.getElementById('mp').style.display='none';document.getElementById('rp').style.display='none';document.getElementById('mb').style.display='none';ua()}
+const CT=24*60*60*1000;let ti;
+ik=()=>{const cb=document.getElementById('ckb'),da=document.getElementById('kda');if(!cb)return;const u=gu();if(!u){cb.disabled=false;cb.innerText="🔑 Login";cb.onclick=()=>om('lim');da.style.display='none';return}const lc=localStorage.getItem('mc_keyTime_'+u);if(lc){const nt=parseInt(lc)+CT,nw=Date.now();if(nw<nt){cb.disabled=true;cb.innerText=`⏳ ${t('wt')}`;da.style.display='block';sct(nt)}else scl()}else scl()}
+scl=()=>{const cb=document.getElementById('ckb');if(!cb)return;cb.disabled=false;cb.innerText=t('ck');cb.onclick=ck;document.getElementById('kda').style.display='none'}
+ck=()=>{const u=gu();if(!u)return;aii('bk');localStorage.setItem('mc_keyTime_'+u,Date.now());ik()}
+sct=et=>{clearInterval(ti);const td=document.getElementById('td');const ut=()=>{const nw=Date.now(),ds=et-nw;if(ds<0){clearInterval(ti);scl()}else{const h=Math.floor((ds%(1000*60*60*24))/(1000*60*60)),m=Math.floor((ds%(1000*60*60))/(1000*60)),s=Math.floor((ds%(1000*60))/1000);if(td)td.innerHTML=`${h}h ${m}m ${s}s`}};ut();ti=setInterval(ut,1000)}
+cip=()=>{navigator.clipboard.writeText(document.getElementById("si").innerText);sh(t('tco'),'s')}
+css=()=>{const st=document.getElementById("st"),pc=document.getElementById("pc"),sv=document.getElementById("sv");st.innerText=t('ch');pc.innerText="";sv.innerText="";fetch("https://api.mcstatus.io/v2/status/java/cities-declare.gl.joinmc.link").then(r=>r.json()).then(d=>{if(d&&d.online){st.innerText="🟢 "+t('on');st.classList.add("son");pc.innerText=t('pl')+": "+d.players.online+" / "+d.players.max;sv.innerText=t('vr')+": "+d.version.name_clean}else{st.innerText="🔴 "+t('of');st.classList.add("sof")}}).catch(()=>{st.innerText="⚠️ Error";st.classList.add("sof")})}
+cr=e=>e.classList.remove('sh')
 </script>
 </body>
 </html>
