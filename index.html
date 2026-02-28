@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STORE 4AIKRO - Ultimate Gaming Hub</title>
-    <meta name="description" content="STORE 4AIKRO - The ultimate store for Minecraft mods, ranks, and exclusive items. Join the elite.">
-    <meta name="keywords" content="STORE 4AIKRO, 4AIKRO, Minecraft Server, Mods, Roblox, Game Store, Elite Gaming">
-    <meta property="og:title" content="STORE 4AIKRO">
-    <meta property="og:description" content="Join the elite. Exclusive items await.">
+    <title>STORE 4AIKRO</title>
+    <meta name="description" content="The ultimate store for Minecraft mods and ranks.">
+    
+    <!-- Google Fonts (Added Japanese Font) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@500;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1P984G5247"></script>
     <script>
@@ -17,8 +17,6 @@
       gtag('config', 'G-1P984G5247');
     </script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@500;900&display=swap" rel="stylesheet">
-    
     <style>
         :root {
             --primary-color: #00e676;
@@ -29,36 +27,43 @@
             --glass-border: rgba(255, 255, 255, 0.08);
             --online-color: #22c55e;
             --offline-color: #ef4444;
-            --rarity-common: #cccccc;
-            --rarity-rare: #5555ff;
-            --neon-glow: 0 0 10px rgba(0, 230, 118, 0.5);
         }
 
         * { box-sizing: border-box; }
-
+        
         body {
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Cairo', sans-serif; /* Default to Arabic */
             margin: 0; padding: 0;
             background-color: var(--bg-dark); color: white;
             overflow-x: hidden; min-height: 100vh;
+            transition: font-family 0.3s ease;
         }
 
-        /* Dynamic Background */
+        /* Font Switching Logic */
+        body.lang-en, body.lang-jp { font-family: 'Cairo', sans-serif; } /* Cairo supports basic latin, fallback */
+        .font-jp { font-family: 'Noto Sans JP', sans-serif; } /* Class to force JP font if needed */
+
+        /* LTR Support for English/Japanese */
+        html[dir="ltr"] body { direction: ltr; text-align: left; }
+        html[dir="ltr"] .user-btn, html[dir="ltr"] .modal-content { text-align: left; }
+        html[dir="ltr"] .brand-logo { margin-right: 0; margin-left: 15px; }
+        html[dir="ltr"] .back-btn { right: auto; left: 20px; }
+        html[dir="ltr"] .close-btn { left: auto; right: 15px; }
+        html[dir="ltr"] .key-badge { margin-right: 0; margin-left: 5px; }
+        html[dir="ltr"] .inv-slot .item-count { left: auto; right: 2px; }
+
+        /* Background */
         .bg-animation {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #050505;
-            z-index: -1;
-            overflow: hidden;
+            background: #050505; z-index: -1;
         }
         .bg-animation::after {
-            content: '';
-            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: radial-gradient(circle, rgba(0,230,118,0.03) 0%, transparent 60%);
             animation: rotateBG 30s linear infinite;
         }
         @keyframes rotateBG { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
@@ -78,44 +83,42 @@
             background: linear-gradient(to right, #fff, #00e676); 
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
             cursor: pointer; transition: 0.3s; letter-spacing: 1px;
-            text-shadow: var(--neon-glow);
         }
-        .brand-logo:hover { transform: scale(1.05); filter: brightness(1.2); }
+        .brand-logo:hover { transform: scale(1.05); }
         
         .auth-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; align-items: center; }
         
         .user-btn {
             background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid var(--glass-border);
-            padding: 8px 20px; border-radius: 12px; cursor: pointer; font-family: 'Cairo', sans-serif;
+            padding: 8px 20px; border-radius: 12px; cursor: pointer; font-family: inherit;
             transition: 0.3s; font-size: 0.9em; display: flex; align-items: center; gap: 8px; 
-            font-weight: 700; text-decoration: none; position: relative; overflow: hidden;
+            font-weight: 700; text-decoration: none;
         }
-        .user-btn::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: translateX(-100%); transition: 0.5s;
-        }
-        .user-btn:hover::before { transform: translateX(100%); }
-        .user-btn:hover { border-color: var(--primary-color); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,230,118,0.2); }
+        .user-btn:hover { border-color: var(--primary-color); transform: translateY(-2px); }
         
-        .user-btn.profile-btn { background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.3); color: #fff; }
-        
+        .user-btn.profile-btn { background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.3); }
         .user-btn.logout-btn { background: transparent; border-color: rgba(255, 50, 50, 0.3); color: #ff5555; }
-        .user-btn.logout-btn:hover { background: rgba(255, 50, 50, 0.1); border-color: #ff5555; }
+        .key-badge { background: var(--bronze-color); color: white; padding: 2px 8px; border-radius: 20px; font-size: 0.8em; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 
-        .key-badge { background: var(--bronze-color); color: white; padding: 2px 8px; border-radius: 20px; font-size: 0.8em; margin-right: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        /* Language Selector */
+        .lang-switcher {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+            color: #fff; padding: 8px 12px; border-radius: 12px; cursor: pointer;
+            font-family: inherit; font-weight: bold; font-size: 0.85em;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .lang-switcher:active { transform: scale(0.95); }
+        .lang-switcher select {
+            background: transparent; border: none; color: #fff;
+            font-family: inherit; font-weight: bold; cursor: pointer;
+            outline: none; font-size: 1em;
+        }
+        .lang-switcher select option { background: #000; color: #fff; }
 
         /* Landing Page */
         #landing-page { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 100px 20px 50px 20px; }
-        
-        .landing-logo { 
-            width: 150px; height: 150px; border-radius: 50%; object-fit: cover; 
-            border: 3px solid rgba(0, 230, 118, 0.3); box-shadow: 0 0 50px rgba(0, 230, 118, 0.3); 
-            margin-bottom: 25px; 
-            animation: pulseLogo 4s infinite; 
-        }
+        .landing-logo { width: 150px; height: 150px; border-radius: 50%; border: 3px solid rgba(0, 230, 118, 0.3); box-shadow: 0 0 50px rgba(0, 230, 118, 0.3); margin-bottom: 25px; animation: pulseLogo 4s infinite; }
         @keyframes pulseLogo { 0% { box-shadow: 0 0 30px rgba(0, 230, 118, 0.2); } 50% { box-shadow: 0 0 60px rgba(0, 230, 118, 0.5); } 100% { box-shadow: 0 0 30px rgba(0, 230, 118, 0.2); } }
-
         .landing-title { font-family: 'Tajawal', sans-serif; font-size: 3.5em; margin-bottom: 10px; background: linear-gradient(135deg, #ffffff, #00e676); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 3px; }
         .landing-subtitle { font-size: 1.2em; color: #666; margin-bottom: 50px; letter-spacing: 1px; }
         .choices-container { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 900px; }
@@ -128,250 +131,146 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             padding: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
-        .choice-card::before { content: ''; position: absolute; top: 1px; left: 1px; right: 1px; bottom: 1px; border-radius: 30px; border: 1px solid transparent; background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent) border-box; -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0); -webkit-mask-composite: destination-out; mask-composite: exclude; pointer-events: none; opacity: 0; transition: 0.4s; }
         .choice-card:hover { transform: translateY(-15px) scale(1.01); border-color: transparent; box-shadow: 0 0 40px rgba(0, 230, 118, 0.15); }
-        .choice-card:hover::before { opacity: 1; }
-        .choice-card img { width: 120px; height: 120px; margin-bottom: 20px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); transition: transform 0.4s; }
-        .choice-card:hover img { transform: scale(1.1); }
-        .choice-card h2 { font-size: 2em; margin: 0; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .choice-card img { width: 120px; height: 120px; margin-bottom: 20px; }
+        .choice-card h2 { font-size: 2em; margin: 0; color: #fff; }
         .choice-card p { color: #777; margin-top: 10px; }
 
-        /* Content Pages */
+        /* Content */
         #minecraft-page, #roblox-page { display: none; }
         .container { width: 95%; max-width: 1400px; margin: 90px auto 30px auto; background: rgba(15, 15, 15, 0.6); backdrop-filter: blur(20px); padding: 25px; border-radius: 25px; border: 1px solid var(--glass-border); position: relative; }
         
-        /* === FLOATING BACK BUTTON === */
-        .back-btn { 
-            position: fixed; 
-            bottom: 30px; 
-            left: 30px; 
-            z-index: 1500; 
-            border: none; 
-            outline: none; 
-            background: rgba(0, 0, 0, 0.8); 
-            backdrop-filter: blur(10px);
-            color: #fff; 
-            cursor: pointer; 
-            padding: 15px 25px; 
-            border-radius: 50px; 
-            font-size: 1em; 
-            font-family: 'Cairo', sans-serif;
-            font-weight: bold;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            transition: 0.3s;
-            display: none; /* Hidden by default */
-        }
+        /* Floating Back Button */
+        .back-btn { position: fixed; bottom: 30px; right: 30px; z-index: 1500; border: none; outline: none; background: rgba(0, 0, 0, 0.8); color: #fff; cursor: pointer; padding: 15px 25px; border-radius: 50px; font-size: 1em; font-family: inherit; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: 0.3s; display: none; }
         .back-btn:hover { background: var(--primary-color); color: #000; transform: scale(1.1); }
-        .back-btn:active { transform: scale(0.95); }
-        /* Show back button only on content pages */
-        #minecraft-page.active-page .back-btn, #roblox-page.active-page .back-btn { display: block; }
-
 
         /* Modals */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); backdrop-filter: blur(15px); overflow-y: auto; }
-        .modal-content { 
-            background: linear-gradient(145deg, #1a1a1a, #080808); 
-            margin: 6% auto; padding: 40px 30px; border-radius: 30px; width: 90%; max-width: 420px; 
-            border: 1px solid #222; text-align: center; position: relative; 
-            box-shadow: 0 30px 80px rgba(0,0,0,0.7); animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        .modal-content { background: linear-gradient(145deg, #1a1a1a, #080808); margin: 6% auto; padding: 40px 30px; border-radius: 30px; width: 90%; max-width: 420px; border: 1px solid #222; text-align: center; position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.7); animation: modalPop 0.4s; }
         @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .modal-content h2 { margin-top: 0; color: var(--primary-color); margin-bottom: 25px; font-size: 1.8em; font-weight: 900; }
-        .modal-content input { 
-            width: 100%; padding: 15px; margin: 10px 0; border-radius: 15px; 
-            border: 2px solid #222; background: #000; color: white; 
-            font-family: 'Cairo', sans-serif; text-align: center; font-size: 1em; box-sizing: border-box; 
-            transition: 0.3s;
-        }
-        .modal-content input:focus { border-color: var(--primary-color); outline: none; background: #0a0a0a; box-shadow: 0 0 15px rgba(0, 230, 118, 0.1); }
-        .close-btn { position: absolute; top: 20px; left: 20px; font-size: 30px; cursor: pointer; color: #333; transition: 0.3s; font-weight: 300; }
-        .close-btn:hover { color: #fff; transform: rotate(90deg); }
-        .modal-link { font-size: 0.9em; color: #555; cursor: pointer; margin-top: 20px; display: block; transition: 0.3s; }
-        .modal-link:hover { color: var(--primary-color); }
-        
-        /* Header */
+        .modal-content input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 15px; border: 2px solid #222; background: #000; color: white; font-family: inherit; text-align: center; font-size: 1em; box-sizing: border-box; transition: 0.3s; }
+        .modal-content input:focus { border-color: var(--primary-color); outline: none; }
+        .close-btn { position: absolute; top: 20px; left: 20px; font-size: 30px; cursor: pointer; color: #333; transition: 0.3s; }
+        .modal-link { font-size: 0.9em; color: #555; cursor: pointer; margin-top: 20px; display: block; }
+
+        /* Header & Cards */
         header { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; padding: 50px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 25px; text-align: center; }
         .animated-gif { width: 160px; border-radius: 15px; box-shadow: 0 0 40px rgba(76, 175, 50, 0.3); border: 2px solid rgba(255,255,255,0.05); }
         .header-text { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-        header h1 { color: #fff; margin: 0; font-size: 2.5em; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 20px rgba(255,255,255,0.1); line-height: 1.2; font-family: 'Tajawal', sans-serif; }
-        header p { margin: 0; color: #555; font-size: 0.9em; background: #111; padding: 5px 15px; border-radius: 50px; border: 1px solid #222; letter-spacing: 1px; }
+        header h1 { margin: 0; font-size: 2.5em; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 20px rgba(255,255,255,0.1); font-family: 'Tajawal', sans-serif; }
+        header p { margin: 0; color: #555; font-size: 0.9em; background: #111; padding: 5px 15px; border-radius: 50px; border: 1px solid #222; }
 
-        /* Cards */
-        .balance-display { background: rgba(205, 127, 50, 0.1); padding: 6px 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid rgba(205, 127, 50, 0.2); display: inline-flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.9em; color: #ccc; }
+        .balance-display { background: rgba(205, 127, 50, 0.1); padding: 6px 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid rgba(205, 127, 50, 0.2); display: inline-flex; font-size: 0.9em; }
         .balance-count { font-size: 1.2em; font-weight: 900; color: var(--bronze-color); }
         
-        .section { margin-bottom: 40px; opacity: 0; transform: translateY(50px); transition: all 0.8s ease; }
-        .section.visible { opacity: 1; transform: translateY(0); }
-        
-        .section h2 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: #fff; font-size: 1.6em; display: inline-block; margin-bottom: 20px; letter-spacing: 1px; }
+        .section { margin-bottom: 40px; }
+        .section h2 { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; color: #fff; font-size: 1.6em; display: inline-block; margin-bottom: 20px; }
         .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; align-items: start; }
-        .card { background: #111; padding: 25px; border-radius: 20px; text-align: center; border: 1px solid #222; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; height: 100%; overflow: hidden; position: relative; }
-        .card:hover { transform: translateY(-5px); border-color: #333; box-shadow: 0 15px 30px rgba(0,0,0,0.5); background: #151515; }
-        .rank-image { width: 100%; height: 110px; object-fit: contain; margin-bottom: 15px; transition: transform 0.3s; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
-        .card:hover .rank-image { transform: scale(1.05); }
+        .card { background: #111; padding: 25px; border-radius: 20px; text-align: center; border: 1px solid #222; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+        .card:hover { transform: translateY(-5px); border-color: #333; background: #151515; }
+        .rank-image { width: 100%; height: 110px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
         
-        .btn { 
-            display: inline-block; background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; 
-            padding: 12px 30px; text-decoration: none; border-radius: 50px; transition: 0.3s; 
-            border: none; cursor: pointer; font-size: 1em; font-family: 'Cairo', sans-serif; font-weight: 700; 
-            margin-top: 5px; box-shadow: 0 5px 15px rgba(76, 175, 50, 0.2);
-        }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(76, 175, 50, 0.4); }
-        .btn-bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); box-shadow: 0 5px 15px rgba(205, 127, 50, 0.2); }
-        .btn-rules { background: #222; border: 1px solid #333; box-shadow: none; }
+        .btn { background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; padding: 12px 30px; border-radius: 50px; border: none; cursor: pointer; font-size: 1em; font-family: inherit; font-weight: 700; text-decoration: none; display: inline-block; margin-top: 5px; box-shadow: 0 5px 15px rgba(76, 175, 50, 0.2); }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); }
+        .btn-rules { background: #222; border: 1px solid #333; }
         
-        .server-status { 
-            padding: 30px; border-radius: 20px; text-align: center; margin-bottom: 30px;
-            border: 1px solid #222; color: #fff;
-            background-image: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://wallpapercave.com/wp/wp9336459.jpg');
-            background-size: cover; background-position: center; box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
-        }
-
-        .ip-box { background: rgba(0, 230, 118, 0.1); padding: 10px 20px; border-radius: 50px; display: inline-block; cursor: pointer; transition: 0.3s; border: 1px solid rgba(0, 230, 118, 0.3); font-weight: bold; font-size: 0.9em; margin-top: 10px; color: #fff; }
-        .ip-box:hover { background: var(--primary-color); border-color: var(--primary-color); color: #000; }
-
-        .status-text { font-size: 24px; font-weight: 900; transition: all 0.5s ease; letter-spacing: 1px; }
+        .server-status { padding: 30px; border-radius: 20px; text-align: center; margin-bottom: 30px; border: 1px solid #222; background-image: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://wallpapercave.com/wp/wp9336459.jpg'); background-size: cover; background-position: center; }
+        .ip-box { background: rgba(0, 230, 118, 0.1); padding: 10px 20px; border-radius: 50px; display: inline-block; cursor: pointer; border: 1px solid rgba(0, 230, 118, 0.3); font-weight: bold; font-size: 0.9em; margin-top: 10px; color: #fff; }
+        .status-text { font-size: 24px; font-weight: 900; }
         .status-online { color: var(--online-color); text-shadow: 0 0 20px rgba(34, 197, 94, 0.8); }
         .status-offline { color: var(--offline-color); text-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
-        
-        /* Inventory 2.0 */
-        .inventory-modal-content { max-width: 1000px; background: #080808; border: 1px solid #222; text-align: right; padding: 0; display: flex; flex-direction: column; height: 90vh; border-radius: 25px; overflow: hidden; }
-        
-        .inv-header { 
-            padding: 20px; background: linear-gradient(to left, #0a0a0a, #050505); 
-            display: flex; justify-content: space-between; align-items: center; 
-            border-bottom: 1px solid #111; 
-        }
-        .inv-header h2 { margin: 0; font-size: 1.4em; display: flex; align-items: center; gap: 10px; color: #fff; }
-        
-        .inv-body { display: flex; flex: 1; overflow: hidden; }
-        
-        .inv-grid { 
-            flex: 2; padding: 20px; display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 15px; 
-            overflow-y: auto; background: #050505; border-left: 1px solid #111; 
-            align-content: start; 
-        }
-        
-        .inv-slot { 
-            aspect-ratio: 1; background: #0a0a0a; border: 1px solid #222; 
-            border-radius: 12px; cursor: pointer; position: relative; transition: 0.2s; 
-            display: flex; align-items: center; justify-content: center; padding: 5px; 
-        }
-        .inv-slot:hover { border-color: #444; transform: scale(1.05); z-index: 2; background: #111; }
-        .inv-slot.selected { border-color: var(--primary-color); box-shadow: 0 0 20px rgba(0, 230, 118, 0.2); background: #111; }
-        .inv-slot img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8)); }
-        .inv-slot .item-count { position: absolute; bottom: 4px; left: 4px; background: #000; font-size: 0.75em; padding: 2px 6px; border-radius: 6px; font-weight: bold; border: 1px solid #222; }
-        
-        /* Rarity Effects */
-        .rarity-common { border-color: #333; }
-        .rarity-rare { border-color: var(--rarity-rare); box-shadow: inset 0 0 15px rgba(85, 85, 255, 0.2); }
-        .rarity-rare img { filter: drop-shadow(0 0 5px rgba(85, 85, 255, 0.5)); }
-        
-        .inv-details { 
-            flex: 1; padding: 30px 25px; background: #080808; 
-            display: flex; flex-direction: column; align-items: center; text-align: center; overflow-y: auto; 
-            justify-content: space-between; gap: 20px;
-        }
-        .inv-details-content { width: 100%; }
-        .inv-details img { width: 100px; height: 100px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)); }
-        .inv-details h3 { margin: 0 0 5px 0; font-size: 1.3em; color: #fff; font-weight: 900; }
-        .inv-details .rarity-text { font-size: 0.9em; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-        .inv-details p { font-size: 0.95em; color: #888; line-height: 1.5; margin: 0; }
-        .inv-empty-msg { color: #333; text-align: center; margin-top: 50%; font-size: 1em; }
 
-        /* Referral Box Redesigned */
-        .referral-box {
-            margin-top: 0; padding: 20px; background: #0a0a0a;
-            border-radius: 15px; border: 1px solid #222; width: 100%; box-sizing: border-box;
-            border-top: 3px solid var(--primary-color);
-        }
+        /* Inventory */
+        .inventory-modal-content { max-width: 1000px; background: #080808; border: 1px solid #222; text-align: right; padding: 0; display: flex; flex-direction: column; height: 90vh; border-radius: 25px; overflow: hidden; }
+        .inv-header { padding: 20px; background: linear-gradient(to left, #0a0a0a, #050505); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #111; }
+        .inv-header h2 { margin: 0; font-size: 1.4em; }
+        .inv-body { display: flex; flex: 1; overflow: hidden; }
+        .inv-grid { flex: 2; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 15px; overflow-y: auto; background: #050505; border-left: 1px solid #111; align-content: start; }
+        .inv-slot { aspect-ratio: 1; background: #0a0a0a; border: 1px solid #222; border-radius: 12px; cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center; padding: 5px; }
+        .inv-slot:hover { border-color: #444; transform: scale(1.05); }
+        .inv-slot.selected { border-color: var(--primary-color); box-shadow: 0 0 20px rgba(0, 230, 118, 0.2); }
+        .inv-slot img { width: 100%; height: 100%; object-fit: contain; }
+        .inv-slot .item-count { position: absolute; bottom: 4px; left: 4px; background: #000; font-size: 0.75em; padding: 2px 6px; border-radius: 6px; font-weight: bold; border: 1px solid #222; }
+        .rarity-common { border-color: #333; }
+        .rarity-rare { border-color: #5555ff; box-shadow: inset 0 0 15px rgba(85, 85, 255, 0.2); }
+        .inv-details { flex: 1; padding: 30px 25px; background: #080808; display: flex; flex-direction: column; align-items: center; text-align: center; overflow-y: auto; justify-content: space-between; gap: 20px; }
+        .inv-details img { width: 100px; height: 100px; object-fit: contain; margin-bottom: 15px; }
+        .inv-details h3 { margin: 0 0 5px 0; font-size: 1.3em; }
+        .inv-empty-msg { color: #333; text-align: center; margin-top: 50%; }
+
+        /* Referral Box */
+        .referral-box { margin-top: 0; padding: 20px; background: #0a0a0a; border-radius: 15px; border: 1px solid #222; width: 100%; box-sizing: border-box; border-top: 3px solid var(--primary-color); }
         .referral-title { font-size: 1em; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 900; }
-        .referral-stats { 
-            font-size: 0.9em; color: #888; margin-bottom: 15px; display: block; 
-            background: #111; padding: 8px; border-radius: 8px; border: 1px solid #1a1a1a;
-        }
+        .referral-stats { font-size: 0.9em; color: #888; margin-bottom: 15px; display: block; background: #111; padding: 8px; border-radius: 8px; }
         .referral-stats span { color: var(--primary-color); font-weight: 900; font-size: 1.1em; }
         .referral-link-display { display: flex; gap: 8px; justify-content: center; align-items: center; }
-        .referral-link-input {
-            flex: 1; background: #000; border: 1px solid #222; padding: 10px;
-            border-radius: 8px; color: #ccc; font-size: 0.85em; text-align: center;
-            pointer-events: none; font-family: monospace;
-        }
-        .referral-copy-btn {
-            background: var(--secondary-color); border: none; padding: 10px 20px;
-            border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.9em; color: #fff; transition: 0.2s;
-        }
-        .referral-copy-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .referral-link-input { flex: 1; background: #000; border: 1px solid #222; padding: 10px; border-radius: 8px; color: #ccc; font-size: 0.85em; text-align: center; pointer-events: none; font-family: monospace; }
+        .referral-copy-btn { background: var(--secondary-color); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.9em; color: #fff; font-family: inherit; }
         .referral-info { font-size: 0.8em; color: #555; margin-top: 10px; }
 
-        /* Toast System */
-        #toast-container {
-            position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 15px;
-        }
-        .toast {
-            background: #111; color: white; padding: 16px 24px; border-radius: 12px; 
-            border-right: 4px solid var(--primary-color); border-left: 4px solid transparent;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), fadeOut 0.5s ease 3.0s forwards;
-            display: flex; align-items: center; gap: 12px; font-size: 1em; max-width: 350px; border: 1px solid #222;
-        }
-        .toast.error { border-color: #ef4444; }
+        /* Toast */
+        #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 15px; }
+        .toast { background: #111; color: white; padding: 16px 24px; border-radius: 12px; border-right: 4px solid var(--primary-color); box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideIn 0.4s, fadeOut 0.5s ease 3.0s forwards; display: flex; align-items: center; gap: 12px; font-size: 1em; max-width: 350px; border: 1px solid #222; }
         .toast.success { border-color: var(--primary-color); }
-        .toast.info { border-color: #3b82f6; }
-        @keyframes slideIn { from { transform: translateX(100%) scale(0.8); opacity: 0; } to { transform: translateX(0) scale(1); opacity: 1; } }
-        @keyframes fadeOut { to { opacity: 0; transform: translateX(50px); } }
-
-        /* Scroll to top button - Hide when back button is visible */
-        #scrollTopBtn { display: none; position: fixed; bottom: 30px; left: 30px; z-index: 1500; border: none; outline: none; background: var(--primary-color); color: #000; cursor: pointer; padding: 15px; border-radius: 50%; font-size: 18px; box-shadow: 0 5px 15px rgba(0,230,118,0.3); transition: 0.3s; }
-        #scrollTopBtn:hover { background: #fff; transform: scale(1.1); }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { to { opacity: 0; } }
 
         @media (max-width: 600px) {
             .brand-logo { font-size: 1.4em; }
-            .container { margin: 80px auto 15px auto; padding: 15px; border-radius: 20px; }
+            .container { margin: 80px auto 15px auto; padding: 15px; }
             header h1 { font-size: 1.8em; }
             .inv-body { flex-direction: column; }
-            .inv-grid { flex: none; height: 180px; overflow-x: auto; display: flex; flex-wrap: nowrap; grid-template-columns: none; border-left: none; border-bottom: 1px solid #111; }
+            .inv-grid { flex: none; height: 180px; overflow-x: auto; display: flex; flex-wrap: nowrap; border-bottom: 1px solid #111; }
             .inv-slot { min-width: 85px; }
             #toast-container { left: 15px; right: 15px; bottom: 15px; }
-            .toast { width: 100%; justify-content: center; max-width: 100%; }
-            
-            /* Mobile Back Button adjustments */
-            .back-btn { bottom: 20px; left: 20px; padding: 12px 20px; font-size: 0.9em; }
+            .toast { width: 100%; justify-content: center; }
+            .back-btn { bottom: 20px; right: 20px; padding: 12px 20px; font-size: 0.9em; }
+            html[dir="ltr"] .back-btn { right: auto; left: 20px; }
         }
     </style>
 </head>
 <body>
 
 <div class="bg-animation"></div>
-<!-- Scroll to top - Hidden on pages with back button to avoid overlap -->
-<button onclick="topFunction()" id="scrollTopBtn" title="Back to Top">⬆</button>
 <div id="toast-container"></div>
 
 <!-- Header -->
 <div class="global-user-bar">
-    <div class="brand-logo" onclick="goHome()">STORE 4AIKRO</div>
-    <div id="auth-btn-container" class="auth-actions"></div>
+    <div class="brand-logo" onclick="goHome()" data-lang-key="brand_name">STORE 4AIKRO</div>
+    <div class="auth-actions">
+        <!-- Language Switcher -->
+        <div class="lang-switcher">
+            🌐
+            <select id="lang-select" onchange="changeLanguage(this.value)">
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+                <option value="jp">日本語</option>
+            </select>
+        </div>
+        <div id="auth-btn-container"></div>
+    </div>
 </div>
 
-<!-- Universal Back Button (Floating) -->
-<button id="main-back-btn" class="back-btn" onclick="goHome()">⬅ Back</button>
+<!-- Floating Back Button -->
+<button id="main-back-btn" class="back-btn" onclick="goHome()" data-lang-key="back_btn">⬅ Back</button>
 
 <!-- Landing -->
 <div id="landing-page">
     <img src="newlogosite.gif" alt="Logo" class="landing-logo">
-    <h1 class="landing-title">Choose Your Path</h1>
-    <p class="landing-subtitle">Exclusive content for elite players.</p>
+    <h1 class="landing-title" data-lang-key="landing_title">Choose Your Path</h1>
+    <p class="landing-subtitle" data-lang-key="landing_subtitle">Exclusive content for elite players.</p>
     <div class="choices-container">
         <div class="choice-card" onclick="showPage('roblox')">
             <img src="logoroblox.png" alt="Roblox">
             <h2>ROBLOX</h2>
-            <p>Endless possibilities.</p>
+            <p data-lang-key="roblox_desc">Endless possibilities.</p>
         </div>
         <div class="choice-card" onclick="showPage('minecraft')">
             <img src="logominecraft.png" alt="Minecraft">
             <h2>MINECRAFT</h2>
-            <p>Official Java Servers.</p>
+            <p data-lang-key="mc_desc">Official Java Servers.</p>
         </div>
     </div>
 </div>
@@ -379,7 +278,7 @@
 <!-- Roblox -->
 <div id="roblox-page">
     <div class="container">
-        <header><h1>ROBLOX</h1><p>Coming Soon</p></header>
+        <header><h1>ROBLOX</h1><p data-lang-key="coming_soon">Coming Soon</p></header>
     </div>
 </div>
 
@@ -395,7 +294,7 @@
         </header>
 
         <div class="server-status">
-            <div class="status-text" id="status-text">Checking...</div>
+            <div class="status-text" id="status-text" data-lang-key="checking">Checking...</div>
             <span class="status-dot" id="status-dot"></span>
             <div class="status-info">
                 <div id="player-count"></div>
@@ -406,20 +305,20 @@
 
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
             <a href="https://discord.gg/gMrHAzvERJ" target="_blank" class="btn" style="background:#5865F2;">Discord</a>
-            <a href="https://www.mediafire.com/file/eyavtrl589c7s5x/mods_serveur_4AIKRO_S4.rar/file" class="btn" target="_blank">Download Mods</a>
-            <button class="btn btn-rules" onclick="openModal('rules-modal')">⚖️ Rules</button>
+            <a href="https://www.mediafire.com/file/eyavtrl589c7s5x/mods_serveur_4AIKRO_S4.rar/file" class="btn" target="_blank" data-lang-key="download_mods">Download Mods</a>
+            <button class="btn btn-rules" onclick="openModal('rules-modal')" data-lang-key="rules_btn">⚖️ Rules</button>
         </div>
 
         <div class="section">
-            <h2>💎 Ranks & Gifts</h2>
+            <h2 data-lang-key="ranks_gifts">💎 Ranks & Gifts</h2>
             <div class="card-grid">
                 <div class="card">
                     <div>
                         <img src="gift.png" alt="Daily Gift" class="rank-image">
-                        <h3>Daily Gift</h3>
-                        <p>Free gift every 24h.</p>
+                        <h3 data-lang-key="daily_gift">Daily Gift</h3>
+                        <p data-lang-key="daily_gift_desc">Free gift every 24h.</p>
                         <div class="balance-display" id="key-balance-box" style="display:none;">
-                            <span>Balance:</span>
+                            <span data-lang-key="balance">Balance:</span>
                             <span class="balance-count" id="key-balance-num">0</span>
                         </div>
                     </div>
@@ -427,52 +326,52 @@
                         <div id="key-display-area" style="display:none; margin-bottom:10px;">
                             <div class="countdown-timer">⏳ <span id="timer-display">00:00:00</span></div>
                         </div>
-                        <button id="claim-key-btn" class="btn btn-bronze" onclick="claimBronzeKey()">🔑 Claim Key</button>
+                        <button id="claim-key-btn" class="btn btn-bronze" onclick="claimBronzeKey()" data-lang-key="claim_key">🔑 Claim Key</button>
                     </div>
                 </div>
 
                 <div class="card">
                     <div>
                         <img src="vip.jpg" alt="VIP" class="rank-image">
-                        <h3>VIP Rank</h3>
-                        <p>Extra perks.</p>
+                        <h3 data-lang-key="vip_rank">VIP Rank</h3>
+                        <p data-lang-key="vip_desc">Extra perks.</p>
                     </div>
                     <div class="price">$2.00</div>
-                    <a href="#" class="btn">Buy</a>
+                    <a href="#" class="btn" data-lang-key="buy">Buy</a>
                 </div>
 
                 <div class="card">
                     <div>
                         <img src="mvp.jpg" alt="MVP" class="rank-image">
-                        <h3>MVP Rank</h3>
-                        <p>Full permissions.</p>
+                        <h3 data-lang-key="mvp_rank">MVP Rank</h3>
+                        <p data-lang-key="mvp_desc">Full permissions.</p>
                     </div>
                     <div class="price">$5.00</div>
-                    <a href="#" class="btn">Buy</a>
+                    <a href="#" class="btn" data-lang-key="buy">Buy</a>
                 </div>
             </div>
         </div>
 
         <div class="section">
-            <h2>🛒 Item Shop</h2>
+            <h2 data-lang-key="shop">🛒 Item Shop</h2>
             <div class="card-grid">
                 <div class="card">
                     <img src="100coin.jpg" class="rank-image">
                     <h3>100 COIN</h3>
                     <div class="price">$1.00</div>
-                    <a href="#" class="btn">Buy</a>
+                    <a href="#" class="btn" data-lang-key="buy">Buy</a>
                 </div>
                  <div class="card">
                     <img src="500coin.jpg" class="rank-image">
                     <h3>500 COIN</h3>
                     <div class="price">$3.00</div>
-                    <a href="#" class="btn">Buy</a>
+                    <a href="#" class="btn" data-lang-key="buy">Buy</a>
                 </div>
                  <div class="card">
                     <img src="1000coin.jpg" class="rank-image">
                     <h3>1000 COIN</h3>
                     <div class="price">$5.00</div>
-                    <a href="#" class="btn">Buy</a>
+                    <a href="#" class="btn" data-lang-key="buy">Buy</a>
                 </div>
             </div>
         </div>
@@ -483,22 +382,22 @@
 <div id="login-modal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
-        <h2>Login</h2>
-        <input type="text" id="login-name" placeholder="Username">
-        <input type="password" id="login-code" placeholder="Secret Code">
-        <button class="btn" onclick="handleLogin()" style="width:100%;">Enter</button>
-        <span class="modal-link" onclick="openForgotModal()">Forgot Code?</span>
+        <h2 data-lang-key="login_title">Login</h2>
+        <input type="text" id="login-name" data-lang-placeholder="username" placeholder="Username">
+        <input type="password" id="login-code" data-lang-placeholder="secret_code" placeholder="Secret Code">
+        <button class="btn" onclick="handleLogin()" style="width:100%;" data-lang-key="enter">Enter</button>
+        <span class="modal-link" onclick="openForgotModal()" data-lang-key="forgot_code">Forgot Code?</span>
     </div>
 </div>
 
 <div id="forgot-modal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('forgot-modal')">&times;</span>
-        <h2>Recovery</h2>
-        <p style="font-size:0.9em; color:#666; margin-bottom:15px;">Enter your email to find your code.</p>
-        <input type="email" id="forgot-email" placeholder="Email">
-        <button class="btn" onclick="handleForgot()" style="width:100%;">Search</button>
-        <span class="modal-link" onclick="closeModal('forgot-modal'); openModal('login-modal');">Back to Login</span>
+        <h2 data-lang-key="recovery">Recovery</h2>
+        <p style="font-size:0.9em; color:#666; margin-bottom:15px;" data-lang-key="recovery_desc">Enter your email.</p>
+        <input type="email" id="forgot-email" data-lang-placeholder="email" placeholder="Email">
+        <button class="btn" onclick="handleForgot()" style="width:100%;" data-lang-key="search">Search</button>
+        <span class="modal-link" onclick="closeModal('forgot-modal'); openModal('login-modal');" data-lang-key="back_login">Back to Login</span>
     </div>
 </div>
 
@@ -506,11 +405,11 @@
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('register-modal')">&times;</span>
         <div style="font-size:3em; margin-bottom:10px;">📝</div>
-        <h2>Create Account</h2>
-        <input type="text" id="reg-name" placeholder="Username">
-        <input type="password" id="reg-code" placeholder="Secret Code">
-        <input type="email" id="reg-email" placeholder="Email (Required for recovery)">
-        <button class="btn" onclick="handleRegister()" style="width:100%;">Create</button>
+        <h2 data-lang-key="register_title">Create Account</h2>
+        <input type="text" id="reg-name" data-lang-placeholder="username" placeholder="Username">
+        <input type="password" id="reg-code" data-lang-placeholder="secret_code" placeholder="Secret Code">
+        <input type="email" id="reg-email" data-lang-placeholder="email" placeholder="Email">
+        <button class="btn" onclick="handleRegister()" style="width:100%;" data-lang-key="create">Create</button>
     </div>
 </div>
 
@@ -518,16 +417,16 @@
 <div id="inventory-modal" class="modal">
     <div class="modal-content inventory-modal-content">
         <div class="inv-header">
-            <h2>📦 Inventory</h2>
+            <h2 data-lang-key="inventory">📦 Inventory</h2>
             <div style="display:flex; gap:10px; align-items:center;">
-                <button class="user-btn logout-btn" onclick="logout()">🚪 Exit</button>
+                <button class="user-btn logout-btn" onclick="logout()" data-lang-key="exit">Exit</button>
                 <span class="close-btn" style="font-size:24px;" onclick="closeModal('inventory-modal')">&times;</span>
             </div>
         </div>
         <div class="inv-body">
             <div class="inv-grid" id="inv-grid"></div>
             <div class="inv-details" id="inv-details">
-                <p class="inv-empty-msg">Select an item</p>
+                <p class="inv-empty-msg" data-lang-key="select_item">Select an item</p>
             </div>
         </div>
     </div>
@@ -536,27 +435,268 @@
 <div id="rules-modal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('rules-modal')">&times;</span>
-        <h2>⚖️ Server Rules</h2>
-        <div style="text-align:right; line-height:1.8;">
-            <p>🚫 <strong>No Hacking:</strong> External programs are banned.</p>
-            <p>🗣️ <strong>Respect:</strong> No insults or harassment.</p>
-            <p>🏗️ <strong>Building:</strong> Griefing is prohibited.</p>
-            <p>📢 <strong>Chat:</strong> No advertising.</p>
+        <h2 data-lang-key="rules_title">⚖️ Server Rules</h2>
+        <div style="line-height:1.8;">
+            <p>🚫 <span data-lang-key="r1">No Hacking</span></p>
+            <p>🗣️ <span data-lang-key="r2">Respect All</span></p>
+            <p>🏗️ <span data-lang-key="r3">No Griefing</span></p>
+            <p>📢 <span data-lang-key="r4">No Ads</span></p>
         </div>
     </div>
 </div>
 
 <script>
-    const GAME_ITEMS = {
-        bronze_key: {
-            id: 'bronze_key', name: 'COPPER KEY', description: 'A basic daily copper key.',
-            image: 'COPPERKEY.png', rarity: 'common', max_stack: 25000
+    // === 1. TRANSLATION ENGINE ===
+    const translations = {
+        ar: {
+            brand_name: "STORE 4AIKRO",
+            landing_title: "اختر مسارك",
+            landing_subtitle: "محتوى حصري للاعبين النخبة.",
+            roblox_desc: "إمكانيات لا نهائية.",
+            mc_desc: "سيرفرات جافا الرسمية.",
+            coming_soon: "قريباً",
+            checking: "جارٍ التحقق...",
+            online: "أونلاين",
+            offline: "أوفلاين",
+            players: "اللاعبين",
+            version: "الإصدار",
+            download_mods: "تحميل المودات",
+            rules_btn: "⚖️ القوانين",
+            ranks_gifts: "💎 الرتب والهدايا",
+            daily_gift: "الهدية اليومية",
+            daily_gift_desc: "هدية مجانية كل 24 ساعة.",
+            balance: "الرصيد:",
+            claim_key: "🔑 احصل على مفتاحك",
+            vip_rank: "رتبة VIP",
+            vip_desc: "مزايا إضافية.",
+            mvp_rank: "رتبة MVP",
+            mvp_desc: "صلاحيات كاملة.",
+            buy: "شراء",
+            shop: "🛒 متجر الآيتمات",
+            login_title: "تسجيل الدخول",
+            username: "اسم المستخدم",
+            secret_code: "الكود السري",
+            enter: "دخول",
+            forgot_code: "نسيت الكود؟",
+            recovery: "استرجاع الحساب",
+            recovery_desc: "أدخل بريدك الإلكتروني للبحث عن كودك.",
+            email: "البريد الإلكتروني",
+            search: "بحث",
+            back_login: "العودة لتسجيل الدخول",
+            register_title: "إنشاء حساب",
+            create: "إنشاء",
+            inventory: "📦 المخزون",
+            exit: "خروج",
+            select_item: "اختر عنصراً",
+            invite_title: "🔗 دعوة الأصدقاء",
+            invite_link: "رابط الدعوة",
+            invite_desc: "احصل على مفتاح مجاني لكل شخص جديد! (الحد 5 يومياً)",
+            copy: "نسخ",
+            back_btn: "⬅ رجوع",
+            login_btn: "🔑 دخول",
+            register_btn: "📝 حساب جديد",
+            profile_exit: "خروج",
+            toast_welcome: "مرحباً، {name} 👋",
+            toast_created: "تم إنشاء الحساب!",
+            toast_logout: "تم تسجيل الخروج",
+            toast_copied: "تم النسخ!",
+            toast_added: "🎉 تمت الإضافة!",
+            toast_found: "✅ تم العثور! الكود: ",
+            toast_wrong: "خطأ في البيانات",
+            copper_key: "مفتاح نحاسي",
+            copper_key_desc: "مفتاح نحاسي أساسي يومي.",
+            wait: "انتظر",
+            max_stack: "وصلت للحد الأقصى"
+        },
+        en: {
+            brand_name: "STORE 4AIKRO",
+            landing_title: "Choose Your Path",
+            landing_subtitle: "Exclusive content for elite players.",
+            roblox_desc: "Endless possibilities.",
+            mc_desc: "Official Java Servers.",
+            coming_soon: "Coming Soon",
+            checking: "Checking...",
+            online: "Online",
+            offline: "Offline",
+            players: "Players",
+            version: "Version",
+            download_mods: "Download Mods",
+            rules_btn: "⚖️ Rules",
+            ranks_gifts: "💎 Ranks & Gifts",
+            daily_gift: "Daily Gift",
+            daily_gift_desc: "Free gift every 24h.",
+            balance: "Balance:",
+            claim_key: "🔑 Claim Key",
+            vip_rank: "VIP Rank",
+            vip_desc: "Extra perks.",
+            mvp_rank: "MVP Rank",
+            mvp_desc: "Full permissions.",
+            buy: "Buy",
+            shop: "🛒 Item Shop",
+            login_title: "Login",
+            username: "Username",
+            secret_code: "Secret Code",
+            enter: "Enter",
+            forgot_code: "Forgot Code?",
+            recovery: "Recovery",
+            recovery_desc: "Enter your email to find your code.",
+            email: "Email",
+            search: "Search",
+            back_login: "Back to Login",
+            register_title: "Create Account",
+            create: "Create",
+            inventory: "📦 Inventory",
+            exit: "Exit",
+            select_item: "Select an item",
+            invite_title: "🔗 Invite Friends",
+            invite_link: "Invite Link",
+            invite_desc: "Get a free key for every new friend! (Max 5/day)",
+            copy: "Copy",
+            back_btn: "⬅ Back",
+            login_btn: "🔑 Login",
+            register_btn: "📝 Register",
+            profile_exit: "Exit",
+            toast_welcome: "Welcome, {name} 👋",
+            toast_created: "Account Created!",
+            toast_logout: "Logged out",
+            toast_copied: "Copied!",
+            toast_added: "🎉 Item added!",
+            toast_found: "✅ Found! Code: ",
+            toast_wrong: "Wrong details",
+            copper_key: "Copper Key",
+            copper_key_desc: "A basic daily copper key.",
+            wait: "Wait",
+            max_stack: "Max stack reached"
+        },
+        jp: {
+            brand_name: "STORE 4AIKRO",
+            landing_title: "パスを選択",
+            landing_subtitle: "エリートプレイヤーのための限定コンテンツ。",
+            roblox_desc: "無限の可能性。",
+            mc_desc: "公式Javaサーバー。",
+            coming_soon: "近日公開",
+            checking: "確認中...",
+            online: "オンライン",
+            offline: "オフライン",
+            players: "プレイヤー",
+            version: "バージョン",
+            download_mods: "Modをダウンロード",
+            rules_btn: "⚖️ ルール",
+            ranks_gifts: "💎 ランクとギフト",
+            daily_gift: "毎日のギフト",
+            daily_gift_desc: "24時間ごとの無料ギフト。",
+            balance: "残高:",
+            claim_key: "🔑 鍵を受け取る",
+            vip_rank: "VIP ランク",
+            vip_desc: "特別な特典。",
+            mvp_rank: "MVP ランク",
+            mvp_desc: "完全な権限。",
+            buy: "購入",
+            shop: "🛒 アイテムショップ",
+            login_title: "ログイン",
+            username: "ユーザー名",
+            secret_code: "シークレットコード",
+            enter: "入る",
+            forgot_code: "コードをお忘れですか？",
+            recovery: "復旧",
+            recovery_desc: "コードを見つけるためにメールを入力してください。",
+            email: "メール",
+            search: "検索",
+            back_login: "ログインに戻る",
+            register_title: "アカウント作成",
+            create: "作成",
+            inventory: "📦 インベントリ",
+            exit: "出口",
+            select_item: "アイテムを選択",
+            invite_title: "🔗 招待",
+            invite_link: "招待リンク",
+            invite_desc: "新しい友人ごとに無料の鍵を入手！（1日最大5個）",
+            copy: "コピー",
+            back_btn: "⬅ 戻る",
+            login_btn: "🔑 ログイン",
+            register_btn: "📝 登録",
+            profile_exit: "終了",
+            toast_welcome: "ようこそ、{name} さん 👋",
+            toast_created: "アカウントが作成されました！",
+            toast_logout: "ログアウトしました",
+            toast_copied: "コピーしました！",
+            toast_added: "🎉 アイテムが追加されました！",
+            toast_found: "✅ 発見！コード: ",
+            toast_wrong: "詳細が間違っています",
+            copper_key: "銅の鍵",
+            copper_key_desc: "基本的な毎日の銅の鍵。",
+            wait: "待って",
+            max_stack: "最大スタックに達しました"
         }
+    };
+
+    // === 2. SYSTEM LOGIC ===
+    const GAME_ITEMS = {
+        bronze_key: { id: 'bronze_key', image: 'COPPERKEY.png', rarity: 'common', max_stack: 25000 }
     };
     const MAX_DAILY_REFERRALS = 5;
     let isProcessingReferral = false; 
 
-    document.body.onload = function() { initApp(); };
+    document.body.onload = function() { 
+        initLang();
+        initApp(); 
+    };
+
+    // === Language Functions ===
+    function initLang() {
+        const savedLang = localStorage.getItem('4aikro_lang') || 'ar';
+        applyLanguage(savedLang);
+        document.getElementById('lang-select').value = savedLang;
+    }
+
+    function changeLanguage(lang) {
+        localStorage.setItem('4aikro_lang', lang);
+        applyLanguage(lang);
+    }
+
+    function applyLanguage(lang) {
+        const html = document.documentElement;
+        const body = document.body;
+
+        // Set Direction and Font Class
+        if (lang === 'ar') {
+            html.setAttribute('dir', 'rtl');
+            html.setAttribute('lang', 'ar');
+            body.classList.remove('lang-en', 'lang-jp');
+        } else {
+            html.setAttribute('dir', 'ltr');
+            html.setAttribute('lang', lang);
+            body.classList.add(`lang-${lang}`);
+        }
+
+        // Update all text elements
+        document.querySelectorAll('[data-lang-key]').forEach(el => {
+            const key = el.getAttribute('data-lang-key');
+            if (translations[lang][key]) {
+                el.textContent = translations[lang][key];
+            }
+        });
+
+        // Update Placeholders
+        document.querySelectorAll('[data-lang-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-lang-placeholder');
+            if (translations[lang][key]) {
+                el.placeholder = translations[lang][key];
+            }
+        });
+        
+        // Re-render dynamic parts that need text
+        updateAuthUI();
+    }
+
+    function t(key, replacements = {}) {
+        const lang = localStorage.getItem('4aikro_lang') || 'ar';
+        let text = translations[lang][key] || translations['en'][key] || key;
+        for (const k in replacements) {
+            text = text.replace(`{${k}}`, replacements[k]);
+        }
+        return text;
+    }
 
     function initApp() { updateAuthUI(); checkReferralSystem(); }
 
@@ -567,10 +707,7 @@
 
         if (referrer && !isProcessingReferral) {
             isProcessingReferral = true;
-            
-            const visitorId = getVisitorID();
             const hasVisited = localStorage.getItem('visitor_counted');
-
             if (hasVisited) return; 
 
             const currentLoggedIn = getCurrentUser();
@@ -596,20 +733,11 @@
             saveDB(db);
 
             if (getCurrentUser() === referrer) {
-                showToast("🎉 Reward! A new player joined via your link!", 'success');
+                showToast(t('toast_added'), 'success');
                 updateAuthUI();
                 renderInventoryGrid();
             }
         }
-    }
-
-    function getVisitorID() {
-        let id = localStorage.getItem('visitor_uuid');
-        if (!id) {
-            id = 'vid_' + Math.random().toString(36).substr(2, 9) + Date.now();
-            localStorage.setItem('visitor_uuid', id);
-        }
-        return id;
     }
 
     // === Database ===
@@ -624,7 +752,7 @@
         toast.className = `toast ${type}`;
         toast.innerHTML = message;
         container.appendChild(toast);
-        setTimeout(() => toast.remove(), 3500);
+        setTimeout(() => toast.remove(), 3000);
     }
 
     // === Auth UI ===
@@ -645,7 +773,7 @@
                     👤 ${username}
                     <span class="key-badge">🎒 ${totalCount}</span>
                 </div>
-                <button class="user-btn logout-btn" onclick="logout()">🚪 Exit</button>
+                <button class="user-btn logout-btn" onclick="logout()">${t('profile_exit')}</button>
             `;
 
             const balanceNum = document.getElementById('key-balance-num');
@@ -656,7 +784,7 @@
 
         } else {
             if (isLandingVisible) {
-                container.innerHTML = `<button class="user-btn" onclick="openModal('login-modal')">🔑 Login</button><button class="user-btn" onclick="openModal('register-modal')" style="border-color:#cd7f32;">📝 Register</button>`;
+                container.innerHTML = `<button class="user-btn" onclick="openModal('login-modal')">${t('login_btn')}</button><button class="user-btn" onclick="openModal('register-modal')" style="border-color:#cd7f32;">${t('register_btn')}</button>`;
             } else { container.innerHTML = ''; }
             const balanceBox = document.getElementById('key-balance-box');
             if(balanceBox) balanceBox.style.display = 'none';
@@ -678,7 +806,7 @@
         if (db[username] && db[username].referrals && db[username].referrals.date === today) {
             count = db[username].referrals.count;
         }
-        if(refStats) refStats.innerHTML = `Today's Invites: <span>${count}/${MAX_DAILY_REFERRALS}</span>`;
+        if(refStats) refStats.innerHTML = `${t('invite_desc').split('(')[0]} <span>${count}/${MAX_DAILY_REFERRALS}</span>`;
     }
 
     function openModal(id) { document.getElementById(id).style.display = 'block'; }
@@ -687,41 +815,41 @@
 
     function handleForgot() {
         const email = document.getElementById('forgot-email').value.trim();
-        if(!email) { showToast("Enter email", "error"); return; }
+        if(!email) { showToast(t('toast_wrong'), "error"); return; }
         let db = getDB();
         let foundUser = null;
         for(let user in db) { if(db[user].email === email) { foundUser = user; break; } }
         if(foundUser) {
-            showToast(`✅ Found! Code: <b style='color:var(--primary-color)'>${db[foundUser].code}</b>`, 'success');
+            showToast(t('toast_found') + `<b style='color:var(--primary-color)'>${db[foundUser].code}</b>`, 'success');
             closeModal('forgot-modal');
-        } else { showToast("❌ Email not found.", "error"); }
+        } else { showToast(t('toast_wrong'), "error"); }
     }
 
     function handleLogin() {
         const name = document.getElementById('login-name').value.trim();
         const code = document.getElementById('login-code').value.trim();
-        if (!name || !code) { showToast("Enter name and code", "error"); return; }
+        if (!name || !code) { showToast(t('toast_wrong'), "error"); return; }
         let db = getDB();
         if (db[name] && db[name].code === code) {
             setCurrentUser(name); closeModal('login-modal'); updateAuthUI(); initKeyLogic();
-            showToast(`Welcome, ${name} 👋`, 'success');
-        } else { showToast("Wrong name or code", "error"); }
+            showToast(t('toast_welcome', {name: name}), 'success');
+        } else { showToast(t('toast_wrong'), "error"); }
     }
 
     function handleRegister() {
         const name = document.getElementById('reg-name').value.trim();
         const code = document.getElementById('reg-code').value.trim();
         const email = document.getElementById('reg-email').value.trim();
-        if (!name || !code || !email) { showToast("All fields required", "error"); return; }
+        if (!name || !code || !email) { showToast(t('toast_wrong'), "error"); return; }
         let db = getDB();
-        if (db[name]) { showToast("Name exists!", "error"); return; }
+        if (db[name]) { showToast(t('toast_wrong'), "error"); return; }
         db[name] = { code: code, email: email, inventory: [], referrals: { date: '', count: 0 } };
         saveDB(db);
         setCurrentUser(name); closeModal('register-modal'); updateAuthUI(); initKeyLogic();
-        showToast("Account created! 🎉");
+        showToast(t('toast_created'));
     }
 
-    function logout() { localStorage.removeItem('4aikro_session'); updateAuthUI(); initKeyLogic(); closeModal('inventory-modal'); showToast("Logged out"); }
+    function logout() { localStorage.removeItem('4aikro_session'); updateAuthUI(); initKeyLogic(); closeModal('inventory-modal'); showToast(t('toast_logout')); }
 
     // === Inventory ===
     function openInventoryModal() {
@@ -747,19 +875,18 @@
         const maxStack = itemData ? itemData.max_stack : 64;
         if (itemEntry) {
             if (checkMaxStack && itemEntry.count >= maxStack) {
-                if(alertUser) showToast(`⚠️ Max stack (${maxStack}) reached!`, 'error'); return;
+                if(alertUser) showToast(t('max_stack'), 'error'); return;
             }
             itemEntry.count++;
         } else { db[username].inventory.push({ id: itemId, count: 1 }); }
         saveDB(db); updateAuthUI();
-        if(alertUser) showToast("🎉 Item added!");
+        if(alertUser) showToast(t('toast_added'));
     }
 
     function renderInventoryGrid() {
         const username = getCurrentUser();
         const db = getDB();
         let inventory = db[username]?.inventory || [];
-        // Sort: Rare first
         inventory.sort((a, b) => {
             const itemA = GAME_ITEMS[a.id]; const itemB = GAME_ITEMS[b.id];
             if(itemA.rarity !== itemB.rarity) return itemA.rarity === 'rare' ? -1 : 1;
@@ -769,21 +896,15 @@
         const grid = document.getElementById('inv-grid');
         const details = document.getElementById('inv-details');
         
-        // Referral Box in Details Panel
         details.innerHTML = `
-            <div class="inv-details-content">
-                 <div style="flex-grow:1; display:flex; align-items:center; justify-content:center;">
-                    <p class="inv-empty-msg">Select an item</p>
-                </div>
-            </div>
+            <div class="inv-details-content"><p class="inv-empty-msg">${t('select_item')}</p></div>
             <div class="referral-box">
-                <span class="referral-title">🔗 Invite Friends</span>
+                <span class="referral-title">${t('invite_title')}</span>
                 <span class="referral-stats" id="ref-stats-display">...</span>
                 <div class="referral-link-display">
                     <input type="text" id="ref-link-display" class="referral-link-input" readonly>
-                    <button class="referral-copy-btn" onclick="copyRefLink()">Copy</button>
+                    <button class="referral-copy-btn" onclick="copyRefLink()">${t('copy')}</button>
                 </div>
-                <p class="referral-info">Get a free key for every new friend! (Max 5/day)</p>
             </div>
         `;
         updateReferralUI(username);
@@ -798,7 +919,7 @@
             if(!itemData) return '';
             return `
             <div class="inv-slot rarity-${itemData.rarity}" onclick="showItemDetails(${index})">
-                <img src="${itemData.image}" alt="${itemData.name}">
+                <img src="${itemData.image}" alt="Item">
                 ${entry.count > 1 ? `<span class="item-count">x${entry.count}</span>` : ''}
             </div>`;
         }).join('');
@@ -808,7 +929,6 @@
         const username = getCurrentUser();
         const db = getDB();
         let inventory = db[username].inventory || [];
-        // Apply same sort
         inventory.sort((a, b) => {
             const itemA = GAME_ITEMS[a.id]; const itemB = GAME_ITEMS[b.id];
             if(itemA.rarity !== itemB.rarity) return itemA.rarity === 'rare' ? -1 : 1;
@@ -823,24 +943,23 @@
 
         const details = document.getElementById('inv-details');
         let color = '#fff'; let name = 'COMMON';
-        if(itemData.rarity === 'rare') { color = 'var(--rarity-rare)'; name = 'RARE'; }
+        if(itemData.rarity === 'rare') { color = '#5555ff'; name = 'RARE'; }
 
         details.innerHTML = `
             <div class="inv-details-content">
-                <img src="${itemData.image}" style="filter: drop-shadow(0 5px 20px ${color});">
-                <h3 style="color:${color};">${itemData.name}</h3>
+                <img src="${itemData.image}" style="filter: drop-shadow(0 5px 15px ${color});">
+                <h3 style="color:${color};">${t('copper_key')}</h3>
                 <div class="rarity-text" style="color:${color};">${name}</div>
-                <p>${itemData.description}</p>
-                <div style="margin-top:15px; font-size:0.9em; color:#555;">Amount: ${entry.count} / ${itemData.max_stack}</div>
+                <p>${t('copper_key_desc')}</p>
+                <div style="font-size:0.9em; color:#555;">Amount: ${entry.count} / ${itemData.max_stack}</div>
             </div>
             <div class="referral-box">
-                <span class="referral-title">🔗 Invite Link</span>
+                <span class="referral-title">${t('invite_link')}</span>
                 <span class="referral-stats" id="ref-stats-display"></span>
                 <div class="referral-link-display">
                     <input type="text" id="ref-link-display" class="referral-link-input" readonly>
-                    <button class="referral-copy-btn" onclick="copyRefLink()">Copy</button>
+                    <button class="referral-copy-btn" onclick="copyRefLink()">${t('copy')}</button>
                 </div>
-                <p class="referral-info">Share to earn free keys!</p>
             </div>
         `;
         updateReferralUI(username);
@@ -850,7 +969,7 @@
         const input = document.getElementById('ref-link-display');
         if(input && input.value) {
             navigator.clipboard.writeText(input.value);
-            showToast("✔️ Link Copied!", 'success');
+            showToast(t('toast_copied'), 'success');
         }
     }
 
@@ -861,14 +980,12 @@
         document.getElementById('minecraft-page').style.display = 'none';
         document.getElementById('roblox-page').style.display = 'none';
 
-        // Manage Back Button Visibility
         const backBtn = document.getElementById('main-back-btn');
         backBtn.style.display = 'block';
-        document.getElementById(pageName + '-page').classList.add('active-page');
 
         if (pageName === 'minecraft') {
             document.getElementById('minecraft-page').style.display = 'block';
-            checkServerStatus(); initKeyLogic(); updateAuthUI(); setTimeout(revealOnScroll, 100); 
+            checkServerStatus(); initKeyLogic(); updateAuthUI();
         } else if (pageName === 'roblox') { 
             document.getElementById('roblox-page').style.display = 'block'; updateAuthUI(); 
         }
@@ -878,12 +995,8 @@
         document.getElementById('landing-page').style.display = 'flex';
         document.getElementById('minecraft-page').style.display = 'none';
         document.getElementById('roblox-page').style.display = 'none';
-        
-        // Hide Back Button
         const backBtn = document.getElementById('main-back-btn');
         backBtn.style.display = 'none';
-        document.querySelectorAll('.active-page').forEach(e => e.classList.remove('active-page'));
-        
         updateAuthUI();
     }
 
@@ -900,47 +1013,35 @@
         if (lastClaim) {
             const nextClaimTime = parseInt(lastClaim) + COOLDOWN_TIME;
             const now = new Date().getTime();
-            if (now < nextClaimTime) { claimBtn.disabled = true; claimBtn.innerText = "⏳ Wait"; displayArea.style.display = 'block'; startCountdown(nextClaimTime); } else { setupClaimable(); }
+            if (now < nextClaimTime) { claimBtn.disabled = true; claimBtn.innerText = `⏳ ${t('wait')}`; displayArea.style.display = 'block'; startCountdown(nextClaimTime); } else { setupClaimable(); }
         } else { setupClaimable(); }
     }
 
-    function setupClaimable() { const claimBtn = document.getElementById('claim-key-btn'); if(!claimBtn) return; claimBtn.disabled = false; claimBtn.innerText = "🔑 Claim Key"; claimBtn.onclick = claimBronzeKey; document.getElementById('key-display-area').style.display = 'none'; }
+    function setupClaimable() { const claimBtn = document.getElementById('claim-key-btn'); if(!claimBtn) return; claimBtn.disabled = false; claimBtn.innerText = t('claim_key'); claimBtn.onclick = claimBronzeKey; document.getElementById('key-display-area').style.display = 'none'; }
     function claimBronzeKey() { const username = getCurrentUser(); if(!username) return; addItemToInventory('bronze_key'); localStorage.setItem(`mc_keyTime_${username}`, new Date().getTime()); initKeyLogic(); }
     function startCountdown(endTime) { clearInterval(timerInterval); const timerDisplay = document.getElementById('timer-display'); function updateTimer() { const now = new Date().getTime(); const distance = endTime - now; if (distance < 0) { clearInterval(timerInterval); setupClaimable(); } else { const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)); const seconds = Math.floor((distance % (1000 * 60)) / 1000); if(timerDisplay) timerDisplay.innerHTML = `${hours}h ${minutes}m ${seconds}s`; } } updateTimer(); timerInterval = setInterval(updateTimer, 1000); }
 
-    function copyIP() { navigator.clipboard.writeText(document.getElementById("server-ip").innerText); showToast("IP Copied!", 'success'); }
+    function copyIP() { navigator.clipboard.writeText(document.getElementById("server-ip").innerText); showToast(t('toast_copied'), 'success'); }
     function checkServerStatus() {
-        const statusText = document.getElementById("status-text"); const statusDot = document.getElementById("status-dot"); const playerElement = document.getElementById("player-count"); const versionElement = document.getElementById("server-version");
-        statusText.innerText = "Checking..."; statusText.classList.remove("status-online", "status-offline"); statusDot.classList.remove("dot-online", "dot-offline"); playerElement.innerText = ""; versionElement.innerText = "";
+        const statusText = document.getElementById("status-text");
+        const playerElement = document.getElementById("player-count");
+        const versionElement = document.getElementById("server-version");
+        statusText.innerText = t('checking');
+        playerElement.innerText = "";
+        versionElement.innerText = "";
+
         fetch("https://api.mcstatus.io/v2/status/java/cities-declare.gl.joinmc.link")
             .then(response => response.json())
             .then(data => {
-                if (data && data.online === true) { statusText.innerText = "🟢 Online"; statusText.classList.add("status-online"); statusDot.classList.add("dot-online"); playerElement.innerText = "Players: " + data.players.online + " / " + data.players.max; versionElement.innerText = "Version: " + data.version.name_clean; }
-                else { statusText.innerText = "🔴 Offline"; statusText.classList.add("status-offline"); statusDot.classList.add("dot-offline"); }
+                if (data && data.online === true) {
+                    statusText.innerText = "🟢 " + t('online');
+                    statusText.classList.add("status-online");
+                    playerElement.innerText = t('players') + ": " + data.players.online + " / " + data.players.max;
+                    versionElement.innerText = t('version') + ": " + data.version.name_clean;
+                } else { statusText.innerText = "🔴 " + t('offline'); statusText.classList.add("status-offline"); }
             })
-            .catch(error => { statusText.innerText = "⚠️ Error"; statusText.classList.add("status-offline"); statusDot.classList.add("dot-offline"); });
+            .catch(error => { statusText.innerText = "⚠️ Error"; statusText.classList.add("status-offline"); });
     }
-
-    function revealOnScroll() { const reveals = document.querySelectorAll(".section"); reveals.forEach(element => { const windowHeight = window.innerHeight; const elementTop = element.getBoundingClientRect().top; if (elementTop < windowHeight - 150) { element.classList.add("visible"); } }); }
-    window.addEventListener("scroll", revealOnScroll);
-    
-    function scrollFunction() {
-      const backBtn = document.getElementById('main-back-btn');
-      // If back button is visible (we are on a sub-page), hide scroll top button to avoid overlap
-      if (backBtn.style.display === 'block') {
-          document.getElementById("scrollTopBtn").style.display = 'none';
-          return;
-      }
-
-      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        document.getElementById("scrollTopBtn").style.display = "block";
-      } else {
-        document.getElementById("scrollTopBtn").style.display = "none";
-      }
-    }
-    window.onscroll = function() { scrollFunction(); };
-
-    function topFunction() { document.body.scrollTop = 0; document.documentElement.scrollTop = 0; }
 </script>
 </body>
 </html>
