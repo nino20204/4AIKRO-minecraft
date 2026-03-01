@@ -27,6 +27,7 @@ html[dir="ltr"] .close-btn{left:auto;right:15px}
 .btn:hover{border-color:var(--p);transform:translateY(-2px)}
 .btn.p{background:rgba(0,230,118,0.1);border-color:rgba(0,230,118,0.3)}
 .btn.out{background:transparent;border-color:rgba(255,50,50,0.3);color:#ff5555}
+.btn.fix{background:rgba(255, 193, 7, 0.1);border-color:rgba(255, 193, 7, 0.3);color:#ffc107;font-size:0.8em;padding:5px 10px}
 .badge{background:var(--br);color:#fff;padding:2px 8px;border-radius:20px;font-size:0.8em}
 .lang{background:rgba(255,255,255,0.05);border:1px solid var(--gb);color:#fff;padding:8px 12px;border-radius:12px;cursor:pointer;font-family:inherit;font-weight:bold;font-size:0.85em;display:flex;align-items:center;gap:6px}
 .lang select{background:transparent;border:0;color:#fff;font-weight:bold;cursor:pointer;outline:0}
@@ -81,13 +82,14 @@ html[dir="ltr"] .close-btn{left:auto;right:15px}
 .imc{max-width:1000px;background:#080808;border:1px solid #222;text-align:right;padding:0;display:flex;flex-direction:column;height:90vh;border-radius:25px;overflow:hidden}
 .ih{padding:20px;background:linear-gradient(to left,#0a0a0a,#050505);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #111}
 .ih h2{margin:0;font-size:1.4em}
+.ih-actions{display:flex;gap:10px;align-items:center}
 .ib{display:flex;flex:1;overflow:hidden}
 .ig{flex:2;padding:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:15px;overflow-y:auto;background:#050505;border-left:1px solid #111;align-content:start}
 .is{aspect-ratio:1;background:#0a0a0a;border:1px solid #222;border-radius:12px;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;padding:5px}
 .is:hover{border-color:#444;transform:scale(1.05)}
 .is.sel{border-color:var(--p);box-shadow:0 0 20px rgba(0,230,118,0.2)}
 .is img{width:100%;height:100%;object-fit:contain}
-.ic{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,0.85);font-size:0.75em;padding:2px 6px;border-radius:6px;font-weight:bold;border:1px solid #444;color:#fff}
+.ic{position:absolute;bottom:4px;left:4px;background:rgba(0, 0, 0, 0.85);font-size:0.75em;padding:2px 6px;border-radius:6px;font-weight:bold;border:1px solid #444;color:#fff}
 .rc{border-color:#333}
 .rr{border-color:#55f;box-shadow:inset 0 0 15px rgba(85,85,255,0.2)}
 .id{flex:1;padding:30px 25px;background:#080808;display:flex;flex-direction:column;align-items:center;text-align:center;overflow-y:auto;justify-content:space-between;gap:20px}
@@ -106,7 +108,7 @@ html[dir="ltr"] .close-btn{left:auto;right:15px}
 .t.s{border-color:var(--p)}
 @keyframes sl{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
 @keyframes fo{to{opacity:0;transform:translateX(100%)}}
-@media(max-width:600px){.logo{font-size:1.4em}.ct{margin:80px 0 15px;padding:15px}.hd h1{font-size:1.8em}.ag{width:120px}.ib{flex-direction:column}.ig{flex:none;height:180px;overflow-x:auto;display:flex;flex-wrap:nowrap}.is{min-width:85px}#tc{left:15px;right:15px;bottom:15px}.t{width:100%;justify-content:center}.bk{bottom:20px;right:20px;padding:12px 20px;font-size:0.9em}}
+@media(max-width:600px){.logo{font-size:1.4em}.ct{margin:80px 0 15px;padding:15px}.hd h1{font-size:1.8em}.ag{width:120px}.ib{flex-direction:column}.ig{flex:none;height:180px;overflow-x:auto;display:flex;flex-wrap:nowrap}.is{min-width:85px}#tc{left:15px;right:15px;bottom:15px}.t{width:100%;justify-content:center}.bk{bottom:20px;right:20px;padding:12px 20px;font-size:0.9em}.ih-actions{flex-wrap:wrap;justify-content:center}}
 </style>
 </head>
 <body>
@@ -119,7 +121,8 @@ html[dir="ltr"] .close-btn{left:auto;right:15px}
 <div id="lim" class="md"><div class="mc"><span class="cls" onclick="cm('lim')">&times;</span><h2 data-k="lit">Login</h2><input type="text" id="lin" data-p="un" placeholder="Username"><input type="password" id="lic" data-p="sc" placeholder="Secret Code"><button class="bt" onclick="hl()" style="width:100%" data-k="en">Enter</button><span class="ml" onclick="ofm()" data-k="fc">Forgot Code?</span></div></div>
 <div id="fom" class="md"><div class="mc"><span class="cls" onclick="cm('fom')">&times;</span><h2 data-k="re">Recovery</h2><p style="font-size:0.9em;color:#666;margin-bottom:15px" data-k="rd">Enter your email.</p><input type="email" id="foe" data-p="em" placeholder="Email"><button class="bt" onclick="hf()" style="width:100%" data-k="se">Search</button><span class="ml" onclick="cm('fom');om('lim')" data-k="bl">Back to Login</span></div></div>
 <div id="rem" class="md"><div class="mc"><span class="cls" onclick="cm('rem')">&times;</span><div style="font-size:3em;margin-bottom:10px">📝</div><h2 data-k="rat">Create Account</h2><input type="text" id="ren" data-p="un" placeholder="Username"><input type="password" id="rec" data-p="sc" placeholder="Secret Code"><input type="email" id="ree" data-p="em" placeholder="Email"><button class="bt" onclick="hr()" style="width:100%" data-k="cr">Create</button></div></div>
-<div id="inm" class="md"><div class="mc imc"><div class="ih"><h2 data-k="inv">📦 Inventory</h2><span class="cls" style="font-size:24px;position:relative;top:0;left:0" onclick="cm('inm')">&times;</span></div><div class="ib"><div class="ig" id="igr"></div><div class="id" id="idt"><p class="em" data-k="si">Select an item</p></div></div></div></div>
+<!-- Inventory Modal with Fix Button -->
+<div id="inm" class="md"><div class="mc imc"><div class="ih"><h2 data-k="inv">📦 Inventory</h2><div class="ih-actions"><button class="btn fix" onclick="forceMerge()">🔧 Fix Stacks</button><span class="cls" style="font-size:24px;position:relative;top:0;left:0;cursor:pointer" onclick="cm('inm')">&times;</span></div></div><div class="ib"><div class="ig" id="igr"></div><div class="id" id="idt"><p class="em" data-k="si">Select an item</p></div></div></div></div>
 <div id="rum" class="md"><div class="mc"><span class="cls" onclick="cm('rum')">&times;</span><h2 data-k="rt">⚖️ Server Rules</h2><div style="line-height:1.8"><p>🚫 <span data-k="r1">No Hacking</span></p><p>🗣️ <span data-k="r2">Respect All</span></p><p>🏗️ <span data-k="r3">No Griefing</span></p><p>📢 <span data-k="r4">No Ads</span></p></div></div></div>
 <script>
 const TR={ar:{bn:"STORE 4AIKRO",lt:"اختر مسارك",ls:"محتوى حصري للاعبين النخبة.",rd:"إمكانيات لا نهائية.",md:"سيرفرات جافا الرسمية.",cs:"قريباً",ch:"جارٍ التحقق...",on:"أونلاين",of:"أوفلاين",pl:"اللاعبين",vr:"الإصدار",dm:"تحميل المودات",rb:"⚖️ القوانين",rg:"💎 الرتب والهدايا",dg:"الهدية اليومية",dd:"هدية مجانية كل 24 ساعة.",ba:"الرصيد:",ck:"🔑 احصل على مفتاحك",vr:"رتبة VIP",vd:"مزايا إضافية.",mr:"رتبة MVP",md:"صلاحيات كاملة.",bu:"شراء",sh:"🛒 متجر الآيتمات",lit:"تسجيل الدخول",un:"اسم المستخدم",sc:"الكود السري",en:"دخول",fc:"نسيت الكود؟",re:"استرجاع الحساب",rd:"أدخل بريدك الإلكتروني للبحث عن كودك.",em:"البريد الإلكتروني",se:"بحث",bl:"العودة لتسجيل الدخول",rat:"إنشاء حساب",cr:"إنشاء",inv:"📦 المخزون",ex:"خروج",si:"اختر عنصراً",it:"🔗 دعوة الأصدقاء",il:"رابط الدعوة",id:"احصل على مفتاح مجاني لكل شخص جديد! (الحد 5 يومياً)",cp:"نسخ",bb:"⬅ رجوع",lbt:"🔑 دخول",rgt:"📝 حساب جديد",pex:"خروج",tw:"مرحباً، {n} 👋",tcr:"تم إنشاء الحساب!",tlo:"تم تسجيل الخروج",tco:"تم النسخ!",tad:"🎉 تمت الإضافة!",tfo:"✅ تم العثور! الكود: ",twr:"خطأ في البيانات",ckk:"مفتاح نحاسي",ckd:"مفتاح نحاسي أساسي يومي.",wt:"انتظر",ms:"وصلت للحد الأقصى"},en:{bn:"STORE 4AIKRO",lt:"Choose Your Path",ls:"Exclusive content for elite players.",rd:"Endless possibilities.",md:"Official Java Servers.",cs:"Coming Soon",ch:"Checking...",on:"Online",of:"Offline",pl:"Players",vr:"Version",dm:"Download Mods",rb:"⚖️ Rules",rg:"💎 Ranks & Gifts",dg:"Daily Gift",dd:"Free gift every 24h.",ba:"Balance:",ck:"🔑 Claim Key",vr:"VIP Rank",vd:"Extra perks.",mr:"MVP Rank",md:"Full permissions.",bu:"Buy",sh:"🛒 Item Shop",lit:"Login",un:"Username",sc:"Secret Code",en:"Enter",fc:"Forgot Code?",re:"Recovery",rd:"Enter your email to find your code.",em:"Email",se:"Search",bl:"Back to Login",rat:"Create Account",cr:"Create",inv:"📦 Inventory",ex:"Exit",si:"Select an item",it:"🔗 Invite Friends",il:"Invite Link",id:"Get a free key for every new friend! (Max 5/day)",cp:"Copy",bb:"⬅ Back",lbt:"🔑 Login",rgt:"📝 Register",pex:"Exit",tw:"Welcome, {n} 👋",tcr:"Account Created!",tlo:"Logged out",tco:"Copied!",tad:"🎉 Item added!",tfo:"✅ Found! Code: ",twr:"Wrong details",ckk:"Copper Key",ckd:"A basic daily copper key.",wt:"Wait",ms:"Max stack reached"},jp:{bn:"STORE 4AIKRO",lt:"パスを選択",ls:"エリートプレイヤーのための限定コンテンツ。",rd:"無限の可能性。",md:"公式Javaサーバー。",cs:"近日公開",ch:"確認中...",on:"オンライン",of:"オフライン",pl:"プレイヤー",vr:"バージョン",dm:"Modをダウンロード",rb:"⚖️ ルール",rg:"💎 ランクとギフト",dg:"毎日のギフト",dd:"24時間ごとの無料ギフト。",ba:"残高:",ck:"🔑 鍵を受け取る",vr:"VIP ランク",vd:"特別な特典。",mr:"MVP ランク",md:"完全な権限。",bu:"購入",sh:"🛒 アイテムショップ",lit:"ログイン",un:"ユーザー名",sc:"シークレットコード",en:"入る",fc:"コードをお忘れですか？",re:"復旧",rd:"コードを見つけるためにメールを入力してください。",em:"メール",se:"検索",bl:"ログインに戻る",rat:"アカウント作成",cr:"作成",inv:"📦 インベントリ",ex:"出口",si:"アイテムを選択",it:"🔗 招待",il:"招待リンク",id:"新しい友人ごとに無料の鍵を入手！（1日最大5個）",cp:"コピー",bb:"⬅ 戻る",lbt:"🔑 ログイン",rgt:"📝 登録",pex:"終了",tw:"ようこそ、{n} さん 👋",tcr:"アカウントが作成されました！",tlo:"ログアウトしました",tco:"コピーしました！",tad:"🎉 アイテムが追加されました！",tfo:"✅ 発見！コード: ",twr:"詳細が間違っています",ckk:"銅の鍵",ckd:"基本的な毎日の銅の鍵。",wt:"待って",ms:"最大スタックに達しました"}},GI={bk:{id:'bk',im:'COPPERKEY.png',ra:'c',ms:25000}},MDR=5,IPR=false;
@@ -144,7 +147,7 @@ hf=()=>{const e=document.getElementById('foe').value.trim();if(!e){sh(t('twr'),'
 hl=()=>{const n=document.getElementById('lin').value.trim(),c=document.getElementById('lic').value.trim();if(!n||!c){sh(t('twr'),'e');return}let db=gd();if(db[n]&&((db[n].cd||db[n].code)===c)){su(n);cm('lim');ua();ik();sh(t('tw',{n:n}),'s')}else sh(t('twr'),'e')}
 hr=()=>{const n=document.getElementById('ren').value.trim(),c=document.getElementById('rec').value.trim(),e=document.getElementById('ree').value.trim();if(!n||!c||!e){sh(t('twr'),'e');return}let db=gd();if(db[n]){sh(t('twr'),'e');return}db[n]={code:c,email:e,inventory:[],referrals:{date:'',count:0}};sd(db);su(n);cm('rem');ua();ik();sh(t('tcr'))}
 lo=()=>{localStorage.removeItem('4aikro_session');ua();ik();cm('inm');sh(t('tlo'))}
-// دالة فتح المخزون مع دمج العناصر المكررة (Stacking)
+// Open Inventory
 oim=()=>{
     om('inm'); 
     const u=gu();
@@ -152,42 +155,14 @@ oim=()=>{
     let db=gd();
     if(!db[u]) db[u] = {inventory:[]};
     
-    // 1. دمج البيانات القديمة (inv -> inventory)
-    if(db[u].inv && Array.isArray(db[u].inv)) {
-        db[u].inventory = db[u].inventory.concat(db[u].inv);
-        delete db[u].inv;
-    }
-    // 2. دمج المفاتيح القديمة (mk -> inventory)
-    if(db[u].mk && Array.isArray(db[u].mk) && db[u].mk.length > 0){
-        let count = db[u].mk.length;
-        let existing = db[u].inventory.find(i => i.id === 'bk');
-        if (existing) existing.c = (parseInt(existing.c) || 0) + count;
-        else db[u].inventory.push({id: 'bk', c: count});
-        delete db[u].mk;
-    }
-
-    // 3. تصفية العناصر التالفة
-    let rawItems = (db[u].inventory || []).filter(i => i && i.id);
-
-    // 4. عملية الدمج الذكية (Stacking)
-    const stackedMap = {};
-    rawItems.forEach(item => {
-        const count = parseInt(item.c) || 1;
-        if (stackedMap[item.id]) {
-            stackedMap[item.id].c += count; // دمج الكمية
-        } else {
-            stackedMap[item.id] = { id: item.id, c: count }; // إنشاء عنصر جديد
-        }
-    });
-    
-    // تحديث المخزون بالبيانات المدمجة
-    db[u].inventory = Object.values(stackedMap);
-    
-    sd(db); 
+    // Auto-run the merge/fix logic when opening
+    forceMerge(); 
     rig(); 
     uri(u);
 }
+// Add Item
 aii=(id,au=true,cm=true)=>{const u=gu();let db=gd();if(!db[u])db[u]={inventory:[]};if(!db[u].inventory)db[u].inventory=[];let arr=db[u].inventory;let ie=arr.find(i=>i.id===id);const itm=GI[id],ms=itm?itm.ms:64;if(ie){if(cm&&ie.c>=ms){if(au)sh(t('ms'),'e');return}ie.c=(parseInt(ie.c)||0)+1}else arr.push({id:id,c:1});sd(db);ua();if(au)sh(t('tad'))}
+// Render Grid
 rig=()=>{
     const u=gu(), db=gd();
     const g=document.getElementById('igr'), d=document.getElementById('idt');
@@ -196,6 +171,7 @@ rig=()=>{
     
     if(!u || !db[u] || !Array.isArray(db[u].inventory)) return;
     
+    // Sort
     db[u].inventory.sort((a,b)=>{
         const iA=GI[a.id], iB=GI[b.id];
         if(!iA || !iB) return 0;
@@ -212,6 +188,7 @@ rig=()=>{
         return`<div class="is r-${id.ra}" onclick="sid(${i})"><img src="${id.im}" alt="Item" class="sh" loading="lazy" onload="cr(this)"><span class="ic">x${cnt}</span></div>`;
     }).join('');
 }
+// Show Item Details
 sid=i=>{const u=gu(),db=gd(),inv=db[u].inventory||[];inv.sort((a,b)=>{const ia=GI[a.id],ib=GI[b.id];if(!ia||!ib)return 0;if(ia.ra!==ib.ra)return ia.ra==='rare'?-1:1;return(b.c||0)-(a.c||0)});const e=inv[i],id=GI[e.id];document.querySelectorAll('.is').forEach(el=>el.classList.remove('sel'));document.querySelectorAll('.is')[i].classList.add('sel');const d=document.getElementById('idt');let c='#fff',n='COMMON';if(id.ra==='rare'){c='#55f';n='RARE'}d.innerHTML=`<div style="flex-grow:1"><img src="${id.im}" style="filter:drop-shadow(0 5px 15px ${c});background:#111;border-radius:8px;width:100px;height:100px;margin-bottom:15px" class="sh" onload="cr(this)"><h3 style="color:${c}">${t('ckk')}</h3><div style="font-size:0.9em;font-weight:bold;margin-bottom:15px;text-transform:uppercase;color:${c}">${n}</div><p>${t('ckd')}</p><div style="font-size:0.9em;color:#555">Amount: ${e.c} / ${id.ms}</div></div><div class="rf"><span class="rt">${t('il')}</span><span class="rs" id="rs"></span><div class="rl"><input type="text" id="ri" class="rii" readonly><button class="rcp" onclick="crl()">${t('cp')}</button></div></div>`;uri(u)}
 crl=()=>{const i=document.getElementById('ri');if(i&&i.value){navigator.clipboard.writeText(i.value);sh(t('tco'),'s')}}
 sp=p=>{document.getElementById('lp').style.display='none';document.getElementById('mp').style.display='none';document.getElementById('rp').style.display='none';const mb=document.getElementById('mb');mb.style.display='block';if(p==='minecraft'){document.getElementById('mp').style.display='block';css();ik();ua()}else if(p==='roblox'){document.getElementById('rp').style.display='block';ua()}}
@@ -224,6 +201,67 @@ sct=et=>{clearInterval(ti);const td=document.getElementById('td');const ut=()=>{
 cip=()=>{navigator.clipboard.writeText(document.getElementById("si").innerText);sh(t('tco'),'s')}
 css=()=>{const st=document.getElementById("st"),pc=document.getElementById("pc"),sv=document.getElementById("sv");st.innerText=t('ch');pc.innerText="";sv.innerText="";fetch("https://api.mcstatus.io/v2/status/java/cities-declare.gl.joinmc.link").then(r=>r.json()).then(d=>{if(d&&d.online){st.innerText="🟢 "+t('on');st.classList.add("son");pc.innerText=t('pl')+": "+d.players.online+" / "+d.players.max;sv.innerText=t('vr')+": "+d.version.name_clean}else{st.innerText="🔴 "+t('of');st.classList.add("sof")}}).catch(()=>{st.innerText="⚠️ Error";st.classList.add("sof")})}
 cr=e=>e.classList.remove('sh')
+
+// === THE FIX: Force Merge & Clean Function ===
+// This function guarantees that duplicate items are merged and old data is cleaned.
+function forceMerge() {
+    const u = gu();
+    if (!u) return;
+    let db = gd();
+
+    // 1. Initialize
+    if (!db[u]) db[u] = { inventory: [] };
+    let currentInv = db[u].inventory || [];
+    
+    // 2. Recover data from old structures ('inv' and 'mk')
+    // Merge 'inv' array
+    if (db[u].inv && Array.isArray(db[u].inv)) {
+        currentInv = currentInv.concat(db[u].inv);
+        delete db[u].inv;
+    }
+    // Merge 'mk' array (old keys)
+    if (db[u].mk && Array.isArray(db[u].mk) && db[u].mk.length > 0) {
+        let mkCount = db[u].mk.length;
+        let existing = currentInv.find(i => i.id === 'bk');
+        if (existing) {
+            existing.c = (parseInt(existing.c) || 0) + mkCount;
+        } else {
+            currentInv.push({ id: 'bk', c: mkCount });
+        }
+        delete db[u].mk;
+    }
+
+    // 3. Clean & Stack
+    const stackedMap = {};
+    // Filter valid items
+    const validItems = currentInv.filter(i => i && i.id);
+    
+    validItems.forEach(item => {
+        // Ensure count is a number
+        const count = parseInt(item.c) || 1;
+        const id = item.id; // ID must be consistent
+        
+        if (stackedMap[id]) {
+            stackedMap[id].c += count; // Add to existing stack
+        } else {
+            stackedMap[id] = { id: id, c: count }; // Create new stack
+        }
+    });
+
+    // 4. Overwrite inventory with cleaned data
+    db[u].inventory = Object.values(stackedMap);
+    
+    // 5. Save
+    sd(db);
+    
+    // 6. Feedback
+    const totalItems = db[u].inventory.length;
+    const totalStacks = db[u].inventory.reduce((acc, i) => acc + i.c, 0);
+    sh(`✅ Fixed! ${totalStacks} items in ${totalItems} slots.`, 's');
+    
+    // Refresh UI counters
+    ua();
+}
 </script>
 </body>
 </html>
