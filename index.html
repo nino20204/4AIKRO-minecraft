@@ -87,7 +87,6 @@ html[dir="ltr"] .close-btn{left:auto;right:15px}
 .is:hover{border-color:#444;transform:scale(1.05)}
 .is.sel{border-color:var(--p);box-shadow:0 0 20px rgba(0,230,118,0.2)}
 .is img{width:100%;height:100%;object-fit:contain}
-/* تعديل ليظهر الرقم دائماً بوضوح */
 .ic{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,0.85);font-size:0.75em;padding:2px 6px;border-radius:6px;font-weight:bold;border:1px solid #444;color:#fff}
 .rc{border-color:#333}
 .rr{border-color:#55f;box-shadow:inset 0 0 15px rgba(85,85,255,0.2)}
@@ -136,7 +135,7 @@ sd=d=>localStorage.setItem('4aikro_db',JSON.stringify(d))
 gu=()=>localStorage.getItem('4aikro_session')
 su=u=>localStorage.setItem('4aikro_session',u)
 sh=(m,y='s')=>{const c=document.getElementById('tc'),t=document.createElement('div');t.className=`t ${y}`;t.innerHTML=m;c.appendChild(t);setTimeout(()=>t.remove(),3000)}
-ua=()=>{const c=document.getElementById('ac'),u=gu(),lv=document.getElementById('lp').style.display!=='none';if(u){const db=gd();let arr=db[u]?.inv||db[u]?.inventory||[];const o=db[u]?.mk?.length||0;const n=arr.reduce((s,i)=>s+(i.c||0),0);const tc=o+n;c.innerHTML=`<div class="btn p" onclick="oim()">👤 ${u}<span class="badge">🎒 ${tc}</span></div><button class="btn out" onclick="lo()">${t('pex')}</button>`;const bn=document.getElementById('kbn'),bb=document.getElementById('kbb');if(bn)bn.innerText=tc;if(bb)bb.style.display='inline-flex';uri(u)}else{if(lv)c.innerHTML=`<button class="btn" onclick="om('lim')">${t('lbt')}</button><button class="btn" onclick="om('rem')" style="border-color:#cd7f32;">${t('rgt')}</button>`;else c.innerHTML='';const bb=document.getElementById('kbb');if(bb)bb.style.display='none'}}
+ua=()=>{const c=document.getElementById('ac'),u=gu(),lv=document.getElementById('lp').style.display!=='none';if(u){const db=gd();let arr=db[u]?.inv||db[u]?.inventory||[];const o=db[u]?.mk?.length||0;const n=arr.reduce((s,i)=>s+(parseInt(i.c)||0),0);const tc=o+n;c.innerHTML=`<div class="btn p" onclick="oim()">👤 ${u}<span class="badge">🎒 ${tc}</span></div><button class="btn out" onclick="lo()">${t('pex')}</button>`;const bn=document.getElementById('kbn'),bb=document.getElementById('kbb');if(bn)bn.innerText=tc;if(bb)bb.style.display='inline-flex';uri(u)}else{if(lv)c.innerHTML=`<button class="btn" onclick="om('lim')">${t('lbt')}</button><button class="btn" onclick="om('rem')" style="border-color:#cd7f32;">${t('rgt')}</button>`;else c.innerHTML='';const bb=document.getElementById('kbb');if(bb)bb.style.display='none'}}
 uri=u=>{const ri=document.getElementById('ri'),rs=document.getElementById('rs');if(ri){const p=location.origin+location.pathname;ri.value=`${p}?ref=${encodeURIComponent(u)}`}const db=gd(),td=new Date().toISOString().split('T')[0];let rObj=db[u]?.referrals||db[u]?.ref||{};let c=0;if(rObj.date===td)c=rObj.count;if(rs)rs.innerHTML=`${t('id').split('(')[0]} <span>${c}/${MDR}</span>`}
 om=i=>document.getElementById(i).style.display='block'
 cm=i=>document.getElementById(i).style.display='none'
@@ -145,33 +144,50 @@ hf=()=>{const e=document.getElementById('foe').value.trim();if(!e){sh(t('twr'),'
 hl=()=>{const n=document.getElementById('lin').value.trim(),c=document.getElementById('lic').value.trim();if(!n||!c){sh(t('twr'),'e');return}let db=gd();if(db[n]&&((db[n].cd||db[n].code)===c)){su(n);cm('lim');ua();ik();sh(t('tw',{n:n}),'s')}else sh(t('twr'),'e')}
 hr=()=>{const n=document.getElementById('ren').value.trim(),c=document.getElementById('rec').value.trim(),e=document.getElementById('ree').value.trim();if(!n||!c||!e){sh(t('twr'),'e');return}let db=gd();if(db[n]){sh(t('twr'),'e');return}db[n]={code:c,email:e,inventory:[],referrals:{date:'',count:0}};sd(db);su(n);cm('rem');ua();ik();sh(t('tcr'))}
 lo=()=>{localStorage.removeItem('4aikro_session');ua();ik();cm('inm');sh(t('tlo'))}
+// دالة فتح المخزون مع دمج العناصر المكررة (Stacking)
 oim=()=>{
     om('inm'); 
     const u=gu();
     if(!u) return;
     let db=gd();
     if(!db[u]) db[u] = {inventory:[]};
-    if(!db[u].inventory) db[u].inventory=[];
+    
+    // 1. دمج البيانات القديمة (inv -> inventory)
     if(db[u].inv && Array.isArray(db[u].inv)) {
         db[u].inventory = db[u].inventory.concat(db[u].inv);
         delete db[u].inv;
     }
+    // 2. دمج المفاتيح القديمة (mk -> inventory)
     if(db[u].mk && Array.isArray(db[u].mk) && db[u].mk.length > 0){
-        db[u].mk.forEach(()=>aii('bk',false,false));
+        let count = db[u].mk.length;
+        let existing = db[u].inventory.find(i => i.id === 'bk');
+        if (existing) existing.c = (parseInt(existing.c) || 0) + count;
+        else db[u].inventory.push({id: 'bk', c: count});
         delete db[u].mk;
     }
-    // تصحيح البيانات: التأكد من أن كل عنصر له رقم (c) وأن الرقم ليس صفر
-    db[u].inventory = db[u].inventory.filter(i => i && i.id).map(i => {
-        i.c = parseInt(i.c) || 1; // إذا لم يوجد رقم، اجعله 1
-        return i;
+
+    // 3. تصفية العناصر التالفة
+    let rawItems = (db[u].inventory || []).filter(i => i && i.id);
+
+    // 4. عملية الدمج الذكية (Stacking)
+    const stackedMap = {};
+    rawItems.forEach(item => {
+        const count = parseInt(item.c) || 1;
+        if (stackedMap[item.id]) {
+            stackedMap[item.id].c += count; // دمج الكمية
+        } else {
+            stackedMap[item.id] = { id: item.id, c: count }; // إنشاء عنصر جديد
+        }
     });
+    
+    // تحديث المخزون بالبيانات المدمجة
+    db[u].inventory = Object.values(stackedMap);
     
     sd(db); 
     rig(); 
     uri(u);
 }
-aii=(id,au=true,cm=true)=>{const u=gu();let db=gd();if(!db[u])db[u]={inventory:[]};if(!db[u].inventory)db[u].inventory=[];let arr=db[u].inventory;let ie=arr.find(i=>i.id===id);const itm=GI[id],ms=itm?itm.ms:64;if(ie){if(cm&&ie.c>=ms){if(au)sh(t('ms'),'e');return}ie.c++}else arr.push({id:id,c:1});sd(db);ua();if(au)sh(t('tad'))}
-// تم تعديل الدالة rig لتظهر الرقم دائماً (x1, x2, etc)
+aii=(id,au=true,cm=true)=>{const u=gu();let db=gd();if(!db[u])db[u]={inventory:[]};if(!db[u].inventory)db[u].inventory=[];let arr=db[u].inventory;let ie=arr.find(i=>i.id===id);const itm=GI[id],ms=itm?itm.ms:64;if(ie){if(cm&&ie.c>=ms){if(au)sh(t('ms'),'e');return}ie.c=(parseInt(ie.c)||0)+1}else arr.push({id:id,c:1});sd(db);ua();if(au)sh(t('tad'))}
 rig=()=>{
     const u=gu(), db=gd();
     const g=document.getElementById('igr'), d=document.getElementById('idt');
@@ -192,7 +208,6 @@ rig=()=>{
     g.innerHTML=db[u].inventory.map((e,i)=>{
         const id=GI[e.id];
         if(!id)return'';
-        // التعديل هنا: إظهار الرقم دائماً
         const cnt = e.c || 1;
         return`<div class="is r-${id.ra}" onclick="sid(${i})"><img src="${id.im}" alt="Item" class="sh" loading="lazy" onload="cr(this)"><span class="ic">x${cnt}</span></div>`;
     }).join('');
