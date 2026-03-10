@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Players</title>
+</head>
+
+<body>
+
+<h1>Server Players</h1>
+
+<ul id="players"></ul>
+
+<script>
+
+fetch("http://localhost:3000/players")
+.then(res => res.json())
+.then(data => {
+
+ const list = document.getElementById("players")
+
+ data.forEach(player => {
+   const li = document.createElement("li")
+   li.textContent = player.username + " - " + player.rank + " - " + player.coins
+   list.appendChild(li)
+ })
+
+})
+
+</script>
+
+</body>
+</html>
