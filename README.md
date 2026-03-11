@@ -47,9 +47,7 @@ COPPERKEY.png
 صور العملات والرتب.
 افتح ملف index.html في المتصفح أو عبر خادم محلي.
 📁 هيكلية البيانات (Data Structure)
-يستخدم النظام LocalStorage لتخزين البيانات بتنسيق JSON:
 
-"4aikro_db": {  "Username": {    "code": "12345",    "email": "user@example.com",    "inventory": [      { "id": "bk", "c": 5 }    ],    "referrals": { "date": "2023-10-27", "count": 2 }  }}
 🛠️ التخصيص (Customization)
 إضافة لغة جديدة:
 افتح ملف الكود.
