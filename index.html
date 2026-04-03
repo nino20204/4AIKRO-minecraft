@@ -329,4 +329,253 @@ overflow-x: hidden;
 <div class="reviews-grid">
 <div class="review-card"><div class="review-header"><div class="review-avatar" style="background: linear-gradient(135deg, #6c5ce7, #a855f7);">م</div><div><div class="review-name">محمد</div><div class="review-date">منذ يومين</div></div></div><div class="review-stars">⭐⭐⭐⭐⭐</div><div class="review-text">تجربة ممتازة! اشتريت فاكهة Leopard وتم التسليم خلال 5 دقائق. سعر رهيب والتعامل احترافي 🔥</div></div>
 <div class="review-card"><div class="review-header"><div class="review-avatar" style="background: linear-gradient(135deg, #00cec9, #0984e3);">ع</div><div><div class="review-name">عبدالله</div><div class="review-date">منذ أسبوع</div></div></div><div class="review-stars">⭐⭐⭐⭐⭐</div><div class="review-text">أفضل متجر تعاملت معه! الدفع بالروبوكس سهل والديسكورد متفاعل. أنصح الكل فيه ✅</div></div>
-<div class="review-card"><div class="review-header"><div class="review-avatar" style="background: linear-gradient(135deg, #fd79a8, #e84393);">ف</div><div><div class="review-name">فهد</div><div class="review-date">منذ 3 أيام</div></div></div><div
+<div class="review-card"><div class="review-header"><div class="review-avatar" style="background: linear-gradient(135deg, #fd79a8, #e84393);">ف</div><div><div class="review-name">فهد</div><div class="review-date">منذ 3 أيام</div></div></div><div class="review-stars">⭐⭐⭐⭐⭐</div><div class="review-text">اشتريت 3 فواكه مرة وحدة وكل شي تمام. الأسعار أرخص من أي متجر ثاني. شكراً لكم! 💪</div></div>
+<div class="review-card"><div class="review-header"><div class="review-avatar" style="background: linear-gradient(135deg, #f39c12, #e74c3c);">خ</div><div><div class="review-name">خالد</div><div class="review-date">منذ أسبوعين</div></div></div><div class="review-stars">⭐⭐⭐⭐⭐</div><div class="review-text">متجر موثوق جداً. اشتريت Dragon دائم وتم التسليم بسرعة. التعامل راقي والتواصل ممتاز 🎮</div></div>
+<div class="review-card"><div class="review-header"><div class="review-avatar" style="background: linear-gradient(135deg, #00b894, #00cec9);">س</div><div><div class="review-name">سعود</div><div class="review-date">منذ 5 أيام</div></div></div><div class="review-stars">⭐⭐⭐⭐⭐</div><div class="review-text">ماشاء الله تبارك الله! كل شي منظم وسريع. اشتريت أيتمات من ستيل برينروت وكل شي تمام 💯</div></div>
+<div class="review-card"><div class="review-header"><div class="review-avatar" style="background: linear-gradient(135deg, #0984e3, #6c5ce7);">ن</div><div><div class="review-name">ناصر</div><div class="review-date">منذ يوم</div></div></div><div class="review-stars">⭐⭐⭐⭐⭐</div><div class="review-text">ثاني مرة أشتري منهم والنفس الجودة والسرعة. متجر يستحق الثقة فعلاً! أنصح الكل فيه 🌟</div></div>
+</div>
+</section>
+<footer class="footer">
+<div class="footer-content">
+<div class="footer-left"><div class="logo"><div class="logo-icon">🎮</div><span class="logo-text">ROBLOX STORE</span></div><p>© 2026 جميع الحقوق محفوظة | متجر روبلوكس</p></div>
+<div class="footer-links">
+<a href="https://discord.gg/gMrHAzvERJ" target="_blank">ديسكورد</a>
+<a href="#">سياسة الخصوصية</a>
+<a href="#">الشروط والأحكام</a>
+<a href="#">تواصل معنا</a>
+</div>
+</div>
+</footer>
+<div class="modal-overlay" id="purchaseModal">
+<div class="modal">
+<div class="modal-header"><h3>🛒 إتمام الشراء</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+<div class="modal-body" id="modalBody"></div>
+</div>
+</div>
+<div class="toast" id="toast"><span class="toast-icon" id="toastIcon">✅</span><span class="toast-text" id="toastText">تم بنجاح!</span></div>
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆</button>
+<script>
+const bloxFruits = [
+{ id: 'rocket', name: 'Rocket', nameAr: 'روكيت', icon: '🚀', rarity: 'common', category: 'natural', cashPrice: '$1,500', robuxPrice: '80 R$', desc: 'فاكهة أساسية للمبتدئين' },
+{ id: 'spin', name: 'Spin', nameAr: 'سبين', icon: '🌀', rarity: 'common', category: 'natural', cashPrice: '$1,500', robuxPrice: '500 R$', desc: 'قوة الدوران المدمرة' },
+{ id: 'chop', name: 'Chop', nameAr: 'تشوب', icon: '🪓', rarity: 'common', category: 'natural', cashPrice: '$1,800', robuxPrice: '600 R$', desc: 'مناعة ضد السيف' },
+{ id: 'spring', name: 'Spring', nameAr: 'سبرينق', icon: '🔩', rarity: 'common', category: 'natural', cashPrice: '$1,800', robuxPrice: '600 R$', desc: 'القفز العالي والمرونة' },
+{ id: 'bomb', name: 'Bomb', nameAr: 'بومب', icon: '💣', rarity: 'common', category: 'natural', cashPrice: '$2,000', robuxPrice: '700 R$', desc: 'قوة التفجيرات' },
+{ id: 'smoke', name: 'Smoke', nameAr: 'سموك', icon: '💨', rarity: 'common', category: 'elemental', cashPrice: '$2,500', robuxPrice: '800 R$', desc: 'عنصر الدخان - Elemental' },
+{ id: 'spike', name: 'Spike', nameAr: 'سبايك', icon: '🌵', rarity: 'common', category: 'natural', cashPrice: '$2,000', robuxPrice: '700 R$', desc: 'أشواك حادة وقوية' },
+{ id: 'flame', name: 'Flame', nameAr: 'فليم', icon: '🔥', rarity: 'uncommon', category: 'elemental', cashPrice: '$3,500', robuxPrice: '1,200 R$', desc: 'عنصر النار - Elemental' },
+{ id: 'falcon', name: 'Falcon', nameAr: 'فالكون', icon: '🦅', rarity: 'uncommon', category: 'beast', cashPrice: '$3,500', robuxPrice: '1,200 R$', desc: 'طيران وسرعة - Beast' },
+{ id: 'ice', name: 'Ice', nameAr: 'آيس', icon: '🧊', rarity: 'uncommon', category: 'elemental', cashPrice: '$4,000', robuxPrice: '1,400 R$', desc: 'عنصر الجليد - Elemental' },
+{ id: 'sand', name: 'Sand', nameAr: 'ساند', icon: '🏜️', rarity: 'uncommon', category: 'elemental', cashPrice: '$4,000', robuxPrice: '1,400 R$', desc: 'عنصر الرمل - Elemental' },
+{ id: 'dark', name: 'Dark', nameAr: 'دارك', icon: '🌑', rarity: 'uncommon', category: 'elemental', cashPrice: '$5,000', robuxPrice: '1,800 R$', desc: 'عنصر الظلام - Elemental' },
+{ id: 'diamond', name: 'Diamond', nameAr: 'دايموند', icon: '💎', rarity: 'rare', category: 'natural', cashPrice: '$6,000', robuxPrice: '2,000 R$', desc: 'صلابة الألماس' },
+{ id: 'light', name: 'Light', nameAr: 'لايت', icon: '✨', rarity: 'rare', category: 'elemental', cashPrice: '$7,000', robuxPrice: '2,500 R$', desc: 'عنصر الضوء - أسرع فاكهة' },
+{ id: 'love', name: 'Love', nameAr: 'لاف', icon: '❤️', rarity: 'rare', category: 'natural', cashPrice: '$6,500', robuxPrice: '2,200 R$', desc: 'قوة الحب الجارفة' },
+{ id: 'rubber', name: 'Rubber', nameAr: 'ربّر', icon: '🫧', rarity: 'rare', category: 'natural', cashPrice: '$6,500', robuxPrice: '2,200 R$', desc: 'مرونة المطاط - لوفي' },
+{ id: 'barrier', name: 'Barrier', nameAr: 'بارير', icon: '🛡️', rarity: 'rare', category: 'natural', cashPrice: '$5,500', robuxPrice: '1,800 R$', desc: 'حاجز الحماية' },
+{ id: 'magma', name: 'Magma', nameAr: 'ماقما', icon: '🌋', rarity: 'rare', category: 'elemental', cashPrice: '$7,500', robuxPrice: '2,800 R$', desc: 'عنصر الحمم - أقوى Elemental' },
+{ id: 'door', name: 'Door', nameAr: 'دور', icon: '🚪', rarity: 'rare', category: 'natural', cashPrice: '$5,500', robuxPrice: '1,800 R$', desc: 'فتح البوابات والتنقل' },
+{ id: 'quakes', name: 'Quake', nameAr: 'كويك', icon: '🌍', rarity: 'epic', category: 'natural', cashPrice: '$9,000', robuxPrice: '3,500 R$', desc: 'قوة الزلازل المدمرة' },
+{ id: 'human_buddha', name: 'Human: Buddha', nameAr: 'بوذا', icon: '🗿', rarity: 'epic', category: 'beast', cashPrice: '$12,000', robuxPrice: '4,500 R$', desc: 'التحول العملاق - Beast' },
+{ id: 'sound', name: 'Sound', nameAr: 'ساوند', icon: '🔊', rarity: 'epic', category: 'natural', cashPrice: '$10,000', robuxPrice: '3,800 R$', desc: 'قوة الصوت المدمرة' },
+{ id: 'phoenix', name: 'Phoenix', nameAr: 'فينيكس', icon: '🦚', rarity: 'epic', category: 'beast', cashPrice: '$11,000', robuxPrice: '4,000 R$', desc: 'العنقاء - شفاء وطيران' },
+{ id: 'portal', name: 'Portal', nameAr: 'بورتال', icon: '🌀', rarity: 'epic', category: 'natural', cashPrice: '$10,000', robuxPrice: '3,800 R$', desc: 'فتح بوابات التنقل' },
+{ id: 'rumble', name: 'Rumble', nameAr: 'رامبل', icon: '⚡', rarity: 'legendary', category: 'elemental', cashPrice: '$14,000', robuxPrice: '5,500 R$', desc: 'عنصر الرعد المدمر' },
+{ id: 'paw', name: 'Paw', nameAr: 'باو', icon: '🐾', rarity: 'legendary', category: 'natural', cashPrice: '$13,000', robuxPrice: '5,000 R$', desc: 'قوة الكف الجارفة' },
+{ id: 'gravity', name: 'Gravity', nameAr: 'قرافيتي', icon: '🪐', rarity: 'legendary', category: 'natural', cashPrice: '$15,000', robuxPrice: '6,000 R$', desc: 'التحكم بالجاذبية' },
+{ id: 'dough', name: 'Dough', nameAr: 'دو', icon: '🍩', rarity: 'mythical', category: 'natural', cashPrice: '$18,000', robuxPrice: '7,500 R$', desc: 'فاكهة العجين - أسطورية' },
+{ id: 'dragon', name: 'Dragon', nameAr: 'دراجون', icon: '🐉', rarity: 'mythical', category: 'beast', cashPrice: '$20,000', robuxPrice: '8,500 R$', desc: 'التحول لتنين - أقوى Beast' },
+{ id: 'venom', name: 'Venom', nameAr: 'فينوم', icon: '☠️', rarity: 'mythical', category: 'natural', cashPrice: '$19,000', robuxPrice: '8,000 R$', desc: 'السم القاتل' },
+{ id: 'shadow', name: 'Shadow', nameAr: 'شادو', icon: '👤', rarity: 'mythical', category: 'natural', cashPrice: '$18,000', robuxPrice: '7,500 R$', desc: 'قوة الظلال' },
+{ id: 'control', name: 'Control', nameAr: 'كنترول', icon: '🎮', rarity: 'mythical', category: 'natural', cashPrice: '$19,000', robuxPrice: '8,000 R$', desc: 'التحكم بالأعداء' },
+{ id: 'soul', name: 'Soul', nameAr: 'سول', icon: '👻', rarity: 'mythical', category: 'natural', cashPrice: '$19,000', robuxPrice: '8,000 R$', desc: 'قوة الأرواح' },
+{ id: 'mammoth', name: 'Mammoth', nameAr: 'ماموث', icon: '🦣', rarity: 'mythical', category: 'beast', cashPrice: '$20,000', robuxPrice: '8,500 R$', desc: 'التحول لماموث ضخم' },
+{ id: 'spirit', name: 'Spirit', nameAr: 'سبيرت', icon: '🔮', rarity: 'mythical', category: 'natural', cashPrice: '$19,500', robuxPrice: '8,200 R$', desc: 'قوة الروح' },
+{ id: 'leopard', name: 'Leopard', nameAr: 'ليوبارد', icon: '🐆', rarity: 'god', category: 'beast', cashPrice: '$25,000', robuxPrice: '10,000 R$', desc: 'أسرع Beast في اللعبة' },
+{ id: 'kitsune', name: 'Kitsune', nameAr: 'كيتسوني', icon: '🦊', rarity: 'god', category: 'beast', cashPrice: '$28,000', robuxPrice: '12,000 R$', desc: 'الثعلب الأسطوري - الأحدث' },
+{ id: 'perm_dragon', name: 'Dragon (Perm)', nameAr: 'دراجون دائم', icon: '🐉💎', rarity: 'permanent', category: 'permanent', cashPrice: '$45,000', robuxPrice: '20,000 R$', desc: 'دراجون دائم - لا يحتاج شراء مرة ثانية' },
+{ id: 'perm_buddha', name: 'Buddha (Perm)', nameAr: 'بوذا دائم', icon: '🗿💎', rarity: 'permanent', category: 'permanent', cashPrice: '$35,000', robuxPrice: '15,000 R$', desc: 'بوذا دائم - أفضل فاكهة للفارم' },
+{ id: 'perm_leopard', name: 'Leopard (Perm)', nameAr: 'ليوبارد دائم', icon: '🐆💎', rarity: 'permanent', category: 'permanent', cashPrice: '$55,000', robuxPrice: '25,000 R$', desc: 'ليوبارد دائم - الأقوى' },
+];
+const brainrotItems = [
+{ id: 'skibidi', name: 'Skibidi Toilet', nameAr: 'سكيبيدي تويلت', icon: '🚽', rarity: 'common', category: 'common', cashPrice: '$2,000', robuxPrice: '700 R$', desc: 'أيتم سكبيدي الشهير' },
+{ id: 'sigma', name: 'Sigma Aura', nameAr: 'سيقما أوراً', icon: '😎', rarity: 'uncommon', category: 'common', cashPrice: '$3,000', robuxPrice: '1,000 R$', desc: 'هالة السيقما القوية' },
+{ id: 'ohio', name: 'Ohio Final Boss', nameAr: 'أوهايو فاينال بوس', icon: '💀', rarity: 'rare', category: 'rare', cashPrice: '$5,000', robuxPrice: '2,000 R$', desc: 'بوس أوهايو النهائي' },
+{ id: 'mewing', name: 'Mewing Streak', nameAr: 'ميونق ستريك', icon: '🤫', rarity: 'common', category: 'common', cashPrice: '$2,500', robuxPrice: '900 R$', desc: 'سلسلة الميونق' },
+{ id: 'fanum', name: 'Fanum Tax', nameAr: 'فانوم تاكس', icon: '🍔', rarity: 'uncommon', category: 'common', cashPrice: '$3,500', robuxPrice: '1,200 R$', desc: 'ضريبة فانوم' },
+{ id: 'rizz', name: 'Rizz God', nameAr: 'ريز قود', icon: '😏', rarity: 'rare', category: 'rare', cashPrice: '$4,500', robuxPrice: '1,800 R$', desc: 'إله الرز' },
+{ id: 'gyatt', name: 'GYATT', nameAr: 'قيات', icon: '🍑', rarity: 'uncommon', category: 'common', cashPrice: '$3,000', robuxPrice: '1,000 R$', desc: 'أيتم قيات' },
+{ id: 'bombardiro', name: 'Bombardiro Crocodilo', nameAr: 'بومبارديرو كروكودايلو', icon: '🐊', rarity: 'epic', category: 'rare', cashPrice: '$7,000', robuxPrice: '3,000 R$', desc: 'التمساح القاذف' },
+{ id: 'trulimero', name: 'Trulimero Trulicina', nameAr: 'تروليميرو تروليسينا', icon: '🎵', rarity: 'epic', category: 'rare', cashPrice: '$6,500', robuxPrice: '2,800 R$', desc: 'الأنشودة الأسطورية' },
+{ id: 'lirili', name: 'Lirili Larila', nameAr: 'ليريلي لاريلا', icon: '🎶', rarity: 'epic', category: 'rare', cashPrice: '$6,500', robuxPrice: '2,800 R$', desc: 'أيتم ليريلي النادر' },
+{ id: 'tungtung', name: 'Tung Tung Tung', nameAr: 'تنق تنق تنق', icon: '🥁', rarity: 'rare', category: 'rare', cashPrice: '$5,500', robuxPrice: '2,200 R$', desc: 'صوت التنق الشهير' },
+{ id: 'bombardino', name: 'Bombardino Cocodrilo', nameAr: 'بومباردينو كوكودريلو', icon: '🐊🔥', rarity: 'legendary', category: 'legendary', cashPrice: '$10,000', robuxPrice: '4,500 R$', desc: 'التمساح الأسطوري' },
+{ id: 'capitan', name: 'Capitan', nameAr: 'كابيتان', icon: '🏴‍☠️', rarity: 'rare', category: 'rare', cashPrice: '$5,000', robuxPrice: '2,000 R$', desc: 'الكابيتان' },
+{ id: 'brr_brr', name: 'Brr Brr Patapim', nameAr: 'برر برر باتابيم', icon: '❄️', rarity: 'legendary', category: 'legendary', cashPrice: '$9,000', robuxPrice: '4,000 R$', desc: 'باتابيم الأسطوري' },
+{ id: 'la_vacca', name: 'La Vaca Saturno', nameAr: 'لا فاكا ساتورنو', icon: '🐄🪐', rarity: 'legendary', category: 'legendary', cashPrice: '$11,000', robuxPrice: '5,000 R$', desc: 'البقرة القمرية الأسطورية' },
+{ id: 'tri_tri', name: 'Tri Tri Tri', nameAr: 'تري تري تري', icon: '📐', rarity: 'epic', category: 'rare', cashPrice: '$6,000', robuxPrice: '2,500 R$', desc: 'التري الثلاثي' },
+{ id: 'boneca_ambalabu', name: 'Boneca Ambalabu', nameAr: 'بونيكا أمبالابو', icon: '🎎', rarity: 'legendary', category: 'legendary', cashPrice: '$12,000', robuxPrice: '5,500 R$', desc: 'الدمية الأسطورية النادرة' },
+];
+const gamepasses = [
+{ id: 'gp_2x', name: '2x Mastery', nameAr: '2x ماستري', icon: '⚔️', rarity: 'rare', category: 'gamepass', cashPrice: '$5,000', robuxPrice: '2,000 R$', desc: 'ضعف سرعة الماستري' },
+{ id: 'gp_2x_money', name: '2x Money', nameAr: '2x فلوس', icon: '💰', rarity: 'rare', category: 'gamepass', cashPrice: '$5,000', robuxPrice: '2,000 R$', desc: 'ضعف الفلوس' },
+{ id: 'gp_fruit_notif', name: 'Fruit Notifier', nameAr: 'معلن الفواكه', icon: '🔔', rarity: 'epic', category: 'gamepass', cashPrice: '$15,000', robuxPrice: '6,000 R$', desc: 'إشعار عند ظهور فاكهة' },
+{ id: 'gp_fast_boat', name: 'Fast Boats', nameAr: 'قوارب سريعة', icon: '🚤', rarity: 'uncommon', category: 'gamepass', cashPrice: '$3,000', robuxPrice: '1,000 R$', desc: 'قوارب أسرع' },
+{ id: 'gp_extra_slots', name: 'Extra Slots', nameAr: 'خانات إضافية', icon: '📦', rarity: 'uncommon', category: 'gamepass', cashPrice: '$4,000', robuxPrice: '1,500 R$', desc: 'خانات حفظ إضافية' },
+{ id: 'gp_race_reroll', name: 'Race Reroll', nameAr: 'إعادة اختيار العرق', icon: '🎲', rarity: 'epic', category: 'gamepass', cashPrice: '$8,000', robuxPrice: '3,500 R$', desc: 'إعادة اختيار العرق' },
+{ id: 'gp_server_host', name: 'Private Server', nameAr: 'سيرفر خاص', icon: '🏠', rarity: 'legendary', category: 'gamepass', cashPrice: '$10,000', robuxPrice: '4,000 R$', desc: 'سيرفر خاص بك' },
+{ id: 'gp_all_gamepass', name: 'All Gamepasses', nameAr: 'كل القيم باس', icon: '👑', rarity: 'god', category: 'gamepass', cashPrice: '$40,000', robuxPrice: '18,000 R$', desc: 'كل القيم باس مرة وحدة' },
+];
+const DISCORD_LINK = 'https://discord.gg/gMrHAzvERJ';
+function getRarityClass(rarity) {
+const map = { 'common': 'rarity-common', 'uncommon': 'rarity-uncommon', 'rare': 'rarity-rare', 'epic': 'rarity-epic', 'legendary': 'rarity-legendary', 'mythical': 'rarity-mythical', 'god': 'rarity-god', 'permanent': 'rarity-permanent' };
+return map[rarity] || 'rarity-common';
+}
+function getRarityLabel(rarity) {
+const map = { 'common': 'عادي', 'uncommon': 'غير عادي', 'rare': 'نادر', 'epic': 'ملحمي', 'legendary': 'أسطوري', 'mythical': 'خرافي', 'god': 'إلهي', 'permanent': 'دائم' };
+return map[rarity] || rarity;
+}
+function getImageBg(category) {
+const map = { 'natural': 'fruit-bg', 'elemental': 'fruit-bg', 'beast': 'fruit-bg', 'permanent': 'fruit-bg', 'common': 'gamepass-bg', 'rare': 'boss-bg', 'legendary': 'boss-bg', 'gamepass': 'gamepass-bg' };
+return map[category] || 'fruit-bg';
+}
+function renderProduct(item) {
+return `<div class="product-card" data-category="${item.category}" data-name="${item.nameAr} ${item.name}" onclick="openPurchaseModal('${JSON.stringify(item).replace(/'/g, "&#39;")}')">
+<div class="rarity-badge ${getRarityClass(item.rarity)}">${getRarityLabel(item.rarity)}</div>
+<div class="product-image ${getImageBg(item.category)}">${item.icon}</div>
+<div class="product-info">
+<div class="product-name">${item.nameAr}</div>
+<div class="product-desc">${item.desc}</div>
+<div class="product-prices">
+<div class="price-tag price-cash">💵 ${item.cashPrice}</div>
+<div class="price-tag price-robux">💎 ${item.robuxPrice}</div>
+</div>
+<button class="buy-btn" onclick="event.stopPropagation(); openPurchaseModal('${JSON.stringify(item).replace(/'/g, "&#39;")}')">🛒 شراء الآن</button>
+</div></div>`;
+}
+function renderAllProducts() {
+document.getElementById('bloxfruits-grid').innerHTML = bloxFruits.map(renderProduct).join('');
+document.getElementById('brainrot-grid').innerHTML = brainrotItems.map(renderProduct).join('');
+document.getElementById('gamepasses-grid').innerHTML = gamepasses.map(renderProduct).join('');
+}
+function switchGame(gameId) {
+document.querySelectorAll('.game-tab').forEach(tab => tab.classList.remove('active'));
+document.querySelectorAll('.game-content').forEach(content => content.classList.remove('active'));
+event.target.closest('.game-tab').classList.add('active');
+document.getElementById(gameId).classList.add('active');
+}
+function filterCategory(category, game) {
+const container = document.getElementById(`${game}-grid`);
+const cards = container.querySelectorAll('.product-card');
+const btns = container.parentElement.querySelectorAll('.cat-btn');
+btns.forEach(btn => btn.classList.remove('active'));
+event.target.classList.add('active');
+cards.forEach(card => {
+card.style.display = (category === 'all' || card.dataset.category === category) ? '' : 'none';
+if(card.style.display === '') card.style.animation = 'fadeInUp 0.4s ease';
+});
+}
+function searchProducts() {
+const query = document.getElementById('searchInput').value.toLowerCase();
+document.querySelectorAll('.product-card').forEach(card => {
+card.style.display = card.dataset.name.toLowerCase().includes(query) ? '' : 'none';
+});
+if(query.length > 0) document.querySelectorAll('.game-content').forEach(c => c.classList.add('active'));
+else { document.querySelectorAll('.game-content').forEach(c => c.classList.remove('active')); document.querySelector('.game-content').classList.add('active'); }
+}
+let selectedItem = null, selectedPayment = null, quantity = 1;
+function openPurchaseModal(item) {
+selectedItem = item; selectedPayment = null; quantity = 1;
+const modalBody = document.getElementById('modalBody');
+modalBody.innerHTML = `
+<div class="modal-product-info"><div class="modal-product-icon">${item.icon}</div><div class="modal-product-details"><h4>${item.nameAr}</h4><p>${item.desc}</p></div></div>
+<div class="qty-selector">
+<button class="qty-btn" onclick="changeQty(-1)">−</button><span class="qty-value" id="qtyValue">1</span><button class="qty-btn" onclick="changeQty(1)">+</button>
+</div>
+<h4 style="margin-bottom: 12px;">اختر طريقة الدفع:</h4>
+<div class="payment-methods">
+<div class="payment-method" onclick="selectPayment('cash', this)"><div class="payment-icon cash-icon">💵</div><div class="payment-info"><h4>الدفع نقدياً</h4><p>تحويل بنكي / STC Pay / بايبال</p></div><div class="payment-price" style="color: var(--cash-blue);" id="cashTotal">${item.cashPrice}</div></div>
+<div class="payment-method" onclick="selectPayment('robux', this)"><div class="payment-icon robux-icon">💎</div><div class="payment-info"><h4>الدفع بالروبوكس</h4><p>سيتم تحويلك للديسكورد لإتمام العملية</p></div><div class="payment-price" style="color: var(--robux-green);" id="robuxTotal">${item.robuxPrice}</div></div>
+</div>
+<button class="confirm-btn" id="confirmBtn" disabled onclick="confirmPurchase()">اختر طريقة الدفع</button>`;
+document.getElementById('purchaseModal').classList.add('active');
+document.body.style.overflow = 'hidden';
+}
+function closeModal() { document.getElementById('purchaseModal').classList.remove('active'); document.body.style.overflow = ''; }
+function selectPayment(method, el) {
+selectedPayment = method;
+document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+el.classList.add('selected');
+const btn = document.getElementById('confirmBtn');
+if(method === 'cash') { btn.className = 'confirm-btn cash-confirm'; btn.innerHTML = '💵 تأكيد الدفع النقدي'; }
+else { btn.className = 'confirm-btn robux-confirm'; btn.innerHTML = '💎 الذهاب للديسكورد'; }
+btn.disabled = false;
+}
+function changeQty(delta) {
+quantity = Math.max(1, quantity + delta);
+document.getElementById('qtyValue').textContent = quantity;
+if(selectedItem) {
+const cashNum = parseInt(selectedItem.cashPrice.replace(/[^0-9]/g, ''));
+const robuxNum = parseInt(selectedItem.robuxPrice.replace(/[^0-9]/g, ''));
+document.getElementById('cashTotal').textContent = '$' + (cashNum * quantity).toLocaleString();
+document.getElementById('robuxTotal').textContent = (robuxNum * quantity).toLocaleString() + ' R$';
+}
+}
+function confirmPurchase() {
+if(!selectedPayment || !selectedItem) return;
+const modalBody = document.getElementById('modalBody');
+if(selectedPayment === 'cash') {
+modalBody.innerHTML = `<div style="text-align: center; padding: 20px;">
+<div style="font-size: 4rem; margin-bottom: 16px;">✅</div>
+<h3 style="margin-bottom: 10px;">تم تأكيد طلبك!</h3>
+<p style="color: var(--text-dim); margin-bottom: 20px; line-height: 1.6;">
+المنتج: <strong>${selectedItem.nameAr}</strong><br>الكمية: <strong>${quantity}</strong><br>
+الإجمالي: <strong style="color: var(--cash-blue);">${document.getElementById('cashTotal').textContent}</strong>
+</p>
+<p style="color: var(--text-dim); margin-bottom: 20px; font-size: 0.9rem;">تواصل معنا على الديسكورد لإتمام الدفع والتسليم</p>
+<a href="${DISCORD_LINK}" target="_blank" class="discord-redirect-btn">💬 تواصل عبر الديسكورد</a>
+</div>`;
+} else {
+let countdown = 3;
+modalBody.innerHTML = `<div class="robux-redirect"><div class="discord-icon">💬</div><h3>جاري تحويلك للديسكورد...</h3>
+<div class="countdown" id="countdown">${countdown}</div>
+<p>المنتج: <strong>${selectedItem.nameAr}</strong><br>الكمية: <strong>${quantity}</strong><br>
+الإجمالي: <strong style="color: var(--robux-green);">${document.getElementById('robuxTotal').textContent}</strong></p>
+<p>لو ما تحولت تلقائياً، اضغط الزر تحت:</p>
+<a href="${DISCORD_LINK}" target="_blank" class="discord-redirect-btn">💬 الذهاب للديسكورد الآن</a></div>`;
+const interval = setInterval(() => {
+countdown--; const el = document.getElementById('countdown');
+if(el) el.textContent = countdown;
+if(countdown <= 0) { clearInterval(interval); window.open(DISCORD_LINK, '_blank'); closeModal(); showToast('💬', 'تم تحويلك للديسكورد!'); }
+}, 1000);
+}
+}
+function showToast(icon, text) {
+const toast = document.getElementById('toast');
+document.getElementById('toastIcon').textContent = icon;
+document.getElementById('toastText').textContent = text;
+toast.classList.add('show');
+setTimeout(() => toast.classList.remove('show'), 3000);
+}
+function createParticles() {
+const container = document.getElementById('particles');
+for(let i=0; i<30; i++) {
+const p = document.createElement('div'); p.className = 'particle';
+p.style.left = Math.random()*100+'%';
+p.style.animationDuration = (Math.random()*15+10)+'s';
+p.style.animationDelay = (Math.random()*10)+'s';
+p.style.width = p.style.height = (Math.random()*3+1)+'px';
+p.style.background = ['var(--primary)','var(--secondary)','var(--accent)','var(--gold)'][Math.floor(Math.random()*4)];
+container.appendChild(p);
+}
+}
+window.addEventListener('scroll', () => {
+document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 500);
+});
+function toggleMobileMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+document.getElementById('purchaseModal').addEventListener('click', e => { if(e.target === this) closeModal(); });
+renderAllProducts(); createParticles();
+</script>
+</body>
+</html>
