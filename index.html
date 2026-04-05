@@ -27,9 +27,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         html { scroll-behavior: smooth; }
-        
         body {
             font-family: 'Tajawal', sans-serif;
             background: var(--dark);
@@ -106,7 +104,6 @@
         }
 
         .nav-right { display: flex; align-items: center; gap: 10px; }
-        
         .lang-toggle, .copy-discord {
             background: var(--card-bg); border: 1px solid var(--card-border);
             color: var(--text); padding: 8px 14px; border-radius: 10px;
@@ -358,7 +355,7 @@
             font-size: 5.5rem; background: linear-gradient(135deg, #2a2a4a, #1a1a2e);
         }
 
-        .rarity-badge, .sale-badge, .stock-badge, .new-badge {
+        .rarity-badge, .sale-badge, .stock-badge, .new-badge, .cash-only-badge {
             position: absolute; padding: 5px 14px;
             border-radius: 10px; font-size: 0.75rem;
             font-weight: 700; z-index: 3; text-transform: uppercase;
@@ -388,6 +385,12 @@
             top: 14px; left: 14px;
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
+        }
+
+        .cash-only-badge {
+            bottom: 14px; left: 14px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white; font-size: 0.7rem;
         }
 
         .stock-badge {
@@ -1144,7 +1147,7 @@
                         </div>
                         <div class="payment-price cash" id="modalCashPrice">$0</div>
                     </div>
-                    <div class="payment-option" onclick="selectPayment('robux',this)" role="radio" tabindex="0" onkeypress="if(event.key==='Enter')selectPayment('robux',this)">
+                    <div class="payment-option" id="robuxPaymentOption" onclick="selectPayment('robux',this)" role="radio" tabindex="0" onkeypress="if(event.key==='Enter')selectPayment('robux',this)">
                         <div class="payment-icon robux">💎</div>
                         <div class="payment-details">
                             <h4 data-t="pay_robux_title">دفع روبوكس</h4>
@@ -1199,7 +1202,8 @@
                 sale_badge: "خصم", original_price: "السعر الأصلي", discount_percent: "% خصم",
                 search_placeholder: "🔍 ابحث عن منتج...",
                 toast_fav: "تمت الإضافة للمفضلة ❤️", toast_unfav: "تمت الإزالة من المفضلة",
-                toast_copy: "تم نسخ رابط الديسكورد! 📋"
+                toast_copy: "تم نسخ رابط الديسكورد! 📋",
+                cash_only: "💵 كاش فقط"
             },
             en: {
                 nav_home: "Home", nav_store: "Store", nav_faq: "FAQ", nav_reviews: "Reviews", nav_discord: "Discord",
@@ -1225,7 +1229,8 @@
                 sale_badge: "SALE", original_price: "Original Price", discount_percent: "% OFF",
                 search_placeholder: "🔎 Search item...",
                 toast_fav: "Added to favorites ❤️", toast_unfav: "Removed from favorites",
-                toast_copy: "Discord link copied! 📋"
+                toast_copy: "Discord link copied! 📋",
+                cash_only: "💵 Cash Only"
             }
         };
 
@@ -1242,7 +1247,6 @@
             renderCategories();
             renderProducts();
             if(state.selectedProduct) openModal(state.selectedProduct);
-            showToast('info', t('toast_lang'));
         }
 
         function t(key) { return TRANSLATIONS[currentLang][key] || key; }
@@ -1315,7 +1319,8 @@
                 const price = getDisplayPrice(item);
                 const imgHTML = item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.parentElement.innerHTML='<div class=\\'fallback\\'>📦</div>'">` : `<div class="fallback">📦</div>`;
                 const name = currentLang === 'ar' ? item.nameAr : item.name;
-                const isNew = item.id > 100; // Simple logic: new items have id > 100
+                const isNew = item.id > 100;
+                const isCashOnly = item.category === 'permanent'; // Permanent items are cash only
                 
                 card.className = `product-card${stock.disabled ? ' out-of-stock' : ''}`;
                 if(!stock.disabled) {
@@ -1328,6 +1333,7 @@
                     <div class="rarity-badge rarity-${item.rarity}">${getRarityLabel(item.rarity)}</div>
                     ${price.showDiscount ? `<div class="sale-badge">🔥 -${price.percent}%</div>` : ''}
                     ${isNew && !price.showDiscount ? `<div class="new-badge">🆕 جديد</div>` : ''}
+                    ${isCashOnly ? `<div class="cash-only-badge">${t('cash_only')}</div>` : ''}
                     <div class="product-image">${imgHTML}</div>
                     <div class="stock-badge ${stock.badge}">${stock.text}</div>
                     <div class="product-info">
@@ -1341,7 +1347,7 @@
                         <div class="product-prices">
                             ${price.showDiscount ? `<span class="original-price">${formatMoney(price.original)}</span>` : ''}
                             <div class="price-cash">💵 ${formatMoney(price.current)}</div>
-                            <div class="price-robux">💎 ${item.robux.toLocaleString()} R$</div>
+                            ${!isCashOnly ? `<div class="price-robux">💎 ${item.robux?.toLocaleString() || '-'} R$</div>` : ''}
                             ${price.showDiscount ? `<span class="discount-percent">${t('discount_percent')}</span>` : ''}
                         </div>
                         <button class="buy-btn" ${stock.disabled ? 'disabled' : ''}>
@@ -1410,6 +1416,17 @@
             const price = getDisplayPrice(item);
             const name = currentLang === 'ar' ? item.nameAr : item.name;
             const img = item.image ? `<img src="${item.image}" onerror="this.parentElement.innerHTML='📦'">` : `📦`;
+            const isCashOnly = item.category === 'permanent';
+            
+            // Hide/show Robux payment option
+            const robuxOption = $('#robuxPaymentOption');
+            if(isCashOnly) {
+                robuxOption.style.display = 'none';
+                state.paymentMethod = 'cash'; // Auto-select cash
+                selectPayment('cash', robuxOption.previousElementSibling);
+            } else {
+                robuxOption.style.display = 'flex';
+            }
             
             $('#modalProductInfo').innerHTML = `
                 <div class="modal-product-image">${img}</div>
@@ -1430,6 +1447,8 @@
         function closeModal() { 
             $('#purchaseModal').classList.remove('active'); 
             document.body.style.overflow = '';
+            // Reset robux option visibility
+            $('#robuxPaymentOption').style.display = 'flex';
         }
         
         function updateQty(change) {
@@ -1442,12 +1461,16 @@
             const p = state.selectedProduct, qty = state.quantity;
             const price = getDisplayPrice(p);
             $('#modalCashPrice').textContent = formatMoney(price.current * qty);
-            $('#modalRobuxPrice').textContent = (p.robux * qty).toLocaleString() + ' R$';
+            if(p.robux) {
+                $('#modalRobuxPrice').textContent = (p.robux * qty).toLocaleString() + ' R$';
+            }
         }
 
         function selectPayment(method, el) {
             state.paymentMethod = method;
-            $$('.payment-option').forEach(e => e.classList.remove('selected')); 
+            $$('.payment-option').forEach(e => {
+                if(e.style.display !== 'none') e.classList.remove('selected');
+            }); 
             el.classList.add('selected');
             const btn = $('#confirmBtn'); btn.classList.remove('disabled');
             btn.className = `confirm-btn ${method}`;
@@ -1495,39 +1518,24 @@
 
         /* 🚀 INIT */
         function init() {
-            // Apply config
             $('#shopNameDisplay').textContent = CONFIG.shopName;
             $('#discordLinkNav').href = CONFIG.discord;
             $('#discordLinkFooter').href = CONFIG.discord;
-            
-            // Apply translations
             applyTranslations(); 
             renderCategories(); 
             renderProducts();
-            
-            // Modal close on overlay click
             $('#purchaseModal').onclick = (e) => { if(e.target === $('#purchaseModal')) closeModal(); };
-            
-            // Mobile menu
             window.toggleMenu = () => $('#navLinks').classList.toggle('active');
-            
-            // Scroll effects
             window.addEventListener('scroll', () => {
                 $('#navbar').classList.toggle('scrolled', window.scrollY > 50);
                 $('#scrollTop').classList.toggle('visible', window.scrollY > 500);
             });
-            
-            // Keyboard navigation for modal
             document.addEventListener('keydown', (e) => {
                 if(e.key === 'Escape' && $('#purchaseModal').classList.contains('active')) {
                     closeModal();
                 }
             });
-            
-            // Create particles
             createParticles();
-            
-            // Show welcome toast
             setTimeout(() => showToast('info', currentLang==='ar'?'مرحباً بك في 4aikro Store! 🎮' : 'Welcome to 4aikro Store! 🎮'), 1000);
         }
         
@@ -1547,7 +1555,7 @@
             paymentMethod: null 
         };
 
-        /* 📦 PRODUCTS DATABASE - All your changes preserved ✅ */
+        /* 📦 PRODUCTS DATABASE - Permanent items are CASH ONLY ✅ */
         const DB = {
             bloxfruits: [
                 { id: 8, name: "BUDDHA", nameAr: "بوذا", price: 1.0, robux: 30, rarity: "epic", category: "beast", image: "budduh.webp", stock: 15, onSale: false, discountPrice: null },
@@ -1568,8 +1576,9 @@
                 { id: 24, name: "KITSUNE", nameAr: "كيتسوني", price: 7.5, robux: 425, rarity: "mythical", category: "beast", image: "kitsune.webp", stock: 1, onSale: false, discountPrice: null },
                 { id: 25, name: "CONTROL", nameAr: "تحكم", price: 6.0, robux: 325, rarity: "mythical", category: "beast", image: "control.webp", stock: 2, onSale: false, discountPrice: null },
                 { id: 12, name: "DRAGON", nameAr: "تنين", price: 12.5, robux: 1000, rarity: "mythical", category: "beast", image: "dragon.webp", stock: 1, onSale: false, discountPrice: null },
-                { id: 15, name: "Dragon Perm", nameAr: "دراجون دائم", price: 38.0, rarity: "permanent", category: "permanent", image: "", stock: 1, onSale: true, discountPrice: 40.0 },
-                { id: 16, name: "Leopard Perm", nameAr: "ليوبارد دائم", price: 20.0, rarity: "permanent", category: "permanent", image: "", stock: 2, onSale: false, discountPrice: null },
+                // 🔥 PERMANENT ITEMS - CASH ONLY (no robux)
+                { id: 15, name: "Dragon Perm", nameAr: "دراجون دائم", price: 38.0, robux: null, rarity: "permanent", category: "permanent", image: "", stock: 0, onSale: true, discountPrice: 40.0, cashOnly: true },
+                { id: 16, name: "Leopard Perm", nameAr: "ليوبارد دائم", price: 20.0, robux: null, rarity: "permanent", category: "permanent", image: "", stock: 0, onSale: false, discountPrice: null, cashOnly: true },
             ],
             brainrot: [
                 { id: 101, name: "Skibidi", nameAr: "سكبيدي", price: 2.0, robux: 700, rarity: "common", category: "common", image: "", stock: 50, onSale: false, discountPrice: null },
