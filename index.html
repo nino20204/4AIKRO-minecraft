@@ -24,6 +24,7 @@
             --shadow-lg: 0 8px 30px rgba(0,0,0,0.5);
             --radius: 16px; --radius-sm: 10px; --radius-lg: 24px;
             --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            --transition-smooth: all 0.4s cubic-bezier(0.16,1,0.3,1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -327,7 +328,7 @@
         .product-card {
             background: var(--card-bg); border: 1px solid var(--card-border);
             border-radius: var(--radius); overflow: hidden;
-            transition: var(--transition); position: relative;
+            transition: var(--transition-smooth); position: relative;
             cursor: pointer;
         }
         .product-card:hover {
@@ -566,28 +567,55 @@
             color: var(--stock-red); border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
+        /* 🔢 MODERN QUANTITY SELECTOR */
         .qty-control {
             display: flex; align-items: center; justify-content: center;
-            gap: 20px; margin: 24px 0;
+            gap: 12px; margin: 24px 0;
             background: rgba(255, 255, 255, 0.05);
-            padding: 12px 20px; border-radius: 14px;
+            padding: 8px; border-radius: 14px;
             border: 1px solid var(--card-border);
         }
+        .qty-input-group {
+            display: flex; align-items: center; gap: 8px;
+            background: var(--card-bg); border-radius: 12px;
+            padding: 4px; border: 1px solid var(--card-border);
+        }
         .qty-btn {
-            width: 44px; height: 44px; border-radius: 12px;
-            border: 1px solid var(--card-border);
-            background: transparent; color: var(--text);
-            font-size: 1.4rem; cursor: pointer;
-            transition: var(--transition);
+            width: 40px; height: 40px; border-radius: 10px;
+            border: none; background: transparent; color: var(--text);
+            font-size: 1.3rem; cursor: pointer; transition: var(--transition);
             display: flex; align-items: center; justify-content: center;
         }
         .qty-btn:hover {
-            background: var(--primary); border-color: var(--primary);
-            transform: scale(1.08);
+            background: var(--primary); color: white;
+            transform: scale(1.05);
         }
-        .qty-val {
-            font-size: 1.7rem; font-weight: 800;
-            min-width: 48px; text-align: center;
+        .qty-btn:disabled {
+            opacity: 0.4; cursor: not-allowed; transform: none;
+        }
+        .qty-input {
+            width: 60px; text-align: center; font-size: 1.4rem;
+            font-weight: 700; background: transparent; border: none;
+            color: var(--text); outline: none; -moz-appearance: textfield;
+        }
+        .qty-input::-webkit-outer-spin-button,
+        .qty-input::-webkit-inner-spin-button {
+            -webkit-appearance: none; margin: 0;
+        }
+        .qty-input:focus {
+            border-bottom: 2px solid var(--primary);
+        }
+        .qty-max-hint {
+            font-size: 0.75rem; color: var(--text-muted);
+            margin-top: 4px; text-align: center;
+        }
+        .qty-input.shake {
+            animation: shake 0.3s ease;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
         }
 
         .payment-options { margin-bottom: 24px; }
@@ -831,6 +859,8 @@
             .game-tab { padding: 12px 24px; font-size: 0.95rem; }
             .footer-content { flex-direction: column; text-align: center; }
             .footer-links { justify-content: center; }
+            .qty-control { flex-wrap: wrap; }
+            .qty-input { width: 50px; font-size: 1.2rem; }
         }
 
         @media (max-width: 480px) {
@@ -842,6 +872,8 @@
             .modal-body { padding: 20px; }
             .modal-product { flex-direction: column; text-align: center; }
             .payment-option { padding: 14px 16px; }
+            .qty-input { width: 45px; font-size: 1.1rem; }
+            .qty-btn { width: 36px; height: 36px; font-size: 1.1rem; }
         }
 
         /* ♿ Accessibility */
@@ -1131,10 +1163,14 @@
                 <div class="modal-product" id="modalProductInfo"></div>
                 <div id="modalStockInfo" class="stock-info"></div>
                 
+                <!-- 🔢 Modern Quantity Selector -->
                 <div class="qty-control">
-                    <button class="qty-btn" onclick="updateQty(-1)" aria-label="Decrease quantity">−</button>
-                    <span class="qty-val" id="qtyVal">1</span>
-                    <button class="qty-btn" onclick="updateQty(1)" aria-label="Increase quantity">+</button>
+                    <div class="qty-input-group">
+                        <button class="qty-btn" id="qtyMinus" aria-label="Decrease">−</button>
+                        <input type="number" class="qty-input" id="qtyInput" value="1" min="1" max="99" aria-label="Quantity">
+                        <button class="qty-btn" id="qtyPlus" aria-label="Increase">+</button>
+                    </div>
+                    <div class="qty-max-hint" id="qtyHint">الحد الأقصى: <span id="maxQty">10</span></div>
                 </div>
 
                 <h4 style="margin-bottom:16px;" data-t="modal_payment">اختر طريقة الدفع:</h4>
@@ -1203,7 +1239,9 @@
                 search_placeholder: "🔍 ابحث عن منتج...",
                 toast_fav: "تمت الإضافة للمفضلة ❤️", toast_unfav: "تمت الإزالة من المفضلة",
                 toast_copy: "تم نسخ رابط الديسكورد! 📋",
-                cash_only: "💵 كاش فقط"
+                cash_only: "💵 كاش فقط",
+                qty_max: "الحد الأقصى: ",
+                qty_invalid: "⚠️ أدخل رقماً صحيحاً"
             },
             en: {
                 nav_home: "Home", nav_store: "Store", nav_faq: "FAQ", nav_reviews: "Reviews", nav_discord: "Discord",
@@ -1230,7 +1268,9 @@
                 search_placeholder: "🔎 Search item...",
                 toast_fav: "Added to favorites ❤️", toast_unfav: "Removed from favorites",
                 toast_copy: "Discord link copied! 📋",
-                cash_only: "💵 Cash Only"
+                cash_only: "💵 Cash Only",
+                qty_max: "Max: ",
+                qty_invalid: "⚠️ Enter valid number"
             }
         };
 
@@ -1300,6 +1340,66 @@
             });
         }
 
+        /* 🔢 MODERN QUANTITY HANDLER */
+        function initQtySelector() {
+            const input = $('#qtyInput');
+            const minus = $('#qtyMinus');
+            const plus = $('#qtyPlus');
+            const hint = $('#qtyHint');
+            const maxQtyEl = $('#maxQty');
+            
+            // Update buttons state based on value
+            function updateButtons() {
+                const val = parseInt(input.value) || 1;
+                const max = parseInt(input.max) || 99;
+                minus.disabled = val <= 1;
+                plus.disabled = val >= max;
+                hint.textContent = t('qty_max') + max;
+            }
+            
+            // Change quantity with animation
+            function changeQty(delta) {
+                let val = parseInt(input.value) || 1;
+                const max = parseInt(input.max) || 99;
+                val = Math.max(1, Math.min(val + delta, max));
+                input.value = val;
+                updateButtons();
+                updateModalPrices();
+                input.classList.remove('shake');
+                void input.offsetWidth; // Trigger reflow
+            }
+            
+            // Event listeners
+            minus.onclick = () => changeQty(-1);
+            plus.onclick = () => changeQty(1);
+            
+            input.oninput = () => {
+                let val = parseInt(input.value) || 1;
+                const max = parseInt(input.max) || 99;
+                if(val < 1) { input.value = 1; val = 1; }
+                if(val > max) { 
+                    input.value = max; 
+                    input.classList.add('shake');
+                    setTimeout(() => input.classList.remove('shake'), 300);
+                }
+                updateButtons();
+                updateModalPrices();
+            };
+            
+            input.onkeydown = (e) => {
+                if(e.key === 'ArrowUp') { e.preventDefault(); changeQty(1); }
+                if(e.key === 'ArrowDown') { e.preventDefault(); changeQty(-1); }
+                if(e.key === 'Enter') { confirmPurchase(); }
+            };
+            
+            // Expose for external use
+            window.updateQty = changeQty;
+            window.setQtyMax = (max) => { input.max = max; maxQtyEl.textContent = max; updateButtons(); };
+            window.resetQty = () => { input.value = 1; updateButtons(); };
+            
+            updateButtons();
+        }
+
         /* 🖼️ RENDER PRODUCTS */
         function renderProducts() {
             const grid = $('#productsGrid'); grid.innerHTML = '';
@@ -1320,7 +1420,7 @@
                 const imgHTML = item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.parentElement.innerHTML='<div class=\\'fallback\\'>📦</div>'">` : `<div class="fallback">📦</div>`;
                 const name = currentLang === 'ar' ? item.nameAr : item.name;
                 const isNew = item.id > 100;
-                const isCashOnly = item.category === 'permanent'; // Permanent items are cash only
+                const isCashOnly = item.category === 'permanent';
                 
                 card.className = `product-card${stock.disabled ? ' out-of-stock' : ''}`;
                 if(!stock.disabled) {
@@ -1409,7 +1509,7 @@
         function openModal(item) {
             if(getStockStatus(item.stock).disabled) return;
             state.selectedProduct = item; state.quantity = 1; state.paymentMethod = null;
-            $('#qtyVal').textContent = 1; $$('.payment-option').forEach(el => el.classList.remove('selected'));
+            
             const btn = $('#confirmBtn'); btn.className = 'confirm-btn disabled'; btn.textContent = t('btn_select_payment');
 
             const stock = getStockStatus(item.stock);
@@ -1422,7 +1522,7 @@
             const robuxOption = $('#robuxPaymentOption');
             if(isCashOnly) {
                 robuxOption.style.display = 'none';
-                state.paymentMethod = 'cash'; // Auto-select cash
+                state.paymentMethod = 'cash';
                 selectPayment('cash', robuxOption.previousElementSibling);
             } else {
                 robuxOption.style.display = 'flex';
@@ -1439,26 +1539,28 @@
             $('#modalStockInfo').className = `stock-info ${stock.class}`;
             $('#modalStockInfo').textContent = stock.text;
             
-            updateModalPrices();
+            // Initialize modern quantity selector
+            initQtySelector();
+            window.setQtyMax(item.stock);
+            window.resetQty();
+            
             $('#purchaseModal').classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // Focus input for better UX
+            setTimeout(() => $('#qtyInput').focus(), 100);
         }
 
         function closeModal() { 
             $('#purchaseModal').classList.remove('active'); 
             document.body.style.overflow = '';
-            // Reset robux option visibility
             $('#robuxPaymentOption').style.display = 'flex';
-        }
-        
-        function updateQty(change) {
-            state.quantity = Math.max(1, Math.min(state.quantity + change, state.selectedProduct.stock));
-            $('#qtyVal').textContent = state.quantity; updateModalPrices();
         }
 
         function updateModalPrices() {
             if(!state.selectedProduct) return;
-            const p = state.selectedProduct, qty = state.quantity;
+            const p = state.selectedProduct;
+            const qty = parseInt($('#qtyInput').value) || 1;
             const price = getDisplayPrice(p);
             $('#modalCashPrice').textContent = formatMoney(price.current * qty);
             if(p.robux) {
@@ -1479,7 +1581,9 @@
 
         function confirmPurchase() {
             if(!state.paymentMethod || !state.selectedProduct) return;
-            const p = state.selectedProduct, qty = state.quantity;
+            const p = state.selectedProduct;
+            const qty = parseInt($('#qtyInput').value) || 1;
+            
             if(state.paymentMethod === 'robux') {
                 const msg = `Hi, I want to buy ${p.name} x${qty} with Robux 💎`;
                 window.open(`${CONFIG.discord}?msg=${encodeURIComponent(msg)}`, '_blank');
@@ -1576,7 +1680,6 @@
                 { id: 24, name: "KITSUNE", nameAr: "كيتسوني", price: 7.5, robux: 425, rarity: "mythical", category: "beast", image: "kitsune.webp", stock: 1, onSale: false, discountPrice: null },
                 { id: 25, name: "CONTROL", nameAr: "تحكم", price: 6.0, robux: 325, rarity: "mythical", category: "beast", image: "control.webp", stock: 2, onSale: false, discountPrice: null },
                 { id: 12, name: "DRAGON", nameAr: "تنين", price: 12.5, robux: 1000, rarity: "mythical", category: "beast", image: "dragon.webp", stock: 1, onSale: false, discountPrice: null },
-                // 🔥 PERMANENT ITEMS - CASH ONLY (no robux)
                 { id: 15, name: "Dragon Perm", nameAr: "دراجون دائم", price: 38.0, robux: null, rarity: "permanent", category: "permanent", image: "", stock: 0, onSale: true, discountPrice: null, cashOnly: true },
                 { id: 16, name: "Leopard Perm", nameAr: "ليوبارد دائم", price: 20.0, robux: null, rarity: "permanent", category: "permanent", image: "", stock: 0, onSale: false, discountPrice: null, cashOnly: true },
             ],
