@@ -19,6 +19,7 @@
             --blue: #3b82f6; --purple: #a855f7; --pink: #ec4899;
             --robux-green: #00b06f; --cash-blue: #3b82f6; --sale-pink: #ff6b9d;
             --stock-green: #10b981; --stock-red: #ef4444; --stock-orange: #f97316;
+            --cart-bg: #1e1e3f; --cart-border: #3a3a6a;
             --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
             --shadow: 0 4px 12px rgba(0,0,0,0.4);
             --shadow-lg: 0 8px 30px rgba(0,0,0,0.5);
@@ -146,6 +147,31 @@
             box-shadow: 0 6px 25px rgba(88, 101, 242, 0.5);
         }
 
+        /* 🛒 Cart Button */
+        .cart-btn {
+            position: relative;
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            color: var(--text); padding: 10px 16px; border-radius: 12px;
+            cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 6px;
+            transition: var(--transition); font-size: 0.9rem;
+        }
+        .cart-btn:hover {
+            background: var(--primary); border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .cart-badge {
+            position: absolute; top: -6px; right: -6px;
+            background: var(--red); color: white;
+            width: 20px; height: 20px; border-radius: 50%;
+            font-size: 0.7rem; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
         .mobile-menu-btn {
             display: none; background: none; border: none;
             color: var(--text); font-size: 1.5rem; cursor: pointer;
@@ -174,10 +200,6 @@
         .hero-badge .pulse {
             width: 10px; height: 10px; background: var(--green);
             border-radius: 50%; animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.3); }
         }
 
         .hero h1 {
@@ -459,24 +481,179 @@
             margin-right: auto;
         }
 
+        .action-buttons {
+            display: flex; gap: 10px; margin-top: 12px;
+        }
+        .buy-btn, .add-to-cart-btn {
+            flex: 1; padding: 12px; border: none;
+            border-radius: 12px; font-family: inherit;
+            font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
         .buy-btn {
-            width: 100%; padding: 14px; border: none;
-            border-radius: 14px; font-family: inherit;
-            font-size: 1.05rem; font-weight: 700;
-            cursor: pointer; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white; transition: var(--transition);
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
         }
         .buy-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 25px rgba(124, 58, 237, 0.4);
         }
-        .buy-btn:disabled {
+        .add-to-cart-btn {
+            background: rgba(255,255,255,0.1);
+            color: var(--text); border: 1px solid var(--card-border);
+        }
+        .add-to-cart-btn:hover {
+            background: var(--green); color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        .buy-btn:disabled, .add-to-cart-btn:disabled {
             background: var(--text-muted); cursor: not-allowed;
             transform: none; box-shadow: none;
         }
 
-        /* 🛒 Modal */
+        /* 🛒 Cart Sidebar */
+        .cart-overlay {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px); z-index: 3000;
+            animation: fadeIn 0.3s ease;
+        }
+        .cart-overlay.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .cart-sidebar {
+            position: fixed; top: 0; right: -400px;
+            width: 400px; max-width: 100%; height: 100vh;
+            background: var(--card-bg); border-left: 1px solid var(--card-border);
+            z-index: 3001; transition: var(--transition-smooth);
+            display: flex; flex-direction: column;
+            box-shadow: var(--shadow-lg);
+        }
+        .cart-sidebar.active { right: 0; }
+
+        .cart-header {
+            padding: 20px 24px; border-bottom: 1px solid var(--card-border);
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--darker);
+        }
+        .cart-header h3 { font-size: 1.3rem; font-weight: 800; }
+        .cart-close {
+            width: 36px; height: 36px; border-radius: 10px;
+            border: 1px solid var(--card-border);
+            background: transparent; color: var(--text-dim);
+            font-size: 1.3rem; cursor: pointer;
+            transition: var(--transition);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .cart-close:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: var(--red); color: var(--red);
+        }
+
+        .cart-items {
+            flex: 1; overflow-y: auto; padding: 16px;
+        }
+        .cart-item {
+            display: flex; gap: 12px; padding: 14px;
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 12px; margin-bottom: 12px;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .cart-item-image {
+            width: 60px; height: 60px; border-radius: 10px;
+            background: linear-gradient(135deg, #2a2a4a, #1a1a2e);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; flex-shrink: 0;
+        }
+        .cart-item-image img {
+            width: 100%; height: 100%; object-fit: cover;
+            border-radius: 10px;
+        }
+        .cart-item-info { flex: 1; min-width: 0; }
+        .cart-item-name {
+            font-weight: 700; font-size: 0.95rem;
+            margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .cart-item-price {
+            font-size: 0.9rem; color: var(--cash-blue);
+            font-weight: 600;
+        }
+        .cart-item-qty {
+            display: flex; align-items: center; gap: 8px;
+            margin-top: 8px;
+        }
+        .cart-qty-btn {
+            width: 28px; height: 28px; border-radius: 8px;
+            border: 1px solid var(--card-border);
+            background: transparent; color: var(--text);
+            font-size: 1rem; cursor: pointer;
+            transition: var(--transition);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .cart-qty-btn:hover {
+            background: var(--primary); border-color: var(--primary);
+        }
+        .cart-qty-value {
+            font-weight: 700; min-width: 24px; text-align: center;
+        }
+        .cart-item-remove {
+            width: 28px; height: 28px; border-radius: 8px;
+            border: 1px solid var(--red);
+            background: transparent; color: var(--red);
+            font-size: 1rem; cursor: pointer;
+            transition: var(--transition);
+            display: flex; align-items: center; justify-content: center;
+            margin-right: auto;
+        }
+        .cart-item-remove:hover {
+            background: var(--red); color: white;
+        }
+
+        .cart-empty {
+            text-align: center; padding: 40px 20px;
+            color: var(--text-muted);
+        }
+        .cart-empty-icon {
+            font-size: 3rem; margin-bottom: 16px; opacity: 0.5;
+        }
+
+        .cart-footer {
+            padding: 20px 24px; border-top: 1px solid var(--card-border);
+            background: var(--darker);
+        }
+        .cart-total {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 16px;
+            font-size: 1.1rem; font-weight: 700;
+        }
+        .cart-total-value {
+            color: var(--cash-blue); font-size: 1.3rem;
+        }
+        .checkout-btn {
+            width: 100%; padding: 14px; border: none;
+            border-radius: 12px; font-family: inherit;
+            font-size: 1rem; font-weight: 700;
+            cursor: pointer; transition: var(--transition);
+            background: linear-gradient(135deg, var(--green), #059669);
+            color: white; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+        .checkout-btn:disabled {
+            background: var(--text-muted); cursor: not-allowed;
+            transform: none; box-shadow: none;
+        }
+
+        /* 🛒 Purchase Modal */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
@@ -486,7 +663,6 @@
             padding: 20px; animation: fadeIn 0.3s ease;
         }
         .modal-overlay.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .modal {
             background: var(--card-bg); border: 1px solid var(--card-border);
@@ -567,7 +743,7 @@
             color: var(--stock-red); border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
-        /* 🔢 MODERN QUANTITY SELECTOR */
+        /* 🔢 Modern Quantity Selector */
         .qty-control {
             display: flex; align-items: center; justify-content: center;
             gap: 12px; margin: 24px 0;
@@ -770,7 +946,7 @@
             background: var(--card-bg); border: 1px solid var(--card-border);
             border-radius: 16px; padding: 16px 24px;
             display: flex; align-items: center; gap: 14px;
-            z-index: 3000; box-shadow: var(--shadow-lg);
+            z-index: 4000; box-shadow: var(--shadow-lg);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             max-width: 400px;
         }
@@ -859,8 +1035,9 @@
             .game-tab { padding: 12px 24px; font-size: 0.95rem; }
             .footer-content { flex-direction: column; text-align: center; }
             .footer-links { justify-content: center; }
-            .qty-control { flex-wrap: wrap; }
+            .cart-sidebar { width: 100%; max-width: 100%; }
             .qty-input { width: 50px; font-size: 1.2rem; }
+            .action-buttons { flex-direction: column; }
         }
 
         @media (max-width: 480px) {
@@ -943,6 +1120,10 @@
                 </button>
                 <button class="copy-discord" onclick="copyDiscord()" title="Copy Discord Link">
                     📋 ديسكورد
+                </button>
+                <!-- 🛒 Cart Button -->
+                <button class="cart-btn" onclick="toggleCart()" title="عرض السلة">
+                    🛒 <span class="cart-badge" id="cartBadge">0</span>
                 </button>
                 <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
             </div>
@@ -1152,6 +1333,27 @@
     <!-- ⬆️ Scroll to Top -->
     <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">⬆</button>
 
+    <!-- 🛒 Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3 data-t="cart_title">🛒 سلة الشراء</h3>
+            <button class="cart-close" onclick="toggleCart()" aria-label="Close cart">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be injected here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span data-t="cart_total">المجموع:</span>
+                <span class="cart-total-value" id="cartTotal">$0</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn" onclick="checkoutCart()" disabled>
+                💳 <span data-t="cart_checkout">إتمام الشراء</span>
+            </button>
+        </div>
+    </div>
+
     <!-- 🛒 Purchase Modal -->
     <div class="modal-overlay" id="purchaseModal" role="dialog" aria-modal="true">
         <div class="modal">
@@ -1241,7 +1443,15 @@
                 toast_copy: "تم نسخ رابط الديسكورد! 📋",
                 cash_only: "💵 كاش فقط",
                 qty_max: "الحد الأقصى: ",
-                qty_invalid: "⚠️ أدخل رقماً صحيحاً"
+                qty_invalid: "⚠️ أدخل رقماً صحيحاً",
+                cart_title: "🛒 سلة الشراء",
+                cart_total: "المجموع:",
+                cart_checkout: "إتمام الشراء",
+                cart_empty: "سلة الشراء فارغة 🛒",
+                cart_add: "تمت الإضافة للسلة 🛒",
+                cart_remove: "تمت الإزالة من السلة",
+                cart_update: "تم تحديث السلة",
+                cart_checkout_msg: "جاري تحويلك للديسكورد لإتمام الشراء... 🚀"
             },
             en: {
                 nav_home: "Home", nav_store: "Store", nav_faq: "FAQ", nav_reviews: "Reviews", nav_discord: "Discord",
@@ -1270,12 +1480,21 @@
                 toast_copy: "Discord link copied! 📋",
                 cash_only: "💵 Cash Only",
                 qty_max: "Max: ",
-                qty_invalid: "⚠️ Enter valid number"
+                qty_invalid: "⚠️ Enter valid number",
+                cart_title: "🛒 Shopping Cart",
+                cart_total: "Total:",
+                cart_checkout: "Checkout",
+                cart_empty: "Your cart is empty 🛒",
+                cart_add: "Added to cart 🛒",
+                cart_remove: "Removed from cart",
+                cart_update: "Cart updated",
+                cart_checkout_msg: "Redirecting to Discord to complete purchase... 🚀"
             }
         };
 
         let currentLang = CONFIG.defaultLang;
         let favorites = JSON.parse(localStorage.getItem('4aikro_favorites') || '[]');
+        let cart = JSON.parse(localStorage.getItem('4aikro_cart') || '[]');
 
         /* 🔤 LANGUAGE FUNCTIONS */
         function toggleLanguage() {
@@ -1286,6 +1505,7 @@
             applyTranslations();
             renderCategories();
             renderProducts();
+            renderCart();
             if(state.selectedProduct) openModal(state.selectedProduct);
         }
 
@@ -1340,6 +1560,131 @@
             });
         }
 
+        /* 🛒 CART FUNCTIONS */
+        function addToCart(item) {
+            const existing = cart.find(i => i.id === item.id);
+            if(existing) {
+                if(existing.quantity < item.stock) {
+                    existing.quantity++;
+                    showToast('success', t('cart_add'));
+                } else {
+                    showToast('error', t('stock_out'));
+                    return;
+                }
+            } else {
+                cart.push({ ...item, quantity: 1 });
+                showToast('success', t('cart_add'));
+            }
+            saveCart();
+            renderCart();
+            updateCartBadge();
+        }
+
+        function removeFromCart(itemId) {
+            cart = cart.filter(i => i.id !== itemId);
+            saveCart();
+            renderCart();
+            updateCartBadge();
+            showToast('info', t('cart_remove'));
+        }
+
+        function updateCartQty(itemId, delta) {
+            const item = cart.find(i => i.id === itemId);
+            if(!item) return;
+            
+            const product = getAllProducts().find(p => p.id === itemId);
+            const newQty = Math.max(1, Math.min(item.quantity + delta, product?.stock || 99));
+            
+            if(newQty !== item.quantity) {
+                item.quantity = newQty;
+                saveCart();
+                renderCart();
+                showToast('info', t('cart_update'));
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('4aikro_cart', JSON.stringify(cart));
+        }
+
+        function renderCart() {
+            const container = $('#cartItems');
+            const totalEl = $('#cartTotal');
+            const checkoutBtn = $('#checkoutBtn');
+            
+            if(cart.length === 0) {
+                container.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>${t('cart_empty')}</p></div>`;
+                totalEl.textContent = formatMoney(0);
+                checkoutBtn.disabled = true;
+                return;
+            }
+            
+            let total = 0;
+            container.innerHTML = cart.map(item => {
+                const price = getDisplayPrice(item);
+                const itemTotal = price.current * item.quantity;
+                total += itemTotal;
+                const icon = item.image ? `<img src="${item.image}" alt="${item.name}">` : item.icon || '📦';
+                const name = currentLang === 'ar' ? item.nameAr : item.name;
+                
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-image">${icon}</div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${name}</div>
+                            <div class="cart-item-price">${formatMoney(price.current)}</div>
+                            <div class="cart-item-qty">
+                                <button class="cart-qty-btn" onclick="updateCartQty('${item.id}', -1)">−</button>
+                                <span class="cart-qty-value">${item.quantity}</span>
+                                <button class="cart-qty-btn" onclick="updateCartQty('${item.id}', 1)">+</button>
+                            </div>
+                        </div>
+                        <button class="cart-item-remove" onclick="removeFromCart('${item.id}')" title="Remove">✕</button>
+                    </div>
+                `;
+            }).join('');
+            
+            totalEl.textContent = formatMoney(total);
+            checkoutBtn.disabled = false;
+        }
+
+        function updateCartBadge() {
+            const badge = $('#cartBadge');
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            badge.textContent = count > 99 ? '99+' : count;
+            badge.style.display = count > 0 ? 'flex' : 'none';
+        }
+
+        function toggleCart() {
+            const sidebar = $('#cartSidebar');
+            const overlay = $('#cartOverlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            if(sidebar.classList.contains('active')) {
+                renderCart();
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function checkoutCart() {
+            if(cart.length === 0) return;
+            showToast('info', t('cart_checkout_msg'));
+            setTimeout(() => {
+                window.open(CONFIG.discord, '_blank');
+                cart = [];
+                saveCart();
+                renderCart();
+                updateCartBadge();
+                toggleCart();
+            }, 1500);
+        }
+
+        function getAllProducts() {
+            return [...DB.bloxfruits, ...DB.brainrot, ...DB.gamepasses];
+        }
+
         /* 🔢 MODERN QUANTITY HANDLER */
         function initQtySelector() {
             const input = $('#qtyInput');
@@ -1348,7 +1693,6 @@
             const hint = $('#qtyHint');
             const maxQtyEl = $('#maxQty');
             
-            // Update buttons state based on value
             function updateButtons() {
                 const val = parseInt(input.value) || 1;
                 const max = parseInt(input.max) || 99;
@@ -1357,7 +1701,6 @@
                 hint.textContent = t('qty_max') + max;
             }
             
-            // Change quantity with animation
             function changeQty(delta) {
                 let val = parseInt(input.value) || 1;
                 const max = parseInt(input.max) || 99;
@@ -1366,10 +1709,9 @@
                 updateButtons();
                 updateModalPrices();
                 input.classList.remove('shake');
-                void input.offsetWidth; // Trigger reflow
+                void input.offsetWidth;
             }
             
-            // Event listeners
             minus.onclick = () => changeQty(-1);
             plus.onclick = () => changeQty(1);
             
@@ -1392,7 +1734,6 @@
                 if(e.key === 'Enter') { confirmPurchase(); }
             };
             
-            // Expose for external use
             window.updateQty = changeQty;
             window.setQtyMax = (max) => { input.max = max; maxQtyEl.textContent = max; updateButtons(); };
             window.resetQty = () => { input.value = 1; updateButtons(); };
@@ -1417,7 +1758,7 @@
                 const card = document.createElement('div');
                 const stock = getStockStatus(item.stock);
                 const price = getDisplayPrice(item);
-                const imgHTML = item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.parentElement.innerHTML='<div class=\\'fallback\\'>📦</div>'">` : `<div class="fallback">📦</div>`;
+                const imgHTML = item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.parentElement.innerHTML='<div class=\\'fallback\\'>📦</div>'">` : `<div class="fallback">${item.icon || '📦'}</div>`;
                 const name = currentLang === 'ar' ? item.nameAr : item.name;
                 const isNew = item.id > 100;
                 const isCashOnly = item.category === 'permanent';
@@ -1450,9 +1791,14 @@
                             ${!isCashOnly ? `<div class="price-robux">💎 ${item.robux?.toLocaleString() || '-'} R$</div>` : ''}
                             ${price.showDiscount ? `<span class="discount-percent">${t('discount_percent')}</span>` : ''}
                         </div>
-                        <button class="buy-btn" ${stock.disabled ? 'disabled' : ''}>
-                            ${stock.disabled ? t('btn_out_of_stock') : '🛒 ' + (currentLang==='ar' ? 'شراء الآن' : 'Buy Now')}
-                        </button>
+                        <div class="action-buttons">
+                            <button class="buy-btn" ${stock.disabled ? 'disabled' : ''} onclick="event.stopPropagation(); openModal('${JSON.stringify(item).replace(/'/g, "&#39;")}')">
+                                🛒 ${currentLang==='ar' ? 'شراء' : 'Buy'}
+                            </button>
+                            <button class="add-to-cart-btn" ${stock.disabled ? 'disabled' : ''} onclick="event.stopPropagation(); addToCart(${JSON.stringify(item).replace(/'/g, "&#39;")})">
+                                ➕ ${currentLang==='ar' ? 'سلة' : 'Cart'}
+                            </button>
+                        </div>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -1515,10 +1861,9 @@
             const stock = getStockStatus(item.stock);
             const price = getDisplayPrice(item);
             const name = currentLang === 'ar' ? item.nameAr : item.name;
-            const img = item.image ? `<img src="${item.image}" onerror="this.parentElement.innerHTML='📦'">` : `📦`;
+            const img = item.image ? `<img src="${item.image}" onerror="this.parentElement.innerHTML='${item.icon || '📦'}'">` : (item.icon || '📦');
             const isCashOnly = item.category === 'permanent';
             
-            // Hide/show Robux payment option
             const robuxOption = $('#robuxPaymentOption');
             if(isCashOnly) {
                 robuxOption.style.display = 'none';
@@ -1539,15 +1884,12 @@
             $('#modalStockInfo').className = `stock-info ${stock.class}`;
             $('#modalStockInfo').textContent = stock.text;
             
-            // Initialize modern quantity selector
             initQtySelector();
             window.setQtyMax(item.stock);
             window.resetQty();
             
             $('#purchaseModal').classList.add('active');
             document.body.style.overflow = 'hidden';
-            
-            // Focus input for better UX
             setTimeout(() => $('#qtyInput').focus(), 100);
         }
 
@@ -1628,6 +1970,9 @@
             applyTranslations(); 
             renderCategories(); 
             renderProducts();
+            renderCart();
+            updateCartBadge();
+            
             $('#purchaseModal').onclick = (e) => { if(e.target === $('#purchaseModal')) closeModal(); };
             window.toggleMenu = () => $('#navLinks').classList.toggle('active');
             window.addEventListener('scroll', () => {
@@ -1635,8 +1980,9 @@
                 $('#scrollTop').classList.toggle('visible', window.scrollY > 500);
             });
             document.addEventListener('keydown', (e) => {
-                if(e.key === 'Escape' && $('#purchaseModal').classList.contains('active')) {
-                    closeModal();
+                if(e.key === 'Escape') {
+                    if($('#purchaseModal').classList.contains('active')) closeModal();
+                    if($('#cartSidebar').classList.contains('active')) toggleCart();
                 }
             });
             createParticles();
@@ -1659,42 +2005,42 @@
             paymentMethod: null 
         };
 
-        /* 📦 PRODUCTS DATABASE - Permanent items are CASH ONLY ✅ */
+        /* 📦 PRODUCTS DATABASE */
         const DB = {
             bloxfruits: [
-                { id: 8, name: "BUDDHA", nameAr: "بوذا", price: 1.0, robux: 30, rarity: "epic", category: "beast", image: "budduh.webp", stock: 15, onSale: false, discountPrice: null },
-                { id: 9, name: "PORTAL", nameAr: "بورتال", price: 1.2, robux: 40, rarity: "epic", category: "natural", image: "portal.webp", stock: 8, onSale: true, discountPrice: 1.2 },
-                { id: 10, name: "LIGHTNING", nameAr: "برق", price: 2.5, robux: 125, rarity: "epic", category: "elemental", image: "Lightning.webp", stock: 10, onSale: false, discountPrice: null },
-                { id: 14, name: "PAIN", nameAr: "الم", price: 2.0, robux: 50, rarity: "epic", category: "beast", image: "pain.webp", stock: 5, onSale: false, discountPrice: null },
-                { id: 15, name: "BLIZZARD", nameAr: "العاصفة", price: 1.0, robux: 25, rarity: "epic", category: "beast", image: "blizzard.webp", stock: 12, onSale: false, discountPrice: null },
-                { id: 16, name: "GRAVITY", nameAr: "جادبية", price: 2.0, robux: 50, rarity: "legendary", category: "beast", image: "gravity.webp", stock: 3, onSale: true, discountPrice: 1.7 },
-                { id: 17, name: "MAMMOTH", nameAr: "ماموث", price: 2.8, robux: 75, rarity: "legendary", category: "beast", image: "mammoth.webp", stock: 4, onSale: false, discountPrice: null },
-                { id: 18, name: "T_REX", nameAr: "تركس", price: 3.5, robux: 120, rarity: "legendary", category: "beast", image: "t_rex.webp", stock: 2, onSale: false, discountPrice: null },
-                { id: 11, name: "DAUGH", nameAr: "موتشي", price: 4.0, robux: 175, rarity: "legendary", category: "natural", image: "daugh.webp", stock: 3, onSale: true, discountPrice: 3.5 },
-                { id: 19, name: "SHADOW", nameAr: "ضلال", price: 1.0, robux: 35, rarity: "epic", category: "beast", image: "shadow.webp", stock: 7, onSale: false, discountPrice: null },
-                { id: 20, name: "VENOM", nameAr: "سم", price: 5.0, robux: 250, rarity: "mythical", category: "beast", image: "venom.webp", stock: 1, onSale: false, discountPrice: null },
-                { id: 21, name: "GAS", nameAr: "غاز", price: 5.0, robux: 250, rarity: "mythical", category: "beast", image: "gas.webp", stock: 0, onSale: false, discountPrice: null },
-                { id: 22, name: "SPIRIT", nameAr: "روح", price: 3.5, robux: 120, rarity: "legendary", category: "beast", image: "spirit.webp", stock: 6, onSale: false, discountPrice: null },
-                { id: 13, name: "TIGER", nameAr: "نمر", price: 6.4, robux: 260, rarity: "mythical", category: "beast", image: "tiger.webp", stock: 2, onSale: false, discountPrice: null },
-                { id: 23, name: "YETI", nameAr: "يتي", price: 6.5, robux: 275, rarity: "mythical", category: "beast", image: "yeti.webp", stock: 1, onSale: false, discountPrice: null },
-                { id: 24, name: "KITSUNE", nameAr: "كيتسوني", price: 7.5, robux: 425, rarity: "mythical", category: "beast", image: "kitsune.webp", stock: 1, onSale: false, discountPrice: null },
-                { id: 25, name: "CONTROL", nameAr: "تحكم", price: 6.0, robux: 325, rarity: "mythical", category: "beast", image: "control.webp", stock: 2, onSale: false, discountPrice: null },
-                { id: 12, name: "DRAGON", nameAr: "تنين", price: 12.5, robux: 1000, rarity: "mythical", category: "beast", image: "dragon.webp", stock: 1, onSale: false, discountPrice: null },
-                { id: 15, name: "Dragon Perm", nameAr: "دراجون دائم", price: 38.0, robux: null, rarity: "permanent", category: "permanent", image: "", stock: 0, onSale: true, discountPrice: null, cashOnly: true },
-                { id: 16, name: "Leopard Perm", nameAr: "ليوبارد دائم", price: 20.0, robux: null, rarity: "permanent", category: "permanent", image: "", stock: 0, onSale: false, discountPrice: null, cashOnly: true },
+                { id: 'buddha', name: "بوذا", nameAr: "بوذا", price: 1.0, robux: 30, rarity: "epic", category: "beast", icon: "🗿", image: "budduh.webp", stock: 15, onSale: false, discountPrice: null },
+                { id: 'portal', name: "بورتال", nameAr: "بورتال", price: 1.2, robux: 40, rarity: "epic", category: "natural", icon: "🌀", image: "portal.webp", stock: 8, onSale: true, discountPrice: 1.2 },
+                { id: 'lightning', name: "برق", nameAr: "برق", price: 2.5, robux: 125, rarity: "epic", category: "elemental", icon: "⚡", image: "Lightning.webp", stock: 10, onSale: false, discountPrice: null },
+                { id: 'pain', name: "الم", nameAr: "الم", price: 2.0, robux: 50, rarity: "epic", category: "beast", icon: "😫", image: "pain.webp", stock: 5, onSale: false, discountPrice: null },
+                { id: 'blizzard', name: "العاصفة", nameAr: "العاصفة", price: 1.0, robux: 25, rarity: "epic", category: "beast", icon: "❄️", image: "blizzard.webp", stock: 12, onSale: false, discountPrice: null },
+                { id: 'gravity', name: "جادبية", nameAr: "جادبية", price: 2.0, robux: 50, rarity: "legendary", category: "beast", icon: "🪐", image: "gravity.webp", stock: 3, onSale: true, discountPrice: 1.7 },
+                { id: 'mammoth', name: "ماموث", nameAr: "ماموث", price: 2.8, robux: 75, rarity: "legendary", category: "beast", icon: "🦣", image: "mammoth.webp", stock: 4, onSale: false, discountPrice: null },
+                { id: 't_rex', name: "تركس", nameAr: "تركس", price: 3.5, robux: 120, rarity: "legendary", category: "beast", icon: "🦖", image: "t_rex.webp", stock: 2, onSale: false, discountPrice: null },
+                { id: 'daugh', name: "موتشي", nameAr: "موتشي", price: 4.0, robux: 175, rarity: "legendary", category: "natural", icon: "🍩", image: "daugh.webp", stock: 3, onSale: true, discountPrice: 3.5 },
+                { id: 'shadow', name: "ضلال", nameAr: "ضلال", price: 1.0, robux: 35, rarity: "epic", category: "beast", icon: "👤", image: "shadow.webp", stock: 7, onSale: false, discountPrice: null },
+                { id: 'venom', name: "سم", nameAr: "سم", price: 5.0, robux: 250, rarity: "mythical", category: "beast", icon: "☠️", image: "venom.webp", stock: 1, onSale: false, discountPrice: null },
+                { id: 'gas', name: "غاز", nameAr: "غاز", price: 5.0, robux: 250, rarity: "mythical", category: "beast", icon: "💨", image: "gas.webp", stock: 0, onSale: false, discountPrice: null },
+                { id: 'spirit', name: "روح", nameAr: "روح", price: 3.5, robux: 120, rarity: "legendary", category: "beast", icon: "👻", image: "spirit.webp", stock: 6, onSale: false, discountPrice: null },
+                { id: 'tiger', name: "نمر", nameAr: "نمر", price: 6.4, robux: 260, rarity: "mythical", category: "beast", icon: "🐯", image: "tiger.webp", stock: 2, onSale: false, discountPrice: null },
+                { id: 'yeti', name: "يتي", nameAr: "يتي", price: 6.5, robux: 275, rarity: "mythical", category: "beast", icon: "🧊", image: "yeti.webp", stock: 1, onSale: false, discountPrice: null },
+                { id: 'kitsune', name: "كيتسوني", nameAr: "كيتسوني", price: 7.5, robux: 425, rarity: "mythical", category: "beast", icon: "🦊", image: "kitsune.webp", stock: 1, onSale: false, discountPrice: null },
+                { id: 'control', name: "تحكم", nameAr: "تحكم", price: 6.0, robux: 325, rarity: "mythical", category: "beast", icon: "🎮", image: "control.webp", stock: 2, onSale: false, discountPrice: null },
+                { id: 'dragon', name: "تنين", nameAr: "تنين", price: 12.5, robux: 1000, rarity: "mythical", category: "beast", icon: "🐉", image: "dragon.webp", stock: 1, onSale: false, discountPrice: null },
+                { id: 'dragon_perm', name: "دراجون دائم", nameAr: "دراجون دائم", price: 38.0, robux: null, rarity: "permanent", category: "permanent", icon: "🐉💎", image: "", stock: 0, onSale: true, discountPrice: null, cashOnly: true },
+                { id: 'leopard_perm', name: "ليوبارد دائم", nameAr: "ليوبارد دائم", price: 20.0, robux: null, rarity: "permanent", category: "permanent", icon: "🐆💎", image: "", stock: 0, onSale: false, discountPrice: null, cashOnly: true },
             ],
             brainrot: [
-                { id: 101, name: "Skibidi", nameAr: "سكبيدي", price: 2.0, robux: 700, rarity: "common", category: "common", image: "", stock: 50, onSale: false, discountPrice: null },
-                { id: 102, name: "Sigma", nameAr: "سيقما", price: 3.0, robux: 1000, rarity: "uncommon", category: "common", image: "", stock: 30, onSale: true, discountPrice: 2.5 },
-                { id: 103, name: "Ohio Boss", nameAr: "بوس أوهايو", price: 5.0, robux: 2000, rarity: "rare", category: "rare", image: "", stock: 0, onSale: false, discountPrice: null },
-                { id: 104, name: "Rizz God", nameAr: "ريز قود", price: 4.5, robux: 1800, rarity: "rare", category: "rare", image: "", stock: 8, onSale: false, discountPrice: null },
-                { id: 105, name: "Bombardino", nameAr: "بومباردينو", price: 10.0, robux: 4500, rarity: "legendary", category: "legendary", image: "", stock: 5, onSale: true, discountPrice: 8.0 },
-                { id: 106, name: "La Vaca", nameAr: "لا فاكا", price: 11.0, robux: 5000, rarity: "legendary", category: "legendary", image: "", stock: 3, onSale: false, discountPrice: null },
+                { id: 'skibidi', name: "سكبيدي", nameAr: "سكبيدي", price: 2.0, robux: 700, rarity: "common", category: "common", icon: "🚽", image: "", stock: 50, onSale: false, discountPrice: null },
+                { id: 'sigma', name: "سيقما", nameAr: "سيقما", price: 3.0, robux: 1000, rarity: "uncommon", category: "common", icon: "😎", image: "", stock: 30, onSale: true, discountPrice: 2.5 },
+                { id: 'ohio', name: "بوس أوهايو", nameAr: "بوس أوهايو", price: 5.0, robux: 2000, rarity: "rare", category: "rare", icon: "💀", image: "", stock: 0, onSale: false, discountPrice: null },
+                { id: 'rizz', name: "ريز قود", nameAr: "ريز قود", price: 4.5, robux: 1800, rarity: "rare", category: "rare", icon: "😏", image: "", stock: 8, onSale: false, discountPrice: null },
+                { id: 'bombardino', name: "بومباردينو", nameAr: "بومباردينو", price: 10.0, robux: 4500, rarity: "legendary", category: "legendary", icon: "🐊🔥", image: "", stock: 5, onSale: true, discountPrice: 8.0 },
+                { id: 'la_vacca', name: "لا فاكا", nameAr: "لا فاكا", price: 11.0, robux: 5000, rarity: "legendary", category: "legendary", icon: "🐄🪐", image: "", stock: 3, onSale: false, discountPrice: null },
             ],
             gamepasses: [
-                { id: 201, name: "2x Mastery", nameAr: "ماستري x2", price: 5.0, robux: 2000, rarity: "rare", category: "gamepass", image: "", stock: 999, onSale: false, discountPrice: null },
-                { id: 202, name: "Fruit Notifier", nameAr: "معلن الفواكه", price: 15.0, robux: 6000, rarity: "epic", category: "gamepass", image: "", stock: 50, onSale: true, discountPrice: 12.0 },
-                { id: 203, name: "Private Server", nameAr: "سيرفر خاص", price: 10.0, robux: 4000, rarity: "legendary", category: "gamepass", image: "", stock: 100, onSale: false, discountPrice: null },
+                { id: 'gp_2x', name: "ماستري x2", nameAr: "ماستري x2", price: 5.0, robux: 2000, rarity: "rare", category: "gamepass", icon: "⚔️", image: "", stock: 999, onSale: false, discountPrice: null },
+                { id: 'gp_fruit_notif', name: "معلن الفواكه", nameAr: "معلن الفواكه", price: 15.0, robux: 6000, rarity: "epic", category: "gamepass", icon: "🔔", image: "", stock: 50, onSale: true, discountPrice: 12.0 },
+                { id: 'gp_server', name: "سيرفر خاص", nameAr: "سيرفر خاص", price: 10.0, robux: 4000, rarity: "legendary", category: "gamepass", icon: "🏠", image: "", stock: 100, onSale: false, discountPrice: null },
             ]
         };
     </script>
