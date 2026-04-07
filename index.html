@@ -346,7 +346,7 @@
             gap: 24px; margin-bottom: 72px;
         }
 
-        /* 🎴 Product Card */
+        /* 🎴 Product Card - UPDATED */
         .product-card {
             background: var(--card-bg); border: 1px solid var(--card-border);
             border-radius: var(--radius); overflow: hidden;
@@ -416,14 +416,18 @@
             color: white; font-size: 0.7rem;
         }
 
+        /* ✅ UPDATED: Stock badge only shows when OUT of stock */
         .stock-badge {
             bottom: 0; left: 0; right: 0;
             padding: 8px; font-size: 0.8rem;
             text-align: center; font-weight: 600;
+            display: none; /* Hidden by default */
         }
-        .stock-in { background: rgba(16, 185, 129, 0.95); color: white; }
-        .stock-low { background: rgba(249, 115, 22, 0.95); color: #000; }
-        .stock-out { background: rgba(239, 68, 68, 0.95); color: white; }
+        .stock-badge.out { 
+            display: block; 
+            background: rgba(239, 68, 68, 0.95); 
+            color: white; 
+        }
 
         .product-info { padding: 20px; }
         .product-name {
@@ -481,34 +485,23 @@
             margin-right: auto;
         }
 
+        /* ✅ UPDATED: Only Add to Cart button */
         .action-buttons {
             display: flex; gap: 10px; margin-top: 12px;
         }
-        .buy-btn, .add-to-cart-btn {
-            flex: 1; padding: 12px; border: none;
+        .add-to-cart-btn {
+            width: 100%; padding: 12px; border: none;
             border-radius: 12px; font-family: inherit;
             font-size: 0.95rem; font-weight: 700;
             cursor: pointer; transition: var(--transition);
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-        }
-        .buy-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-        }
-        .buy-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(124, 58, 237, 0.4);
-        }
-        .add-to-cart-btn {
-            background: rgba(255,255,255,0.1);
-            color: var(--text); border: 1px solid var(--card-border);
+            background: linear-gradient(135deg, var(--green), #059669);
+            color: white; display: flex; align-items: center; justify-content: center; gap: 6px;
         }
         .add-to-cart-btn:hover {
-            background: var(--green); color: white;
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
-        .buy-btn:disabled, .add-to-cart-btn:disabled {
+        .add-to-cart-btn:disabled {
             background: var(--text-muted); cursor: not-allowed;
             transform: none; box-shadow: none;
         }
@@ -670,7 +663,7 @@
             transform: none; box-shadow: none;
         }
 
-        /* 🎫 Ticket Modal */
+        /* 🎫 Ticket Modal - UPDATED WITH PRODUCT LIST */
         .ticket-modal {
             display: none; position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
@@ -711,7 +704,7 @@
             border-radius: 12px; padding: 16px;
             margin: 16px 0; text-align: left;
             font-family: monospace; font-size: 0.9rem;
-            line-height: 1.8; max-height: 200px; overflow-y: auto;
+            line-height: 1.8; max-height: 250px; overflow-y: auto;
         }
         .ticket-total {
             font-size: 1.2rem; font-weight: 800;
@@ -809,18 +802,11 @@
             color: var(--cash-blue); font-size: 1.1rem;
         }
 
+        /* ✅ UPDATED: Stock info only shows in modal */
         .stock-info {
             text-align: center; padding: 12px 16px;
             border-radius: 12px; margin-bottom: 20px;
             font-weight: 600; font-size: 0.95rem;
-        }
-        .stock-info.in {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--stock-green); border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-        .stock-info.low {
-            background: rgba(249, 115, 22, 0.15);
-            color: var(--orange); border: 1px solid rgba(249, 115, 22, 0.3);
         }
         .stock-info.out {
             background: rgba(239, 68, 68, 0.15);
@@ -1257,7 +1243,7 @@
     <section class="section" id="store" style="margin-bottom: 100px;">
         <div class="section-header">
             <h2 data-t="store_title">🏪 تصفح المنتجات</h2>
-            <p data-t="store_desc">اختر اللعبة اللي تبي واشتري بأمان</p>
+            <p data-t="store_desc">اختر المنتجات اللي تبيها وأضفها للسلة</p>
         </div>
 
         <!-- 🎮 Game Tabs -->
@@ -1297,7 +1283,7 @@
                 <span data-t="faq_q1">كيف أشتري منتج؟</span>
             </div>
             <div class="faq-answer">
-                <p data-t="faq_a1">اختر المنتج، اضغط شراء، اختر طريقة الدفع (نقدي أو روبوكس)، ثم أكمل الطلب. لو دفعت روبوكس راح تتحول للديسكورد للتسليم الفوري!</p>
+                <p data-t="faq_a1">اختر المنتج، اضغط "➕ سلة"، كرر لإضافة منتجات أخرى، ثم افتح السلة وأكمل الطلب. لو دفعت روبوكس راح تتحول للديسكورد للتسليم الفوري!</p>
             </div>
         </div>
         <div class="faq-item">
@@ -1491,7 +1477,7 @@
         </div>
     </div>
 
-    <!-- 🎫 Ticket Modal for Robux -->
+    <!-- 🎫 Ticket Modal for Robux - UPDATED WITH FULL PRODUCT LIST -->
     <div class="ticket-modal" id="ticketModal">
         <div class="ticket-card">
             <div class="ticket-header">
@@ -1526,7 +1512,7 @@
             currency: "$",
             shopName: "4aikro Store",
             defaultLang: 'ar',
-            discountThreshold: 50, // $50 threshold for 5% discount
+            discountThreshold: 50,
             discountPercent: 5
         };
 
@@ -1538,10 +1524,10 @@
                 hero_title1: "أفضل متجر لبيع", hero_title2: "أيتمات روبلوكس",
                 hero_desc: "احصل على فواكه بلوكس فروت وأيتمات ستيل برينروت بأقل الأسعار وتوصيل فوري مع ضمان كامل",
                 stat_orders: "طلب مكتمل", stat_customers: "عميل سعيد", stat_rating: "تقييم العملاء",
-                store_title: "🏪 تصفح المنتجات", store_desc: "اختر اللعبة اللي تبي واشتري بأمان",
+                store_title: "🏪 تصفح المنتجات", store_desc: "اختر المنتجات اللي تبيها وأضفها للسلة",
                 tab_gamepasses: "قيم باس",
                 faq_title: "❓ الأسئلة الشائعة",
-                faq_q1: "كيف أشتري منتج؟", faq_a1: "اختر المنتج، اضغط شراء، اختر طريقة الدفع (نقدي أو روبوكس)، ثم أكمل الطلب. لو دفعت روبوكس راح تتحول للديسكورد للتسليم الفوري!",
+                faq_q1: "كيف أشتري منتج؟", faq_a1: "اختر المنتج، اضغط \"➕ سلة\"، كرر لإضافة منتجات أخرى، ثم افتح السلة وأكمل الطلب. لو دفعت روبوكس راح تتحول للديسكورد للتسليم الفوري!",
                 faq_q2: "هل الدفع آمن؟", faq_a2: "نعم! جميع عمليات الدفع محمية 100%. الدفع النقدي عبر تحويل بنكي موثوق، والدفع بالروبوكس يتم عبر الديسكورد الرسمي فقط.",
                 faq_q3: "كم وقت التسليم؟", faq_a3: "التسليم فوري! بعد تأكيد الدفع، يتم تسليم المنتج خلال دقائق قليلة. المنتجات الدائمة تُسلم مباشرة لحسابك.",
                 faq_q4: "كيف أضيف منتج للمفضلة؟", faq_a4: "اضغط على قلب ❤️ بجانب اسم المنتج. المنتجات المفضلة تُحفظ في متصفحك وتظهر لك عند العودة!",
@@ -1552,7 +1538,7 @@
                 pay_robux_title: "دفع روبوكس", pay_robux_desc: "يحولك للديسكورد للتسليم",
                 btn_select_payment: "اختر طريقة الدفع", btn_confirm_cash: "💵 تأكيد الدفع النقدي",
                 btn_confirm_robux: "💎 الذهاب للديسكورد", btn_out_of_stock: "❌ غير متوفر",
-                stock_in: "✅ متاح - الكمية: ", stock_low: "⚠️ الكمية قليلة: ", stock_out: "❌ نفذت الكمية",
+                stock_out: "❌ نفذت الكمية",
                 sale_badge: "خصم", original_price: "السعر الأصلي", discount_percent: "% خصم",
                 search_placeholder: "🔍 ابحث عن منتج...",
                 toast_fav: "تمت الإضافة للمفضلة ❤️", toast_unfav: "تمت الإزالة من المفضلة",
@@ -1580,13 +1566,13 @@
                 hero_title1: "Best Store for", hero_title2: "Roblox Items",
                 hero_desc: "Get Blox Fruits & Steal a Brainrot items at best prices with instant delivery & full guarantee",
                 stat_orders: "Orders Completed", stat_customers: "Happy Customers", stat_rating: "Customer Rating",
-                store_title: "🏪 Browse Products", store_desc: "Choose your game and buy safely",
+                store_title: "🏪 Browse Products", store_desc: "Choose items and add to cart",
                 tab_gamepasses: "Gamepasses",
                 faq_title: "❓ Frequently Asked Questions",
-                faq_q1: "How do I buy a product?", faq_a1: "Select item, click Buy, choose payment (Cash or Robux), confirm order. Robux payment redirects to Discord for instant delivery!",
+                faq_q1: "How do I buy?", faq_a1: "Select item, click \"➕ Cart\", repeat for more items, then open cart and checkout. Robux payment redirects to Discord!",
                 faq_q2: "Is payment secure?", faq_a2: "Yes! All payments are 100% protected. Cash via trusted bank transfer, Robux via official Discord only.",
-                faq_q3: "How long is delivery?", faq_a3: "Instant delivery! After payment confirmation, items are delivered within minutes. Permanent items go directly to your account.",
-                faq_q4: "How do I favorite an item?", faq_a4: "Click the heart ❤️ next to item name. Favorites are saved in your browser and appear when you return!",
+                faq_q3: "How long is delivery?", faq_a3: "Instant delivery! After payment confirmation, items are delivered within minutes.",
+                faq_q4: "How do I favorite an item?", faq_a4: "Click the heart ❤️ next to item name. Favorites are saved in your browser!",
                 reviews_title: "⭐ Customer Reviews",
                 footer_privacy: "Privacy Policy", footer_terms: "Terms & Conditions", footer_contact: "Contact Us", footer_rights: "All rights reserved",
                 modal_title: "🛒 Checkout", modal_payment: "Select Payment Method:",
@@ -1594,7 +1580,7 @@
                 pay_robux_title: "Robux Payment", pay_robux_desc: "Redirect to Discord for delivery",
                 btn_select_payment: "Select Payment", btn_confirm_cash: "💵 Confirm Cash",
                 btn_confirm_robux: "💎 Go to Discord", btn_out_of_stock: "❌ Out of Stock",
-                stock_in: "✅ In Stock - Qty: ", stock_low: "⚠️ Low Stock: ", stock_out: "❌ Out of Stock",
+                stock_out: "❌ Out of Stock",
                 sale_badge: "SALE", original_price: "Original Price", discount_percent: "% OFF",
                 search_placeholder: "🔎 Search item...",
                 toast_fav: "Added to favorites ❤️", toast_unfav: "Removed from favorites",
@@ -1651,8 +1637,7 @@
         
         function getStockStatus(stock) {
             if(stock <= 0) return { class: 'out', text: t('stock_out'), badge: 'stock-out', disabled: true };
-            if(stock <= 5) return { class: 'low', text: t('stock_low') + stock, badge: 'stock-low', disabled: false };
-            return { class: 'in', text: t('stock_in') + stock, badge: 'stock-in', disabled: false };
+            return { class: 'in', text: '', badge: '', disabled: false }; // Only show out of stock
         }
 
         function getDisplayPrice(item) {
@@ -1770,7 +1755,6 @@
             
             container.innerHTML = cart.map(item => {
                 const price = getDisplayPrice(item);
-                const itemTotal = price.current * item.quantity;
                 const icon = item.image ? `<img src="${item.image}" alt="${item.name}">` : item.icon || '📦';
                 const name = currentLang === 'ar' ? item.nameAr : item.name;
                 
@@ -1827,14 +1811,11 @@
         function checkoutCart() {
             if(cart.length === 0) return;
             
-            // Check if any item can be paid with Robux
             const hasRobuxOption = cart.some(item => item.robux && item.category !== 'permanent');
             
             if(hasRobuxOption) {
-                // Show payment method selection for cart checkout
                 openCartPaymentModal();
             } else {
-                // Only cash available
                 processCartCheckout('cash');
             }
         }
@@ -1873,17 +1854,14 @@
         }
 
         function processCartCheckout(method, el) {
-            // Close payment modal if open
             const paymentModal = document.querySelector('.modal-overlay');
             if(paymentModal) paymentModal.remove();
             
             const { subtotal, discount, total } = calculateCartDiscount();
             
             if(method === 'robux') {
-                // Generate ticket for Robux payment
                 generateTicket(cart, total, discount);
             } else {
-                // Cash payment - redirect to Discord
                 showToast('success', currentLang==='ar'?'تم استلام طلبك! راجع الديسكورد ✅' : 'Order received! Check Discord ✅');
                 setTimeout(() => {
                     window.open(CONFIG.discord, '_blank');
@@ -1896,42 +1874,47 @@
             }
         }
 
-        /* 🎫 TICKET SYSTEM FOR ROBUX */
+        /* 🎫 TICKET SYSTEM - UPDATED WITH FULL PRODUCT LIST */
         function generateTicket(cartItems, total, discount) {
             const ticketId = '#TICKET-' + Math.random().toString(36).substr(2, 6).toUpperCase();
             $('#ticketIdDisplay').textContent = ticketId;
             
-            // Build order details
+            // Build detailed order with ALL selected products
             let orderText = `🛒 طلب روبوكس - ${new Date().toLocaleDateString('ar-SA')}\n`;
+            orderText += `━━━━━━━━━━━━━━━━━━\n\n`;
+            orderText += `📦 المنتجات المطلوبة:\n`;
             orderText += `━━━━━━━━━━━━━━━━━━\n`;
             
             cartItems.forEach(item => {
                 const price = getDisplayPrice(item).current;
                 const name = currentLang === 'ar' ? item.nameAr : item.name;
-                orderText += `• ${name} x${item.quantity} = ${formatMoney(price * item.quantity)}\n`;
+                const itemTotal = price * item.quantity;
+                orderText += `• ${name}\n`;
+                orderText += `  ├─ الكمية: ${item.quantity}\n`;
+                orderText += `  ├─ سعر الوحدة: ${formatMoney(price)}\n`;
+                orderText += `  └─ المجموع: ${formatMoney(itemTotal)}\n\n`;
             });
             
             orderText += `━━━━━━━━━━━━━━━━━━\n`;
-            orderText += `المجموع: ${formatMoney(total + discount)}\n`;
+            orderText += `💰 ملخص الدفع:\n`;
+            orderText += `━━━━━━━━━━━━━━━━━━\n`;
+            orderText += `المجموع قبل الخصم: ${formatMoney(total + discount)}\n`;
             if(discount > 0) {
                 orderText += `🎁 خصم ${CONFIG.discountPercent}%: -${formatMoney(discount)}\n`;
             }
-            orderText += `💰 الإجمالي: ${formatMoney(total)}\n`;
-            orderText += `━━━━━━━━━━━━━━━━━━\n`;
+            orderText += `💵 الإجمالي النهائي: ${formatMoney(total)}\n`;
+            orderText += `━━━━━━━━━━━━━━━━━━\n\n`;
             orderText += `💳 يرجى فتح تذكرة في روم "خدمة العملاء"\n`;
             orderText += `لإتمام عملية الشراء بالروبوكس`;
             
             $('#ticketOrderDetails').textContent = orderText;
             $('#ticketTotalDisplay').textContent = `الإجمالي: ${formatMoney(total)}`;
             
-            // Store ticket data for copying
             window.currentTicketText = orderText;
             
-            // Show ticket modal
             $('#ticketModal').classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Hide cart
             toggleCart();
             
             showToast('info', t('ticket_created'));
@@ -1953,7 +1936,6 @@
         function closeTicketModal() {
             $('#ticketModal').classList.remove('active');
             document.body.style.overflow = '';
-            // Clear cart after ticket is shown
             cart = [];
             saveCart();
             renderCart();
@@ -2020,7 +2002,7 @@
             updateButtons();
         }
 
-        /* 🖼️ RENDER PRODUCTS */
+        /* 🖼️ RENDER PRODUCTS - UPDATED */
         function renderProducts() {
             const grid = $('#productsGrid'); grid.innerHTML = '';
             let items = (DB[state.currentTab] || []).filter(i => 
@@ -2055,7 +2037,7 @@
                     ${isNew && !price.showDiscount ? `<div class="new-badge">🆕 جديد</div>` : ''}
                     ${isCashOnly ? `<div class="cash-only-badge">${t('cash_only')}</div>` : ''}
                     <div class="product-image">${imgHTML}</div>
-                    <div class="stock-badge ${stock.badge}">${stock.text}</div>
+                    ${stock.badge === 'stock-out' ? `<div class="stock-badge ${stock.badge}">${stock.text}</div>` : ''}
                     <div class="product-info">
                         <div class="product-name">
                             ${name}
@@ -2071,11 +2053,8 @@
                             ${price.showDiscount ? `<span class="discount-percent">${t('discount_percent')}</span>` : ''}
                         </div>
                         <div class="action-buttons">
-                            <button class="buy-btn" ${stock.disabled ? 'disabled' : ''} onclick="event.stopPropagation(); openModal('${JSON.stringify(item).replace(/'/g, "&#39;")}')">
-                                🛒 ${currentLang==='ar' ? 'شراء' : 'Buy'}
-                            </button>
                             <button class="add-to-cart-btn" ${stock.disabled ? 'disabled' : ''} onclick="event.stopPropagation(); addToCart(${JSON.stringify(item).replace(/'/g, "&#39;")})">
-                                ➕ ${currentLang==='ar' ? 'سلة' : 'Cart'}
+                                ➕ ${currentLang==='ar' ? 'أضف للسلة' : 'Add to Cart'}
                             </button>
                         </div>
                     </div>
@@ -2160,8 +2139,13 @@
                     ${price.showDiscount ? `<p class="modal-product-price">${t('original_price')}: ${formatMoney(price.original)} 🔥 ${formatMoney(price.current)}</p>` : `<p class="modal-product-price">${formatMoney(price.current)}</p>`}
                 </div>
             `;
-            $('#modalStockInfo').className = `stock-info ${stock.class}`;
-            $('#modalStockInfo').textContent = stock.text;
+            // Only show stock info if out of stock
+            if(stock.class === 'out') {
+                $('#modalStockInfo').className = `stock-info ${stock.class}`;
+                $('#modalStockInfo').textContent = stock.text;
+            } else {
+                $('#modalStockInfo').style.display = 'none';
+            }
             
             initQtySelector();
             window.setQtyMax(item.stock);
@@ -2206,7 +2190,6 @@
             const qty = parseInt($('#qtyInput').value) || 1;
             
             if(state.paymentMethod === 'robux') {
-                // Generate ticket for single item Robux purchase
                 const cartItem = { ...p, quantity: qty };
                 const price = getDisplayPrice(p).current * qty;
                 generateTicket([cartItem], price, 0);
