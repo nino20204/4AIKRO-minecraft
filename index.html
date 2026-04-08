@@ -1446,7 +1446,8 @@
             shopName: "4aikro Store",
             defaultLang: 'ar',
             discountThreshold: 50,
-            discountPercent: 5
+            discountPercent: 5,
+            paypalEmail: "your-paypal@email.com" // ⚠️ غيّر هذا لإيميل بايبال الخاص بك
         };
 
         /* 🌐 TRANSLATIONS */
@@ -1490,7 +1491,11 @@
                 cart_checkout_msg: "جاري تحويلك للديسكورد لإتمام الشراء... 🚀",
                 ticket_created: "🎫 تم إنشاء التذكرة!",
                 ticket_copy: "📋 تم النسخ! ألصق في #خدمة-العملاء",
-                ticket_discord: "💬 فتح الديسكورد"
+                ticket_discord: "💬 فتح الديسكورد",
+                paypal_title: "💵 الدفع عبر بايبال",
+                paypal_desc: "يرجى إتمام الدفع عبر حساب بايبال وإرسال الإيصال",
+                paypal_email: "إيميل بايبال:",
+                paypal_note: "بعد الدفع، أرسل صورة الإيصال عبر الديسكورد"
             },
             en: {
                 nav_home: "Home", nav_store: "Store", nav_faq: "FAQ", nav_reviews: "Reviews", nav_discord: "Discord",
@@ -1531,7 +1536,11 @@
                 cart_checkout_msg: "Redirecting to Discord to complete purchase... 🚀",
                 ticket_created: "🎫 Ticket Created!",
                 ticket_copy: "📋 Copied! Paste in #support",
-                ticket_discord: "💬 Open Discord"
+                ticket_discord: "💬 Open Discord",
+                paypal_title: "💵 PayPal Payment",
+                paypal_desc: "Please complete payment via PayPal and send receipt",
+                paypal_email: "PayPal Email:",
+                paypal_note: "After payment, send receipt screenshot via Discord"
             }
         };
 
@@ -1766,7 +1775,7 @@
                                 <div class="payment-icon cash">💵</div>
                                 <div class="payment-details">
                                     <h4>دفع نقدي</h4>
-                                    <p>تحويل بنكي / STC Pay</p>
+                                    <p>PayPal / تحويل بنكي</p>
                                 </div>
                             </div>
                             <div class="payment-option" onclick="processCartCheckout('robux', this)">
@@ -1793,53 +1802,95 @@
             if(method === 'robux') {
                 generateTicket(cart, total, discount);
             } else {
-                showToast('success', currentLang==='ar'?'تم استلام طلبك! راجع الديسكورد ✅' : 'Order received! Check Discord ✅');
-                setTimeout(() => {
-                    window.open(CONFIG.discord, '_blank');
+                showPaypalPaymentModal(total, discount);
+            }
+        }
+
+        /* 💵 PAYPAL PAYMENT MODAL */
+        function showPaypalPaymentModal(total, discount) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay active';
+            modal.innerHTML = `
+                <div class="modal">
+                    <div class="modal-header">
+                        <h3>${t('paypal_title')}</h3>
+                        <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
+                    </div>
+                    <div class="modal-body" style="text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 16px;">🅿️</div>
+                        <h3 style="margin-bottom: 10px;">${t('paypal_desc')}</h3>
+                        <p style="color: var(--text-dim); margin-bottom: 20px; line-height: 1.6;">
+                            ${t('paypal_email')}<br>
+                            <strong style="color: var(--primary); font-size: 1.1rem; word-break: break-all;">${CONFIG.paypalEmail}</strong>
+                        </p>
+                        <p style="color: var(--text-dim); margin-bottom: 20px;">
+                            <strong>مبلغ الدفع:</strong> ${formatMoney(total)}<br>
+                            ${discount > 0 ? `<strong style="color: var(--green);">✅ تم تطبيق خصم ${CONFIG.discountPercent}%</strong><br>` : ''}
+                        </p>
+                        <p style="color: var(--text-dim); margin-bottom: 20px; font-size: 0.9rem;">
+                            ${t('paypal_note')}
+                        </p>
+                        <a href="${CONFIG.discord}" target="_blank" class="discord-redirect-btn" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: linear-gradient(135deg, #5865F2, #7289da); color: white; border: none; border-radius: 12px; font-family: inherit; font-weight: 700; cursor: pointer; text-decoration: none;">
+                            💬 إرسال الإيصال عبر الديسكورد
+                        </a>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.onclick = (e) => { 
+                if(e.target === modal) { 
+                    modal.remove(); 
+                    // Clear cart after showing payment info
                     cart = [];
                     saveCart();
                     renderCart();
                     updateCartBadge();
                     toggleCart();
-                }, 1500);
-            }
+                } 
+            };
         }
 
-        /* 🎫 TICKET SYSTEM - UPDATED WITH FULL PRODUCT LIST */
+        /* 🎫 TICKET SYSTEM - UPDATED WITH ROBUX PRICES */
         function generateTicket(cartItems, total, discount) {
             const ticketId = '#TICKET-' + Math.random().toString(36).substr(2, 6).toUpperCase();
             $('#ticketIdDisplay').textContent = ticketId;
             
-            // Build detailed order with ALL selected products
+            // Build detailed order with ALL selected products - SHOW ROBUX PRICES
             let orderText = `🛒 طلب روبوكس - ${new Date().toLocaleDateString('ar-SA')}\n`;
             orderText += `━━━━━━━━━━━━━━━━━━\n\n`;
             orderText += `📦 المنتجات المطلوبة:\n`;
             orderText += `━━━━━━━━━━━━━━━━━━\n`;
             
             cartItems.forEach(item => {
-                const price = getDisplayPrice(item).current;
+                // Get robux price and format it
+                const robuxPrice = item.robux || 0;
                 const name = currentLang === 'ar' ? item.nameAr : item.name;
-                const itemTotal = price * item.quantity;
+                const itemTotal = robuxPrice * item.quantity;
                 orderText += `• ${name}\n`;
                 orderText += `  ├─ الكمية: ${item.quantity}\n`;
-                orderText += `  ├─ سعر الوحدة: ${formatMoney(price)}\n`;
-                orderText += `  └─ المجموع: ${formatMoney(itemTotal)}\n\n`;
+                orderText += `  ├─ سعر الوحدة: ${robuxPrice.toLocaleString()} R$\n`;
+                orderText += `  └─ المجموع: ${itemTotal.toLocaleString()} R$\n\n`;
             });
             
             orderText += `━━━━━━━━━━━━━━━━━━\n`;
             orderText += `💰 ملخص الدفع:\n`;
             orderText += `━━━━━━━━━━━━━━━━━━\n`;
-            orderText += `المجموع قبل الخصم: ${formatMoney(total + discount)}\n`;
-            if(discount > 0) {
-                orderText += `🎁 خصم ${CONFIG.discountPercent}%: -${formatMoney(discount)}\n`;
+            // Calculate total in Robux
+            const robuxSubtotal = cartItems.reduce((sum, item) => sum + (item.robux || 0) * item.quantity, 0);
+            const robuxDiscount = robuxSubtotal >= CONFIG.discountThreshold ? Math.round(robuxSubtotal * (CONFIG.discountPercent / 100)) : 0;
+            const robuxTotal = robuxSubtotal - robuxDiscount;
+            
+            orderText += `المجموع قبل الخصم: ${robuxSubtotal.toLocaleString()} R$\n`;
+            if(robuxDiscount > 0) {
+                orderText += `🎁 خصم ${CONFIG.discountPercent}%: -${robuxDiscount.toLocaleString()} R$\n`;
             }
-            orderText += `💵 الإجمالي النهائي: ${formatMoney(total)}\n`;
+            orderText += `💎 الإجمالي النهائي: ${robuxTotal.toLocaleString()} R$\n`;
             orderText += `━━━━━━━━━━━━━━━━━━\n\n`;
             orderText += `💳 يرجى فتح تذكرة في روم "خدمة العملاء"\n`;
             orderText += `لإتمام عملية الشراء بالروبوكس`;
             
             $('#ticketOrderDetails').textContent = orderText;
-            $('#ticketTotalDisplay').textContent = `الإجمالي: ${formatMoney(total)}`;
+            $('#ticketTotalDisplay').textContent = `الإجمالي: ${robuxTotal.toLocaleString()} R$`;
             
             window.currentTicketText = orderText;
             
@@ -2080,6 +2131,10 @@
         function closeModal() { 
             $('#purchaseModal').classList.remove('active'); 
             document.body.style.overflow = '';
+            // ✅ FIX: Reset modal state to prevent glitch
+            state.selectedProduct = null;
+            state.quantity = 1;
+            $('#qtyInput').value = 1;
         }
 
         /* ✅ NEW: Add to Cart from Modal */
@@ -2087,7 +2142,7 @@
             if(!state.selectedProduct) return;
             const qty = parseInt($('#qtyInput').value) || 1;
             addToCart(state.selectedProduct, qty);
-            closeModal();
+            closeModal(); // This now properly resets state
         }
 
         /* 🔔 TOAST */
