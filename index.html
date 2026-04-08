@@ -734,7 +734,7 @@
         }
         .ticket-btn:hover { transform: translateY(-2px); }
 
-        /* 🛒 Purchase Modal */
+        /* 🛒 Purchase Modal - UPDATED: Quantity Only */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
@@ -864,50 +864,7 @@
             75% { transform: translateX(4px); }
         }
 
-        .payment-options { margin-bottom: 24px; }
-        .payment-option {
-            padding: 18px 20px; border: 2px solid var(--card-border);
-            border-radius: 16px; cursor: pointer;
-            display: flex; align-items: center; gap: 16px;
-            margin-bottom: 14px; transition: var(--transition);
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .payment-option:hover {
-            border-color: var(--primary);
-            background: rgba(124, 58, 237, 0.08);
-            transform: translateX(4px);
-        }
-        .payment-option.selected {
-            border-color: var(--primary);
-            background: rgba(124, 58, 237, 0.15);
-            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
-        }
-        .payment-icon {
-            width: 52px; height: 52px; border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.6rem; flex-shrink: 0;
-        }
-        .payment-icon.cash {
-            background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(59,130,246,0.1));
-            border: 1px solid rgba(59,130,246,0.3);
-        }
-        .payment-icon.robux {
-            background: linear-gradient(135deg, rgba(0,176,111,0.2), rgba(0,176,111,0.1));
-            border: 1px solid rgba(0,176,111,0.3);
-        }
-        .payment-details { flex: 1; }
-        .payment-details h4 {
-            font-weight: 700; margin-bottom: 4px; font-size: 1.05rem;
-        }
-        .payment-details p {
-            font-size: 0.85rem; color: var(--text-muted);
-        }
-        .payment-price {
-            font-weight: 800; font-size: 1.15rem;
-            margin-right: auto;
-        }
-        .payment-price.cash { color: var(--cash-blue); }
-        .payment-price.robux { color: var(--robux-green); }
+        /* ✅ REMOVED: Payment options from product modal - now only in cart checkout */
 
         .confirm-btn {
             width: 100%; padding: 18px; border: none;
@@ -916,26 +873,15 @@
             cursor: pointer; transition: var(--transition);
             margin-top: 12px; color: white;
             display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: linear-gradient(135deg, var(--green), #059669);
         }
-        .confirm-btn.disabled {
+        .confirm-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+        }
+        .confirm-btn:disabled {
             opacity: 0.5; pointer-events: none;
             background: var(--text-muted);
-        }
-        .confirm-btn.cash {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
-        }
-        .confirm-btn.cash:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
-        }
-        .confirm-btn.robux {
-            background: linear-gradient(135deg, #00b06f, #00a862);
-            box-shadow: 0 4px 20px rgba(0, 176, 111, 0.3);
-        }
-        .confirm-btn.robux:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 176, 111, 0.5);
         }
 
         /* ❓ FAQ Section */
@@ -1283,7 +1229,7 @@
                 <span data-t="faq_q1">كيف أشتري منتج؟</span>
             </div>
             <div class="faq-answer">
-                <p data-t="faq_a1">اختر المنتج، اضغط "➕ سلة"، كرر لإضافة منتجات أخرى، ثم افتح السلة وأكمل الطلب. لو دفعت روبوكس راح تتحول للديسكورد للتسليم الفوري!</p>
+                <p data-t="faq_a1">اختر المنتج، اضغط "➕ سلة"، اختر الكمية، ثم أضف للسلة. كرر لإضافة منتجات أخرى، ثم افتح السلة وأكمل الطلب. لو دفعت روبوكس راح تتحول للديسكورد للتسليم الفوري!</p>
             </div>
         </div>
         <div class="faq-item">
@@ -1432,18 +1378,18 @@
         </div>
     </div>
 
-    <!-- 🛒 Purchase Modal -->
+    <!-- 🛒 Purchase Modal - UPDATED: Quantity Only -->
     <div class="modal-overlay" id="purchaseModal" role="dialog" aria-modal="true">
         <div class="modal">
             <div class="modal-header">
-                <h3 data-t="modal_title">🛒 إتمام الشراء</h3>
+                <h3 data-t="modal_title">🛒 إضافة للسلة</h3>
                 <button class="modal-close" onclick="closeModal()" aria-label="Close modal">✕</button>
             </div>
             <div class="modal-body">
                 <div class="modal-product" id="modalProductInfo"></div>
                 <div id="modalStockInfo" class="stock-info"></div>
                 
-                <!-- 🔢 Modern Quantity Selector -->
+                <!-- 🔢 Quantity Selector Only -->
                 <div class="qty-control">
                     <div class="qty-input-group">
                         <button class="qty-btn" id="qtyMinus" aria-label="Decrease">−</button>
@@ -1453,26 +1399,13 @@
                     <div class="qty-max-hint" id="qtyHint">الحد الأقصى: <span id="maxQty">10</span></div>
                 </div>
 
-                <h4 style="margin-bottom:16px;" data-t="modal_payment">اختر طريقة الدفع:</h4>
-                <div id="paymentOptions">
-                    <div class="payment-option" onclick="selectPayment('cash',this)" role="radio" tabindex="0" onkeypress="if(event.key==='Enter')selectPayment('cash',this)">
-                        <div class="payment-icon cash">💵</div>
-                        <div class="payment-details">
-                            <h4 data-t="pay_cash_title">دفع نقدي</h4>
-                            <p data-t="pay_cash_desc">تحويل بنكي / STC Pay</p>
-                        </div>
-                        <div class="payment-price cash" id="modalCashPrice">$0</div>
-                    </div>
-                    <div class="payment-option" id="robuxPaymentOption" onclick="selectPayment('robux',this)" role="radio" tabindex="0" onkeypress="if(event.key==='Enter')selectPayment('robux',this)">
-                        <div class="payment-icon robux">💎</div>
-                        <div class="payment-details">
-                            <h4 data-t="pay_robux_title">دفع روبوكس</h4>
-                            <p data-t="pay_robux_desc">يحولك للديسكورد للتسليم</p>
-                        </div>
-                        <div class="payment-price robux" id="modalRobuxPrice">0 R$</div>
-                    </div>
-                </div>
-                <button class="confirm-btn disabled" id="confirmBtn" onclick="confirmPurchase()" data-t="btn_select_payment">اختر طريقة الدفع</button>
+                <p style="text-align:center;color:var(--text-dim);margin:16px 0;font-size:0.9rem;">
+                    اختر الكمية ثم اضغط "➕ أضف للسلة"
+                </p>
+
+                <button class="confirm-btn" id="confirmBtn" onclick="addToCartFromModal()">
+                    ➕ <span data-t="btn_add_to_cart">أضف للسلة</span>
+                </button>
             </div>
         </div>
     </div>
@@ -1527,15 +1460,14 @@
                 store_title: "🏪 تصفح المنتجات", store_desc: "اختر المنتجات اللي تبيها وأضفها للسلة",
                 tab_gamepasses: "قيم باس",
                 faq_title: "❓ الأسئلة الشائعة",
-                faq_q1: "كيف أشتري منتج؟", faq_a1: "اختر المنتج، اضغط \"➕ سلة\"، كرر لإضافة منتجات أخرى، ثم افتح السلة وأكمل الطلب. لو دفعت روبوكس راح تتحول للديسكورد للتسليم الفوري!",
+                faq_q1: "كيف أشتري منتج؟", faq_a1: "اختر المنتج، اضغط \"➕ سلة\"، اختر الكمية، ثم أضف للسلة. كرر لإضافة منتجات أخرى، ثم افتح السلة وأكمل الطلب. لو دفعت روبوكس راح تتحول للديسكورد للتسليم الفوري!",
                 faq_q2: "هل الدفع آمن؟", faq_a2: "نعم! جميع عمليات الدفع محمية 100%. الدفع النقدي عبر تحويل بنكي موثوق، والدفع بالروبوكس يتم عبر الديسكورد الرسمي فقط.",
                 faq_q3: "كم وقت التسليم؟", faq_a3: "التسليم فوري! بعد تأكيد الدفع، يتم تسليم المنتج خلال دقائق قليلة. المنتجات الدائمة تُسلم مباشرة لحسابك.",
                 faq_q4: "كيف أضيف منتج للمفضلة؟", faq_a4: "اضغط على قلب ❤️ بجانب اسم المنتج. المنتجات المفضلة تُحفظ في متصفحك وتظهر لك عند العودة!",
                 reviews_title: "⭐ آراء العملاء",
                 footer_privacy: "سياسة الخصوصية", footer_terms: "الشروط والأحكام", footer_contact: "تواصل معنا", footer_rights: "جميع الحقوق محفوظة",
-                modal_title: "🛒 إتمام الشراء", modal_payment: "اختر طريقة الدفع:",
-                pay_cash_title: "دفع نقدي", pay_cash_desc: "تحويل بنكي / STC Pay",
-                pay_robux_title: "دفع روبوكس", pay_robux_desc: "يحولك للديسكورد للتسليم",
+                modal_title: "🛒 إضافة للسلة",
+                btn_add_to_cart: "أضف للسلة",
                 btn_select_payment: "اختر طريقة الدفع", btn_confirm_cash: "💵 تأكيد الدفع النقدي",
                 btn_confirm_robux: "💎 الذهاب للديسكورد", btn_out_of_stock: "❌ غير متوفر",
                 stock_out: "❌ نفذت الكمية",
@@ -1569,15 +1501,14 @@
                 store_title: "🏪 Browse Products", store_desc: "Choose items and add to cart",
                 tab_gamepasses: "Gamepasses",
                 faq_title: "❓ Frequently Asked Questions",
-                faq_q1: "How do I buy?", faq_a1: "Select item, click \"➕ Cart\", repeat for more items, then open cart and checkout. Robux payment redirects to Discord!",
+                faq_q1: "How do I buy?", faq_a1: "Select item, choose quantity, click \"➕ Add to Cart\". Repeat for more items, then open cart and checkout. Robux payment redirects to Discord!",
                 faq_q2: "Is payment secure?", faq_a2: "Yes! All payments are 100% protected. Cash via trusted bank transfer, Robux via official Discord only.",
                 faq_q3: "How long is delivery?", faq_a3: "Instant delivery! After payment confirmation, items are delivered within minutes.",
                 faq_q4: "How do I favorite an item?", faq_a4: "Click the heart ❤️ next to item name. Favorites are saved in your browser!",
                 reviews_title: "⭐ Customer Reviews",
                 footer_privacy: "Privacy Policy", footer_terms: "Terms & Conditions", footer_contact: "Contact Us", footer_rights: "All rights reserved",
-                modal_title: "🛒 Checkout", modal_payment: "Select Payment Method:",
-                pay_cash_title: "Cash Payment", pay_cash_desc: "Bank Transfer / STC Pay",
-                pay_robux_title: "Robux Payment", pay_robux_desc: "Redirect to Discord for delivery",
+                modal_title: "🛒 Add to Cart",
+                btn_add_to_cart: "Add to Cart",
                 btn_select_payment: "Select Payment", btn_confirm_cash: "💵 Confirm Cash",
                 btn_confirm_robux: "💎 Go to Discord", btn_out_of_stock: "❌ Out of Stock",
                 stock_out: "❌ Out of Stock",
@@ -1637,7 +1568,7 @@
         
         function getStockStatus(stock) {
             if(stock <= 0) return { class: 'out', text: t('stock_out'), badge: 'stock-out', disabled: true };
-            return { class: 'in', text: '', badge: '', disabled: false }; // Only show out of stock
+            return { class: 'in', text: '', badge: '', disabled: false };
         }
 
         function getDisplayPrice(item) {
@@ -1687,18 +1618,18 @@
         }
 
         /* 🛒 CART FUNCTIONS */
-        function addToCart(item) {
+        function addToCart(item, qty = 1) {
             const existing = cart.find(i => i.id === item.id);
             if(existing) {
-                if(existing.quantity < item.stock) {
-                    existing.quantity++;
+                if(existing.quantity + qty <= item.stock) {
+                    existing.quantity += qty;
                     showToast('success', t('cart_add'));
                 } else {
                     showToast('error', t('stock_out'));
                     return;
                 }
             } else {
-                cart.push({ ...item, quantity: 1 });
+                cart.push({ ...item, quantity: qty });
                 showToast('success', t('cart_add'));
             }
             saveCart();
@@ -1968,8 +1899,6 @@
                 val = Math.max(1, Math.min(val + delta, max));
                 input.value = val;
                 updateButtons();
-                updateModalPrices();
-                input.classList.remove('shake');
                 void input.offsetWidth;
             }
             
@@ -1986,13 +1915,12 @@
                     setTimeout(() => input.classList.remove('shake'), 300);
                 }
                 updateButtons();
-                updateModalPrices();
             };
             
             input.onkeydown = (e) => {
                 if(e.key === 'ArrowUp') { e.preventDefault(); changeQty(1); }
                 if(e.key === 'ArrowDown') { e.preventDefault(); changeQty(-1); }
-                if(e.key === 'Enter') { confirmPurchase(); }
+                if(e.key === 'Enter') { addToCartFromModal(); }
             };
             
             window.updateQty = changeQty;
@@ -2053,7 +1981,7 @@
                             ${price.showDiscount ? `<span class="discount-percent">${t('discount_percent')}</span>` : ''}
                         </div>
                         <div class="action-buttons">
-                            <button class="add-to-cart-btn" ${stock.disabled ? 'disabled' : ''} onclick="event.stopPropagation(); addToCart(${JSON.stringify(item).replace(/'/g, "&#39;")})">
+                            <button class="add-to-cart-btn" ${stock.disabled ? 'disabled' : ''} onclick="event.stopPropagation(); openModal('${JSON.stringify(item).replace(/'/g, "&#39;")}')">
                                 ➕ ${currentLang==='ar' ? 'أضف للسلة' : 'Add to Cart'}
                             </button>
                         </div>
@@ -2109,27 +2037,20 @@
             answer.classList.toggle('show');
         }
 
-        /* 🛒 MODAL */
+        /* 🛒 MODAL - UPDATED: Quantity Only */
         function openModal(item) {
             if(getStockStatus(item.stock).disabled) return;
-            state.selectedProduct = item; state.quantity = 1; state.paymentMethod = null;
+            state.selectedProduct = item; state.quantity = 1;
             
-            const btn = $('#confirmBtn'); btn.className = 'confirm-btn disabled'; btn.textContent = t('btn_select_payment');
+            const btn = $('#confirmBtn'); 
+            btn.textContent = t('btn_add_to_cart');
+            btn.onclick = addToCartFromModal;
 
             const stock = getStockStatus(item.stock);
             const price = getDisplayPrice(item);
             const name = currentLang === 'ar' ? item.nameAr : item.name;
             const img = item.image ? `<img src="${item.image}" onerror="this.parentElement.innerHTML='${item.icon || '📦'}'">` : (item.icon || '📦');
             const isCashOnly = item.category === 'permanent';
-            
-            const robuxOption = $('#robuxPaymentOption');
-            if(isCashOnly) {
-                robuxOption.style.display = 'none';
-                state.paymentMethod = 'cash';
-                selectPayment('cash', robuxOption.previousElementSibling);
-            } else {
-                robuxOption.style.display = 'flex';
-            }
             
             $('#modalProductInfo').innerHTML = `
                 <div class="modal-product-image">${img}</div>
@@ -2159,44 +2080,13 @@
         function closeModal() { 
             $('#purchaseModal').classList.remove('active'); 
             document.body.style.overflow = '';
-            $('#robuxPaymentOption').style.display = 'flex';
         }
 
-        function updateModalPrices() {
+        /* ✅ NEW: Add to Cart from Modal */
+        function addToCartFromModal() {
             if(!state.selectedProduct) return;
-            const p = state.selectedProduct;
             const qty = parseInt($('#qtyInput').value) || 1;
-            const price = getDisplayPrice(p);
-            $('#modalCashPrice').textContent = formatMoney(price.current * qty);
-            if(p.robux) {
-                $('#modalRobuxPrice').textContent = (p.robux * qty).toLocaleString() + ' R$';
-            }
-        }
-
-        function selectPayment(method, el) {
-            state.paymentMethod = method;
-            $$('.payment-option').forEach(e => {
-                if(e.style.display !== 'none') e.classList.remove('selected');
-            }); 
-            el.classList.add('selected');
-            const btn = $('#confirmBtn'); btn.classList.remove('disabled');
-            btn.className = `confirm-btn ${method}`;
-            btn.textContent = method === 'cash' ? t('btn_confirm_cash') : t('btn_confirm_robux');
-        }
-
-        function confirmPurchase() {
-            if(!state.paymentMethod || !state.selectedProduct) return;
-            const p = state.selectedProduct;
-            const qty = parseInt($('#qtyInput').value) || 1;
-            
-            if(state.paymentMethod === 'robux') {
-                const cartItem = { ...p, quantity: qty };
-                const price = getDisplayPrice(p).current * qty;
-                generateTicket([cartItem], price, 0);
-            } else {
-                showToast('success', currentLang==='ar'?'تم استلام طلبك! راجع الديسكورد ✅' : 'Order received! Check Discord ✅');
-                setTimeout(() => window.open(CONFIG.discord, '_blank'), 1500);
-            }
+            addToCart(state.selectedProduct, qty);
             closeModal();
         }
 
