@@ -1403,7 +1403,7 @@
                     اختر الكمية ثم اضغط "➕ أضف للسلة"
                 </p>
 
-                <button class="confirm-btn" id="confirmBtn" onclick="addToCartFromModal()">
+                <button class="confirm-btn" id="confirmBtn">
                     ➕ <span data-t="btn_add_to_cart">أضف للسلة</span>
                 </button>
             </div>
@@ -2088,14 +2088,18 @@
             answer.classList.toggle('show');
         }
 
-        /* 🛒 MODAL - UPDATED: Quantity Only */
+        /* 🛒 MODAL - FIXED: Proper event handling */
         function openModal(item) {
             if(getStockStatus(item.stock).disabled) return;
             state.selectedProduct = item; state.quantity = 1;
             
             const btn = $('#confirmBtn'); 
-            btn.textContent = t('btn_add_to_cart');
-            btn.onclick = addToCartFromModal;
+            // ✅ FIX: Remove old event listeners before adding new one
+            btn.replaceWith(btn.cloneNode(true));
+            const newBtn = $('#confirmBtn');
+            
+            newBtn.textContent = t('btn_add_to_cart');
+            newBtn.onclick = addToCartFromModal;
 
             const stock = getStockStatus(item.stock);
             const price = getDisplayPrice(item);
