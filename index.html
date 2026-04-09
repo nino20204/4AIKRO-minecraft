@@ -2090,16 +2090,17 @@
 
         /* 🛒 MODAL - FIXED: Proper event handling */
         function openModal(item) {
-            if(getStockStatus(item.stock).disabled) return;
-            state.selectedProduct = item; state.quantity = 1;
-            
-            const btn = $('#confirmBtn'); 
-            // ✅ FIX: Remove old event listeners before adding new one
-            btn.replaceWith(btn.cloneNode(true));
-            const newBtn = $('#confirmBtn');
-            
-            newBtn.textContent = t('btn_add_to_cart');
-            newBtn.onclick = addToCartFromModal;
+    if(getStockStatus(item.stock).disabled) return;
+    state.selectedProduct = item; 
+    state.quantity = 1;
+    
+    const btn = $('#confirmBtn'); 
+    btn.replaceWith(btn.cloneNode(true));
+    const newBtn = $('#confirmBtn');
+    
+    newBtn.textContent = t('btn_add_to_cart');
+    newBtn.onclick = addToCartFromModal;
+}
 
             const stock = getStockStatus(item.stock);
             const price = getDisplayPrice(item);
@@ -2133,20 +2134,21 @@
         }
 
         function closeModal() { 
-            $('#purchaseModal').classList.remove('active'); 
-            document.body.style.overflow = '';
-            // ✅ FIX: Reset modal state to prevent glitch
-            state.selectedProduct = null;
-            state.quantity = 1;
-            $('#qtyInput').value = 1;
+    $('#purchaseModal').classList.remove('active'); 
+    document.body.style.overflow = '';
+    state.selectedProduct = null;
+    state.quantity = 1;
+    $('#qtyInput').value = 1;
         }
-
-        /* ✅ NEW: Add to Cart from Modal */
+        
         function addToCartFromModal() {
-            if(!state.selectedProduct) return;
-            const qty = parseInt($('#qtyInput').value) || 1;
-            addToCart(state.selectedProduct, qty);
-            closeModal(); // This now properly resets state
+    if(!state.selectedProduct) {
+        showToast('error', '⚠️ حدث خطأ، حاول مرة أخرى');
+        return;
+    }
+    const qty = parseInt($('#qtyInput').value) || 1;
+    addToCart(state.selectedProduct, qty);
+    closeModal();
         }
 
         /* 🔔 TOAST */
