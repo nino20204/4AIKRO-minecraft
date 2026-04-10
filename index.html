@@ -2089,69 +2089,95 @@
         }
 
         /* 🛒 MODAL - FIXED: Proper event handling */
-        function openModal(item) {
+/* 🛒 MODAL - ULTIMATE FIX */
+function openModal(item) {
     if(getStockStatus(item.stock).disabled) return;
-    state.selectedProduct = item; 
+    
+    // تعيين المنتج المختار
+    state.selectedProduct = item;
     state.quantity = 1;
     
-    const btn = $('#confirmBtn'); 
-    btn.replaceWith(btn.cloneNode(true));
-    const newBtn = $('#confirmBtn');
+    // تحديث محتوى المودال
+    const stock = getStockStatus(item.stock);
+    const price = getDisplayPrice(item);
+    const name = currentLang === 'ar' ? item.nameAr : item.name;
+    const img = item.image 
+        ? `<img src="${item.image}" onerror="this.parentElement.innerHTML='${item.icon || '📦'}'">` 
+        : (item.icon || '📦');
     
-    newBtn.textContent = t('btn_add_to_cart');
-    newBtn.onclick = addToCartFromModal;
-}
-
-            const stock = getStockStatus(item.stock);
-            const price = getDisplayPrice(item);
-            const name = currentLang === 'ar' ? item.nameAr : item.name;
-            const img = item.image ? `<img src="${item.image}" onerror="this.parentElement.innerHTML='${item.icon || '📦'}'">` : (item.icon || '📦');
-            const isCashOnly = item.category === 'permanent';
-            
-            $('#modalProductInfo').innerHTML = `
-                <div class="modal-product-image">${img}</div>
-                <div class="modal-product-info">
-                    <h4>${name}</h4>
-                    <p>${item.name}</p>
-                    ${price.showDiscount ? `<p class="modal-product-price">${t('original_price')}: ${formatMoney(price.original)} 🔥 ${formatMoney(price.current)}</p>` : `<p class="modal-product-price">${formatMoney(price.current)}</p>`}
-                </div>
-            `;
-            // Only show stock info if out of stock
-            if(stock.class === 'out') {
-                $('#modalStockInfo').className = `stock-info ${stock.class}`;
-                $('#modalStockInfo').textContent = stock.text;
-            } else {
-                $('#modalStockInfo').style.display = 'none';
+    $('#modalProductInfo').innerHTML = `
+        <div class="modal-product-image">${img}</div>
+        <div class="modal-product-info">
+            <h4>${name}</h4>
+            <p>${item.name}</p>
+            ${price.showDiscount 
+                ? `<p class="modal-product-price">${t('original_price')}: ${formatMoney(price.original)} 🔥 ${formatMoney(price.current)}</p>` 
+                : `<p class="modal-product-price">${formatMoney(price.current)}</p>`
             }
-            
-            initQtySelector();
-            window.setQtyMax(item.stock);
-            window.resetQty();
-            
-            $('#purchaseModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            setTimeout(() => $('#qtyInput').focus(), 100);
-        }
-
-        function closeModal() { 
-    $('#purchaseModal').classList.remove('active'); 
+        </div>
+    `;
+    
+    // عرض حالة المخزون
+    if(stock.class === 'out') {
+        $('#modalStockInfo').className = `stock-info ${stock.class}`;
+        $('#modalStockInfo').textContent = stock.text;
+        $('#modalStockInfo').style.display = 'block';
+    } else {
+        $('#modalStockInfo').style.display = 'none';
+    }
+    
+    // تهيئة اختيار الكمية
+    initQtySelector();
+    window.setQtyMax(item.stock);
+    window.resetQty();
+    
+    // ✅ FIX: إعادة تعيين زر التأكيد بطريقة آمنة
+    const btn = $('#confirmBtn');
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+    
+    // ربط الحدث الجديد
+    newBtn.textContent = t('btn_add_to_cart');
+    newBtn.onclick = function() {
+        addToCartFromModal();
+    };
+    
+    // فتح المودال
+    $('#purchaseModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // تركيز على حقل الكمية
+    setTimeout(() => {
+        const input = $('#qtyInput');
+        if(input) input.focus();
+    }, 100);
+}
+function closeModal() {
+    const modal = $('#purchaseModal');
+    if(modal) modal.classList.remove('active');
     document.body.style.overflow = '';
+    
+    // إعادة تعيين الحالة
     state.selectedProduct = null;
     state.quantity = 1;
-    $('#qtyInput').value = 1;
-        }
+    
+    const qtyInput = $('#qtyInput');
+    if(qtyInput) qtyInput.value = 1;
+}
         
-        function addToCartFromModal() {
-    if(!state.selectedProduct) {
-        showToast('error', '⚠️ حدث خطأ، حاول مرة أخرى');
-        return;
-    }
-    const qty = parseInt($('#qtyInput').value) || 1;
-    addToCart(state.selectedProduct, qty);
-    closeModal();
-        }
-
-        /* 🔔 TOAST */
+function closeModal() {
+    const modal = $('#purchaseModal');
+    if(modal) modal.classList.remove('active');
+    document.body.style.overflow = '';
+    
+    // إعادة تعيين الحالة
+    state.selectedProduct = null;
+    state.quantity = 1;
+    
+    const qtyInput = $('#qtyInput');
+    if(qtyInput) qtyInput.value = 1;
+}
+        
         function showToast(type, message) {
             const toast = $('#toast');
             toast.className = `toast ${type}`;
