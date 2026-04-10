@@ -406,7 +406,7 @@ function renderProducts(){
 
 function getRarityLabel(r){const m={common:'عادي',uncommon:'غير عادي',rare:'نادر',epic:'ملحمي',legendary:'أسطوري',mythical:'خرافي',god:'إلهي',permanent:'دائم'};return currentLang==='ar'?(m[r]||r):r.toUpperCase()}
 function getCategoryName(c){const m={natural:'Natural',elemental:'Elemental',beast:'Beast',permanent:'Perm',common:'Common',rare:'Rare',legendary:'Legendary',gamepass:'Gamepass'};return m[c]||c}
-function switchTab(tab,btn){state.currentTab=tab;state.selectedCategory='all';$$('.game-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderCategories();renderProducts()}
+window.switchTab = function(tab,btn){state.currentTab=tab;state.selectedCategory='all';$$('.game-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderCategories();renderProducts()}
 function renderCategories(){const container=$('#categoryFilter');container.innerHTML='';const cats=['all',...new Set((DB[state.currentTab]||[]).map(i=>i.category))];cats.forEach(cat=>{const btn=document.createElement('button');btn.className=`cat-btn${cat===state.selectedCategory?' active':''}`;btn.textContent=cat==='all'?(currentLang==='ar'?'الكل':'All'):getCategoryName(cat);btn.onclick=()=>{state.selectedCategory=cat;$$('.cat-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderProducts()};container.appendChild(btn)})}
 function filterProducts(){state.searchQuery=$('#searchInput').value.trim();renderProducts()}
 function toggleFaq(element){element.classList.toggle('active');const answer=element.nextElementSibling;answer.classList.toggle('show')}
@@ -418,7 +418,9 @@ function openModal(item){
   
   const stock=getStockStatus(item.stock),price=getDisplayPrice(item);
   const name=currentLang==='ar'?item.nameAr:item.name;
-  const img=item.image?`<img src="${item.image}" onerror="this.parentElement.innerHTML='${item.icon||'📦'}'">`:(item.icon||'📦');
+  const img = item.image
+  ? `<img src="${item.image}" onerror="this.parentElement.innerHTML=\`${item.icon || '📦'}\`">`
+  : (item.icon || '📦');
   
   $('#modalProductInfo').innerHTML=`<div class="modal-product-image">${img}</div><div class="modal-product-info"><h4>${name}</h4><p>${item.name}</p>${price.showDiscount?`<p class="modal-product-price">${t('original_price')}: ${formatMoney(price.original)} 🔥 ${formatMoney(price.current)}</p>`:`<p class="modal-product-price">${formatMoney(price.current)}</p>`}</div>`;
   
