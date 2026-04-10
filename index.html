@@ -5,7 +5,37 @@
   <title>4aikro Store</title>
 
   <style>
-    /* خلفية */
+    
+    .container {
+  display: flex;
+  gap: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: rgba(30,41,59,0.7);
+  padding: 15px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.sidebar button {
+  width: 100%;
+  margin: 5px 0;
+}
+
+/* Main */
+.main {
+  flex: 1;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+  gap: 20px;
+}
     body {
       margin: 0;
       background: linear-gradient(135deg, #0f172a, #1e1b4b, #2e1065);
@@ -88,14 +118,33 @@
 
 <body>
 
-  <!-- particles هنا -->
-  <div id="particles"></div>
+<!-- particles -->
+<div id="particles"></div>
 
-  <h1>🛒 4aikro Store</h1>
+<h1>🛒 4aikro Store</h1>
 
-  <div id="products" class="grid"></div>
+<div class="container">
 
-  <script src="script.js"></script>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h3>🎮 Games</h3>
+    <button>All</button>
+    <button>Blox Fruits</button>
+    <button>Brainrot</button>
+
+    <h3>💰 Price</h3>
+    <input type="range" min="0" max="50">
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <h2>🔥 Popular Items</h2>
+    <div id="products" class="grid"></div> <!-- ✅ مرة وحدة فقط -->
+  </div>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
