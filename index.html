@@ -389,9 +389,6 @@ function renderProducts(){
       card.onkeypress=(e)=>{if(e.key==='Enter')openModal(item)}
     }
     
-    // ✅ Use textContent for safe rendering where possible
-    const imgHTML=item.image?`<img src="${item.image}" alt="${item.name}" onerror="this.parentElement.innerHTML='<div class=\\'fallback\\'>📦</div>'">`:`<div class="fallback">${item.icon||'📦'}</div>`;
-    
     card.innerHTML=`<div class="rarity-badge rarity-${item.rarity}">${getRarityLabel(item.rarity)}</div>${price.showDiscount?`<div class="sale-badge">🔥-${price.percent}%</div>`:''}${isNew&&!price.showDiscount?`<div class="new-badge">🆕جديد</div>`:''}${isCashOnly?`<div class="cash-only-badge">${t('cash_only')}</div>`:''}<div class="product-image">${imgHTML}</div>${stock.badge==='stock-out'?`<div class="stock-badge ${stock.badge}">${stock.text}</div>`:''}<div class="product-info"><div class="product-name">${name}<span class="fav-btn ${isFavorite(item.id)?'active':''}" title="${currentLang==='ar'?'أضف للمفضلة':'Add to favorites'}">${isFavorite(item.id)?'❤️':'🤍'}</span></div><div class="product-desc">${getCategoryName(item.category)}</div><div class="product-prices">${price.showDiscount?`<span class="original-price">${formatMoney(price.original)}</span>`:''}<div class="price-cash">💵${formatMoney(price.current)}</div>${!isCashOnly?`<div class="price-robux">💎${item.robux?item.robux.toLocaleString():'0'} R$</div>`:''}${price.showDiscount?`<span class="discount-percent">${t('discount_percent')}</span>`:''}</div><div class="action-buttons"><button class="add-to-cart-btn" ${stock.disabled?'disabled':''}>➕${currentLang==='ar'?'أضف للسلة':'Add to Cart'}</button></div></div>`;
     
     // ✅ FIX: Bind button click with addEventListener (no JSON.stringify!)
@@ -458,13 +455,68 @@ function addToCartFromModal(){
 function showToast(type,message){const toast=$('#toast');toast.className=`toast ${type}`;$('#toastIcon').textContent=type==='success'?'✅':type==='error'?'❌':'ℹ️';$('#toastText').textContent=message;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3500)}
 
 // ✅ createParticles - FIXED: Reduced from 40 to 20 for better performance
-function createParticles(){const container=$('#particles');for(let i=0;i<20;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.animationDuration=(Math.random()*15+10)+'s';p.style.animationDelay=(Math.random()*10)+'s';p.style.width=p.style.height=(Math.random()*2+1)+'px';const colors=['var(--primary)','var(--secondary)','var(--accent)','var(--gold)'];p.style.background=colors[Math.floor(Math.random()*colors.length)];container.appendChild(p)}}
-const imgHTML = item.image
-  ? `<img src="${item.image}" alt="${item.name}" onerror="this.outerHTML='<div class=\\'fallback\\'>📦</div>'">`
-  : `<div class="fallback">${item.icon || '📦'}</div>`;document.addEventListener('DOMContentLoaded',init);
-const $=(sel)=>document.querySelector(sel),$$=(sel)=>document.querySelectorAll(sel);
-let state={currentTab:'bloxfruits',selectedCategory:'all',searchQuery:'',selectedProduct:null,quantity:1,paymentMethod:null};
-const DB={bloxfruits:[{id:'buddha',name:"بوذا",nameAr:"بوذا",price:1.0,robux:30,rarity:"epic",category:"beast",icon:"🗿",image:"budduh.webp",stock:15,onSale:false,discountPrice:null},{id:'portal',name:"بورتال",nameAr:"بورتال",price:1.2,robux:40,rarity:"epic",category:"natural",icon:"🌀",image:"portal.webp",stock:8,onSale:true,discountPrice:1.2},{id:'lightning',name:"برق",nameAr:"برق",price:2.5,robux:125,rarity:"epic",category:"elemental",icon:"⚡",image:"Lightning.webp",stock:10,onSale:false,discountPrice:null},{id:'pain',name:"الم",nameAr:"الم",price:2.0,robux:50,rarity:"epic",category:"beast",icon:"😫",image:"pain.webp",stock:5,onSale:false,discountPrice:null},{id:'blizzard',name:"العاصفة",nameAr:"العاصفة",price:1.0,robux:25,rarity:"epic",category:"beast",icon:"❄️",image:"blizzard.webp",stock:12,onSale:false,discountPrice:null},{id:'gravity',name:"جادبية",nameAr:"جادبية",price:2.0,robux:50,rarity:"legendary",category:"beast",icon:"🪐",image:"gravity.webp",stock:3,onSale:true,discountPrice:1.7},{id:'mammoth',name:"ماموث",nameAr:"ماموث",price:2.8,robux:75,rarity:"legendary",category:"beast",icon:"🦣",image:"mammoth.webp",stock:4,onSale:false,discountPrice:null},{id:'t_rex',name:"تركس",nameAr:"تركس",price:3.5,robux:120,rarity:"legendary",category:"beast",icon:"🦖",image:"t_rex.webp",stock:2,onSale:false,discountPrice:null},{id:'daugh',name:"موتشي",nameAr:"موتشي",price:4.0,robux:175,rarity:"legendary",category:"natural",icon:"🍩",image:"daugh.webp",stock:3,onSale:true,discountPrice:3.5},{id:'shadow',name:"ضلال",nameAr:"ضلال",price:1.0,robux:35,rarity:"epic",category:"beast",icon:"👤",image:"shadow.webp",stock:7,onSale:false,discountPrice:null},{id:'venom',name:"سم",nameAr:"سم",price:5.0,robux:250,rarity:"mythical",category:"beast",icon:"☠️",image:"venom.webp",stock:1,onSale:false,discountPrice:null},{id:'gas',name:"غاز",nameAr:"غاز",price:5.0,robux:250,rarity:"mythical",category:"beast",icon:"💨",image:"gas.webp",stock:0,onSale:false,discountPrice:null},{id:'spirit',name:"روح",nameAr:"روح",price:3.5,robux:120,rarity:"legendary",category:"beast",icon:"👻",image:"spirit.webp",stock:6,onSale:false,discountPrice:null},{id:'tiger',name:"نمر",nameAr:"نمر",price:6.4,robux:260,rarity:"mythical",category:"beast",icon:"🐯",image:"tiger.webp",stock:2,onSale:false,discountPrice:null},{id:'yeti',name:"يتي",nameAr:"يتي",price:6.5,robux:275,rarity:"mythical",category:"beast",icon:"🧊",image:"yeti.webp",stock:1,onSale:false,discountPrice:null},{id:'kitsune',name:"كيتسوني",nameAr:"كيتسوني",price:7.5,robux:425,rarity:"mythical",category:"beast",icon:"🦊",image:"kitsune.webp",stock:1,onSale:false,discountPrice:null},{id:'control',name:"تحكم",nameAr:"تحكم",price:6.0,robux:325,rarity:"mythical",category:"beast",icon:"🎮",image:"control.webp",stock:2,onSale:false,discountPrice:null},{id:'dragon',name:"تنين",nameAr:"تنين",price:12.5,robux:1000,rarity:"mythical",category:"beast",icon:"🐉",image:"dragon.webp",stock:1,onSale:false,discountPrice:null},{id:'dragon_perm',name:"دراجون دائم",nameAr:"دراجون دائم",price:38.0,robux:null,rarity:"permanent",category:"permanent",icon:"🐉💎",image:"",stock:0,onSale:true,discountPrice:null,cashOnly:true},{id:'leopard_perm',name:"ليوبارد دائم",nameAr:"ليوبارد دائم",price:20.0,robux:null,rarity:"permanent",category:"permanent",icon:"🐆💎",image:"",stock:0,onSale:false,discountPrice:null,cashOnly:true}],brainrot:[{id:'skibidi',name:"سكبيدي",nameAr:"سكبيدي",price:2.0,robux:700,rarity:"common",category:"common",icon:"🚽",image:"",stock:50,onSale:false,discountPrice:null},{id:'sigma',name:"سيقما",nameAr:"سيقما",price:3.0,robux:1000,rarity:"uncommon",category:"common",icon:"😎",image:"",stock:30,onSale:true,discountPrice:2.5},{id:'ohio',name:"بوس أوهايو",nameAr:"بوس أوهايو",price:5.0,robux:2000,rarity:"rare",category:"rare",icon:"💀",image:"",stock:0,onSale:false,discountPrice:null},{id:'rizz',name:"ريز قود",nameAr:"ريز قود",price:4.5,robux:1800,rarity:"rare",category:"rare",icon:"😏",image:"",stock:8,onSale:false,discountPrice:null},{id:'bombardino',name:"بومباردينو",nameAr:"بومباردينو",price:10.0,robux:4500,rarity:"legendary",category:"legendary",icon:"🐊🔥",image:"",stock:5,onSale:true,discountPrice:8.0},{id:'la_vacca',name:"لا فاكا",nameAr:"لا فاكا",price:11.0,robux:5000,rarity:"legendary",category:"legendary",icon:"🐄🪐",image:"",stock:3,onSale:false,discountPrice:null}],gamepasses:[{id:'gp_2x',name:"ماستري x2",nameAr:"ماستري x2",price:5.0,robux:2000,rarity:"rare",category:"gamepass",icon:"⚔️",image:"",stock:999,onSale:false,discountPrice:null},{id:'gp_fruit_notif',name:"معلن الفواكه",nameAr:"معلن الفواكه",price:15.0,robux:6000,rarity:"epic",category:"gamepass",icon:"🔔",image:"",stock:50,onSale:true,discountPrice:12.0},{id:'gp_server',name:"سيرفر خاص",nameAr:"سيرفر خاص",price:10.0,robux:4000,rarity:"legendary",category:"gamepass",icon:"🏠",image:"",stock:100,onSale:false,discountPrice:null}]};
-</script>
-</body>
-</html>
+function createParticles(){
+  const container=$('#particles');
+  for(let i=0;i<20;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.left=Math.random()*100+'%';
+    p.style.animationDuration=(Math.random()*15+10)+'s';
+    p.style.animationDelay=(Math.random()*10)+'s';
+    p.style.width=p.style.height=(Math.random()*2+1)+'px';
+    const colors=['var(--primary)','var(--secondary)','var(--accent)','var(--gold)'];
+    p.style.background=colors[Math.floor(Math.random()*colors.length)];
+    container.appendChild(p);
+  }
+}
+const $ = (sel) => document.querySelector(sel),
+      $$ = (sel) => document.querySelectorAll(sel);
+
+let state = {
+  currentTab: 'bloxfruits',
+  selectedCategory: 'all',
+  searchQuery: '',
+  selectedProduct: null,
+  quantity: 1,
+  paymentMethod: null
+};
+
+const DB = {
+  bloxfruits: [
+    {id:'buddha',name:"بوذا",nameAr:"بوذا",price:1.0,robux:30,rarity:"epic",category:"beast",icon:"🗿",image:"budduh.webp",stock:15,onSale:false,discountPrice:null},
+    {id:'portal',name:"بورتال",nameAr:"بورتال",price:1.2,robux:40,rarity:"epic",category:"natural",icon:"🌀",image:"portal.webp",stock:8,onSale:true,discountPrice:1.2},
+    {id:'lightning',name:"برق",nameAr:"برق",price:2.5,robux:125,rarity:"epic",category:"elemental",icon:"⚡",image:"Lightning.webp",stock:10,onSale:false,discountPrice:null},
+    {id:'pain',name:"الم",nameAr:"الم",price:2.0,robux:50,rarity:"epic",category:"beast",icon:"😫",image:"pain.webp",stock:5,onSale:false,discountPrice:null},
+    {id:'blizzard',name:"العاصفة",nameAr:"العاصفة",price:1.0,robux:25,rarity:"epic",category:"beast",icon:"❄️",image:"blizzard.webp",stock:12,onSale:false,discountPrice:null},
+    {id:'gravity',name:"جادبية",nameAr:"جادبية",price:2.0,robux:50,rarity:"legendary",category:"beast",icon:"🪐",image:"gravity.webp",stock:3,onSale:true,discountPrice:1.7},
+    {id:'mammoth',name:"ماموث",nameAr:"ماموث",price:2.8,robux:75,rarity:"legendary",category:"beast",icon:"🦣",image:"mammoth.webp",stock:4,onSale:false,discountPrice:null},
+    {id:'t_rex',name:"تركس",nameAr:"تركس",price:3.5,robux:120,rarity:"legendary",category:"beast",icon:"🦖",image:"t_rex.webp",stock:2,onSale:false,discountPrice:null},
+    {id:'daugh',name:"موتشي",nameAr:"موتشي",price:4.0,robux:175,rarity:"legendary",category:"natural",icon:"🍩",image:"daugh.webp",stock:3,onSale:true,discountPrice:3.5},
+    {id:'shadow',name:"ضلال",nameAr:"ضلال",price:1.0,robux:35,rarity:"epic",category:"beast",icon:"👤",image:"shadow.webp",stock:7,onSale:false,discountPrice:null},
+    {id:'venom',name:"سم",nameAr:"سم",price:5.0,robux:250,rarity:"mythical",category:"beast",icon:"☠️",image:"venom.webp",stock:1,onSale:false,discountPrice:null},
+    {id:'gas',name:"غاز",nameAr:"غاز",price:5.0,robux:250,rarity:"mythical",category:"beast",icon:"💨",image:"gas.webp",stock:0,onSale:false,discountPrice:null},
+    {id:'spirit',name:"روح",nameAr:"روح",price:3.5,robux:120,rarity:"legendary",category:"beast",icon:"👻",image:"spirit.webp",stock:6,onSale:false,discountPrice:null},
+    {id:'tiger',name:"نمر",nameAr:"نمر",price:6.4,robux:260,rarity:"mythical",category:"beast",icon:"🐯",image:"tiger.webp",stock:2,onSale:false,discountPrice:null},
+    {id:'yeti',name:"يتي",nameAr:"يتي",price:6.5,robux:275,rarity:"mythical",category:"beast",icon:"🧊",image:"yeti.webp",stock:1,onSale:false,discountPrice:null},
+    {id:'kitsune',name:"كيتسوني",nameAr:"كيتسوني",price:7.5,robux:425,rarity:"mythical",category:"beast",icon:"🦊",image:"kitsune.webp",stock:1,onSale:false,discountPrice:null},
+    {id:'control',name:"تحكم",nameAr:"تحكم",price:6.0,robux:325,rarity:"mythical",category:"beast",icon:"🎮",image:"control.webp",stock:2,onSale:false,discountPrice:null},
+    {id:'dragon',name:"تنين",nameAr:"تنين",price:12.5,robux:1000,rarity:"mythical",category:"beast",icon:"🐉",image:"dragon.webp",stock:1,onSale:false,discountPrice:null},
+    {id:'dragon_perm',name:"دراجون دائم",nameAr:"دراجون دائم",price:38.0,robux:null,rarity:"permanent",category:"permanent",icon:"🐉💎",image:"",stock:0,onSale:true,discountPrice:null,cashOnly:true},
+    {id:'leopard_perm',name:"ليوبارد دائم",nameAr:"ليوبارد دائم",price:20.0,robux:null,rarity:"permanent",category:"permanent",icon:"🐆💎",image:"",stock:0,onSale:false,discountPrice:null,cashOnly:true}
+  ],
+
+  brainrot: [
+    {id:'skibidi',name:"سكبيدي",nameAr:"سكبيدي",price:2.0,robux:700,rarity:"common",category:"common",icon:"🚽",image:"",stock:50,onSale:false,discountPrice:null},
+    {id:'sigma',name:"سيقما",nameAr:"سيقما",price:3.0,robux:1000,rarity:"uncommon",category:"common",icon:"😎",image:"",stock:30,onSale:true,discountPrice:2.5},
+    {id:'ohio',name:"بوس أوهايو",nameAr:"بوس أوهايو",price:5.0,robux:2000,rarity:"rare",category:"rare",icon:"💀",image:"",stock:0,onSale:false,discountPrice:null},
+    {id:'rizz',name:"ريز قود",nameAr:"ريز قود",price:4.5,robux:1800,rarity:"rare",category:"rare",icon:"😏",image:"",stock:8,onSale:false,discountPrice:null},
+    {id:'bombardino',name:"بومباردينو",nameAr:"بومباردينو",price:10.0,robux:4500,rarity:"legendary",category:"legendary",icon:"🐊🔥",image:"",stock:5,onSale:true,discountPrice:8.0},
+    {id:'la_vacca',name:"لا فاكا",nameAr:"لا فاكا",price:11.0,robux:5000,rarity:"legendary",category:"legendary",icon:"🐄🪐",image:"",stock:3,onSale:false,discountPrice:null}
+  ],
+
+  gamepasses: [
+    {id:'gp_2x',name:"ماستري x2",nameAr:"ماستري x2",price:5.0,robux:2000,rarity:"rare",category:"gamepass",icon:"⚔️",image:"",stock:999,onSale:false,discountPrice:null},
+    {id:'gp_fruit_notif',name:"معلن الفواكه",nameAr:"معلن الفواكه",price:15.0,robux:6000,rarity:"epic",category:"gamepass",icon:"🔔",image:"",stock:50,onSale:true,discountPrice:12.0},
+    {id:'gp_server',name:"سيرفر خاص",nameAr:"سيرفر خاص",price:10.0,robux:4000,rarity:"legendary",category:"gamepass",icon:"🏠",image:"",stock:100,onSale:false,discountPrice:null}
+  ]
+};
