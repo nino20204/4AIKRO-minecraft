@@ -366,7 +366,14 @@ function initQtySelector(){const input=$('#qtyInput'),minus=$('#qtyMinus'),plus=
 
 // ✅ renderProducts - FIXED: No JSON in onclick, addEventListener for buttons
 function renderProducts(){
-  const grid=$('#productsGrid');grid.innerHTML='';
+  const grid = document.querySelector('#productsGrid');
+
+  if(!grid){
+    console.error('❌ productsGrid not found');
+    return;
+  }
+
+  grid.innerHTML = '';
   let items=(DB[state.currentTab]||[]).filter(i=>(state.selectedCategory==='all'||i.category===state.selectedCategory)&&(!state.searchQuery||i.nameAr.includes(state.searchQuery)||i.name.toLowerCase().includes(state.searchQuery.toLowerCase())));
   if(items.length===0){grid.innerHTML=`<p style="text-align:center;grid-column:1/-1;color:var(--text-dim);padding:60px;font-size:1.1rem">${currentLang==='ar'?'لا توجد منتجات مطابقة 😔':'No products found 😔'}</p>`;return}
   items.forEach(item=>{
